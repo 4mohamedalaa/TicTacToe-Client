@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class MainGameController implements Initializable {
     @FXML
     public Button mute;
     public ImageView myImage;
