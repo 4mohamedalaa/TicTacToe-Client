@@ -22,7 +22,7 @@
                <children>
                   <ImageView fitHeight="121.0" fitWidth="131.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../TicTacToe-Client/target/classes/images/player1.png" />
+                        <Image url="@../../../../../../target/classes/com/example/tictactoe/player1.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="47.0" layoutY="258.0" text="score" textFill="#fcf9f9" />

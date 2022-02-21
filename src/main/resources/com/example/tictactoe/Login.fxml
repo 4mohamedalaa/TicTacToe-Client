@@ -17,7 +17,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="400.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="400.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.LoginController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
          <center>
@@ -28,17 +28,17 @@
                         <Font name="Book Antiqua Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="156.0" layoutY="88.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />
+                  <TextField fx:id="userTxt" layoutX="156.0" layoutY="88.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />
       
                   <Label layoutX="190.0" layoutY="151.0" text="Password" textFill="#fffefe">
                      <font>
                         <Font name="Book Antiqua" size="14.0" />
                      </font>
                   </Label>
-                  <PasswordField layoutX="156.0" layoutY="174.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />
+                  <PasswordField fx:id="passwordField" layoutX="156.0" layoutY="174.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />
                   <FontAwesomeIconView glyphName="USER" layoutX="163.0" layoutY="78.0" size="18" />
                   <FontAwesomeIconView glyphName="KEY" layoutX="160.0" layoutY="166.0" size="18" text="" />
-                  <Button layoutX="156.0" layoutY="231.0" lineSpacing="50.0" mnemonicParsing="false" opacity="0.59" prefHeight="29.0" prefWidth="189.0" style="-fx-background-color: grey; -fx-background-radius: 5;" text="Log-in" textOverrun="CLIP" underline="true" wrapText="true">
+                  <Button fx:id="loginBtn" layoutX="156.0" layoutY="231.0" lineSpacing="50.0" mnemonicParsing="false" onAction="#loginBtnAction" opacity="0.59" prefHeight="29.0" prefWidth="189.0" style="-fx-background-color: grey; -fx-background-radius: 5;" text="Log-in" textOverrun="CLIP" underline="true" wrapText="true">
                      <font>
                         <Font name="Book Antiqua Bold" size="16.0" />
                      </font>
