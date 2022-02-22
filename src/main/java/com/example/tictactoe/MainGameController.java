@@ -95,6 +95,8 @@ public class MainGameController implements Initializable {
         button.setDisable(false);
         button.setText("");
         filledButtonsCounter = 0;
+        button.setStyle("-fx-background-color: ");
+
     }
 
     private void setupButton(Button button) {
@@ -112,12 +114,18 @@ public class MainGameController implements Initializable {
             button.setText("X");
             button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
             button.setTextFill(Color.rgb(255, 0, 0));
+            button.setStyle("-fx-background-color: MediumSeaGreen");
+            //button.setStyle("-fx-text-fill: Red");
+
             playerTurn = 1;
             filledButtonsCounter++;
         } else {
             button.setText("O");
             button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
             button.setTextFill(Color.rgb(255, 255, 0));
+            button.setStyle("-fx-background-color: Aqua");
+            //button.setStyle("-fx-text-fill: yellow");
+
             playerTurn = 0;
             filledButtonsCounter++;
         }

@@ -1,7 +1,15 @@
 package com.example.tictactoe;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 public class LoginController {
@@ -11,8 +19,10 @@ public class LoginController {
     TextField userTxt;
     @FXML
     PasswordField passwordField;
+    @FXML
+    Button switchToSignUp;
 
-    public void loginBtnAction(){
+    public void loginBtnAction(ActionEvent event) throws IOException{
         System.out.println("Pressed action button");
         // If the fields are NOT empty
         if(!getUserName().isEmpty() && !getPassword().isEmpty()){
@@ -31,7 +41,31 @@ public class LoginController {
             alert.show();
         }
         // Continue by switching scenes upon successful login
+        if (PlayerInfo.login.equals("true")){
+            Stage stage;
+            Scene scene;
+            Parent root;
+            root = FXMLLoader.load(getClass().getResource("Profile.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+
     }
+    public void SwitchToSignUp(ActionEvent event) throws IOException
+    {
+        Stage stage;
+        Scene scene;
+        Parent root;
+        root = FXMLLoader.load(getClass().getResource("Signup.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
 
     public String getUserName(){return userTxt.getText();}
     public String getPassword(){return passwordField.getText();}
