@@ -88,7 +88,7 @@ public class ClientServerHandler {
                     PlayerInfo.wins = response.get("wins").getAsString();
                     PlayerInfo.losses = response.get("losses").getAsString();
                 }
-            }else{}
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
