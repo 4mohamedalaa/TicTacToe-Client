@@ -2,7 +2,6 @@ package com.example.tictactoe;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import javafx.css.Match;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -93,6 +92,17 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
         return PlayerInfo.login;
+    }
+
+    public static void signOut(){
+        JsonObject signOutPayload = new JsonObject();
+        signOutPayload.addProperty("type", "logout");
+        signOutPayload.addProperty("username", PlayerInfo.username);
+        try {
+            dataOutputStream.writeUTF(signOutPayload.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String validateUserName(String input){
