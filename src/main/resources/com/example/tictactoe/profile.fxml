@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="588.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.ProfileController">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="867.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
+         <left>
+            <AnchorPane prefHeight="499.0" prefWidth="145.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="121.0" fitWidth="131.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../target/classes/com/example/tictactoe/player1.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="47.0" layoutY="258.0" text="score" textFill="#fcf9f9" />
+                  <Label layoutX="28.0" layoutY="184.0" text="player name" textFill="#fcf3f3" />
+               </children>
+            </AnchorPane>
+         </left>
+         <bottom>
+            <HBox prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" opacity="0.66" prefHeight="40.0" prefWidth="54.0">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@speaker_color.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" opacity="0.66" prefHeight="46.0" prefWidth="42.0">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@speaker.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <JFXButton buttonType="RAISED" prefHeight="46.0" prefWidth="85.0" style="-fx-background-color: #470000;" text="logout" textFill="#eeecec">
+                     <HBox.margin>
+                        <Insets left="620.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton buttonType="RAISED" prefHeight="46.0" prefWidth="166.0" style="-fx-background-color: #470000; -fx-border-color: purple; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;" text="Single player" textFill="#f8f5f5">
+                     <VBox.margin>
+                        <Insets bottom="70.0" left="180.0" top="100.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" layoutX="190.0" layoutY="110.0" prefHeight="46.0" prefWidth="166.0" style="-fx-background-color: #470000; -fx-border-color: purple; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;" text="Two players" textFill="#f8f5f5">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="180.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </center>
+         <right>
+            <VBox prefHeight="342.0" prefWidth="209.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="51.0" prefWidth="209.0" text="Online players" textFill="#2ec913">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane opacity="0.52" prefHeight="165.0" prefWidth="209.0" />
+                  <Label prefHeight="45.0" prefWidth="206.0" text="Offline players" textFill="#cd0303">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane opacity="0.52" prefHeight="156.0" prefWidth="209.0" />
+               </children>
+               <BorderPane.margin>
+                  <Insets right="10.0" />
+               </BorderPane.margin>
+            </VBox>
+         </right>
+         <top>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="TIC-TAC-TOE" textFill="#fcf2f2">
+                     <HBox.margin>
+                        <Insets left="310.0" top="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="29.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

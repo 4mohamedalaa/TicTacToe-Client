@@ -6,12 +6,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.Objects;
 
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starter.fxml")));
         primaryStage.setTitle("Tic-Tac-Toe");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
@@ -23,3 +24,5 @@ public class HelloApplication extends Application {
         launch(args);
     }
 }
+
+
