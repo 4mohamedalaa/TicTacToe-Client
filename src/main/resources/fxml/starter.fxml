@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="400.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.StarterController">
+<Pane prefHeight="400.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.StarterController">
     <children>
         <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
             <center>
@@ -103,7 +103,7 @@
                         <children>
                             <ImageView fitHeight="60.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@CROSS.png" />
+                                    <Image url="@../com/example/tictactoe/CROSS.png" />
                                 </image>
                                 <VBox.margin>
                                     <Insets bottom="5.0" />
@@ -111,7 +111,7 @@
                             </ImageView>
                             <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@CROSS.png" />
+                                    <Image url="@../com/example/tictactoe/CROSS.png" />
                                 </image>
                                 <VBox.margin>
                                     <Insets bottom="5.0" />
@@ -119,7 +119,7 @@
                             </ImageView>
                             <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@CROSS.png" />
+                                    <Image url="@../com/example/tictactoe/CROSS.png" />
                                 </image>
                                 <VBox.margin>
                                     <Insets bottom="5.0" />
@@ -127,7 +127,7 @@
                             </ImageView>
                             <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@CROSS.png" />
+                                    <Image url="@../com/example/tictactoe/CROSS.png" />
                                 </image>
                             </ImageView>
                         </children>
@@ -156,7 +156,7 @@
                     <children>
                         <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@CIRCLE.png" />
+                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
                             </image>
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" top="165.0" />
@@ -164,7 +164,7 @@
                         </ImageView>
                         <ImageView fitHeight="45.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@CIRCLE.png" />
+                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
                             </image>
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" />
@@ -172,7 +172,7 @@
                         </ImageView>
                         <ImageView fitHeight="45.0" fitWidth="40.0" layoutX="10.0" layoutY="64.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@CIRCLE.png" />
+                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
                             </image>
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" />
@@ -180,7 +180,7 @@
                         </ImageView>
                         <ImageView fitHeight="45.0" fitWidth="40.0" layoutX="10.0" layoutY="118.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@CIRCLE.png" />
+                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
                             </image>
                             <VBox.margin>
                                 <Insets left="5.0" />

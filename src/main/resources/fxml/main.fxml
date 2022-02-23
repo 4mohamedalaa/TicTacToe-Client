@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="867.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.MainGameController">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="867.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.MainGameController">
 
    <children>
       <VBox layoutX="284.0" layoutY="136.0" prefHeight="220.0" prefWidth="245.0" spacing="10.0">
@@ -81,7 +81,7 @@
          <children>
             <ImageView fitHeight="110.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@mohawk.png" />
+                  <Image url="@../com/example/tictactoe/mohawk.png" />
                </image>
             </ImageView>
             <Text fx:id="scoreX" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="134.9999976158142">
@@ -96,7 +96,7 @@
             </Text>
             <ImageView fitHeight="87.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@CROSS.png" />
+                  <Image url="@../com/example/tictactoe/CROSS.png" />
                </image>
                <VBox.margin>
                   <Insets />
@@ -108,7 +108,7 @@
          <children>
             <ImageView fitHeight="97.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@robot.png" />
+                  <Image url="@../com/example/tictactoe/robot.png" />
                </image>
             </ImageView>
             <Text fx:id="scoreO" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="134.9999976158142">
@@ -123,7 +123,7 @@
             </Text>
             <ImageView fitHeight="94.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@CIRCLE.png" />
+                  <Image url="@../com/example/tictactoe/CIRCLE.png" />
                </image>
                <VBox.margin>
                   <Insets />
@@ -161,7 +161,7 @@
          <graphic>
             <ImageView fx:id="myImage" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@mute_color.png" />
+                  <Image url="@../com/example/tictactoe/mute_color.png" />
                </image>
             </ImageView>
          </graphic>

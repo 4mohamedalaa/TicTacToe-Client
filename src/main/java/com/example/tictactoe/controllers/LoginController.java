@@ -1,5 +1,8 @@
-package com.example.tictactoe;
+package com.example.tictactoe.controllers;
 
+import com.example.tictactoe.models.CurrentPlayerModel;
+import com.example.tictactoe.models.PlayerModel;
+import com.example.tictactoe.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,12 +31,13 @@ public class LoginController {
         if (!getUserName().isEmpty() && !getPassword().isEmpty()) {
             // Call client-server handler static signIn function with user-provided username
             // & password
-            String response = ClientServerHandler.signIn(getUserName(), getPassword());
+            boolean response = ClientServerHandler.signIn(getUserName(), getPassword());
+            System.out.println("The value is: " + String.valueOf(response));
             for (PlayerModel player : ClientServerHandler.getOnlinePlayers()) {
                 System.out.println(player.getUsername());
             }
             // If the response is FALSE, show alert. Means username or password error
-            if (CurrentPlayerModel.login.equals("false")) {
+            if (!response) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong password or username");
                 alert.show();
             }
@@ -43,11 +47,11 @@ public class LoginController {
             alert.show();
         }
         // Continue by switching scenes upon successful login
-        if (CurrentPlayerModel.login.equals("true")) {
+        if (CurrentPlayerModel.login) {
             Stage stage;
             Scene scene;
             Parent root;
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -59,7 +63,7 @@ public class LoginController {
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Signup.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Signup.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

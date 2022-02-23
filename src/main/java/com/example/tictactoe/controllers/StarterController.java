@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package com.example.tictactoe.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +28,7 @@ public class StarterController implements Initializable {
     Stage stage;
     Scene scene;
     Parent root;
-    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Signup.fxml")));
+    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Signup.fxml")));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);
@@ -40,7 +40,7 @@ public class StarterController implements Initializable {
     Stage stage;
     Scene scene;
     Parent root;
-    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
+    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Login.fxml")));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);

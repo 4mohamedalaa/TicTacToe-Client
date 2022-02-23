@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package com.example.tictactoe.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +15,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static com.example.tictactoe.ClientServerHandler.*;
 
 public class ProfileController implements Initializable {
 
@@ -38,7 +36,7 @@ public class ProfileController implements Initializable {
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -50,7 +48,7 @@ public class ProfileController implements Initializable {
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("multiPlayer.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/multiPlayer.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -62,12 +60,12 @@ public class ProfileController implements Initializable {
         Stage stage;
         Scene scene;
         // Parent root;
-        Parent root = FXMLLoader.load(getClass().getResource("starter.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/starter.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        // signOut();
+        ClientServerHandler.signOut();
     }
 
     public void DisplayUsername(String name) {

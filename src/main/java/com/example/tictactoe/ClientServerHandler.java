@@ -1,6 +1,7 @@
 package com.example.tictactoe;
 
-import com.google.gson.JsonArray;
+import com.example.tictactoe.models.CurrentPlayerModel;
+import com.example.tictactoe.models.PlayerModel;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -131,7 +132,7 @@ public class ClientServerHandler extends Thread {
         return validSignUp;
     }
 
-    public static String signIn(String userName, String password) {
+    public static boolean signIn(String userName, String password) {
         String hashedPassword = hashPassword(password);
         connectSocket();
         // Build Json payload
@@ -150,7 +151,7 @@ public class ClientServerHandler extends Thread {
             System.out.println(response);
             String type = response.get("type").getAsString();
             if (type.equals("loginresponse")) {
-                CurrentPlayerModel.login = response.get("successful").getAsString();
+                CurrentPlayerModel.login = Boolean.valueOf(response.get("successful").getAsString());
                 if (CurrentPlayerModel.login.equals("true")) {
                     CurrentPlayerModel.id = response.get("id").getAsString();
                     CurrentPlayerModel.username = response.get("username").getAsString();
