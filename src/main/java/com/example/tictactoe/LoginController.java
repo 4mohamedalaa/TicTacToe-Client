@@ -29,7 +29,7 @@ public class LoginController {
         if(!getUserName().isEmpty() && !getPassword().isEmpty()){
             // Call client-server handler static signIn function with user-provided username & password
             String response = ClientServerHandler.signIn(getUserName(), getPassword());
-            for (PlayerModel player : ClientServerHandler.getOfflinePlayers()) {
+            for (PlayerModel player : ClientServerHandler.getOnlinePlayers()) {
                 System.out.println(player.getUsername());
             }
             // If the response is FALSE, show alert. Means username or password error
@@ -55,6 +55,7 @@ public class LoginController {
             stage.show();
         }
     }
+
     public void SwitchToSignUp(ActionEvent event) throws IOException {
         Stage stage;
         Scene scene;
@@ -65,7 +66,6 @@ public class LoginController {
         stage.setScene(scene);
         stage.show();
     }
-
 
     public String getUserName(){return userTxt.getText();}
     public String getPassword(){return passwordField.getText();}

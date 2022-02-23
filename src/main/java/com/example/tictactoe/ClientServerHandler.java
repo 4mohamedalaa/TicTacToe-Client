@@ -35,6 +35,37 @@ public class ClientServerHandler extends Thread {
         }
     }
 
+    public static ArrayList<PlayerModel> getOnlinePlayers(){
+        ArrayList<PlayerModel> listOfPlayers = new ArrayList<PlayerModel>();
+        connectSocket();
+        JsonObject reqOffPlayers = new JsonObject();
+        reqOffPlayers.addProperty("type", "onlineplayers");
+        try {
+            dataOutputStream.writeUTF(reqOffPlayers.toString());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        try {
+            JsonObject resOfflinePlayers = JsonParser.parseString(dataInputStream.readUTF()).getAsJsonObject();
+            // Add Offline players to a list of PlayerModel objects then add them to a hashmap
+            for (JsonElement jsonElement: resOfflinePlayers.get("onlineplayers").getAsJsonArray()) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                // Create a player model, add details from JsonObject into newly created Player object
+                PlayerModel player = new PlayerModel(
+                        jsonObject.get("id").getAsInt(),
+                        jsonObject.get("score").getAsInt(),
+                        jsonObject.get("username").getAsString(),
+                        true
+                );
+                System.out.println(player.getUsername());
+                System.out.println(player.isOnline());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listOfPlayers;
+    }
+
     public static ArrayList<PlayerModel> getOfflinePlayers(){
         ArrayList<PlayerModel> listOfPlayers = new ArrayList<PlayerModel>();
         connectSocket();

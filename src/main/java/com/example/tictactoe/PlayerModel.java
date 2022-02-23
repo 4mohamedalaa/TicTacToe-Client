@@ -6,7 +6,7 @@ public class PlayerModel {
     private Integer wins;
     private Integer losses;
     private Integer score;
-    private boolean online;
+    private boolean online = false;
     private String hashedPassword;
 
     public PlayerModel(){
