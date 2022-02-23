@@ -96,7 +96,7 @@ public class MainGameController implements Initializable {
         button.setDisable(false);
         button.setText("");
         filledButtonsCounter = 0;
-        button.setStyle("-fx-background-color: ");
+        button.setStyle("-fx-background-color: #808080 ");
 
     }
 
