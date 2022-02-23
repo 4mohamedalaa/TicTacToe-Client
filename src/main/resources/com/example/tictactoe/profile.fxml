@@ -100,10 +100,10 @@
                      </font>
                   </Label>
                   <TableView opacity="0.8" prefHeight="180.0" prefWidth="209.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="Name" />
-                      <TableColumn prefWidth="133.0" text="Score" />
-                    </columns>
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="Name" />
+                        <TableColumn prefWidth="133.0" text="Score" />
+                     </columns>
                   </TableView>
                   <Label prefHeight="45.0" prefWidth="206.0" text="Global Chat" textFill="#cd0303">
                      <font>
@@ -112,9 +112,9 @@
                   </Label>
                   <TextArea prefHeight="157.0" prefWidth="209.0" />
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
-                    <buttons>
+                     <buttons>
                         <TextField maxWidth="500.0" prefHeight="26.0" style="-fx-background-color: LIGHTGREY;" />
-                      <Button maxWidth="25.0" minWidth="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
+                        <Button maxWidth="25.0" minWidth="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
                            <graphic>
                               <FontAwesomeIconView fill="#f5eeee" glyphName="SEND" selectionFill="#f5eeee">
                                  <font>
@@ -123,7 +123,7 @@
                               </FontAwesomeIconView>
                            </graphic>
                         </Button>
-                    </buttons>
+                     </buttons>
                   </ButtonBar>
                </children>
                <BorderPane.margin>

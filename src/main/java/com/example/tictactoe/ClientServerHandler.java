@@ -23,8 +23,8 @@ public class ClientServerHandler extends Thread {
     private static DataOutputStream dataOutputStream;
     private static Socket socket;
 
-    public static void connectSocket(){
-        if(socket == null || socket.isClosed()){
+    public static void connectSocket() {
+        if (socket == null || socket.isClosed()) {
             try {
                 socket = new Socket(SERVER_ADDRESS, Integer.parseInt(SERVER_PORT));
                 dataInputStream = new DataInputStream(socket.getInputStream());
@@ -35,38 +35,42 @@ public class ClientServerHandler extends Thread {
         }
     }
 
-    public static ArrayList<PlayerModel> getOfflinePlayers(){
+    public static ArrayList<PlayerModel> getOfflinePlayers() {
         ArrayList<PlayerModel> listOfPlayers = new ArrayList<PlayerModel>();
         connectSocket();
         JsonObject reqOffPlayers = new JsonObject();
         reqOffPlayers.addProperty("type", "offlineplayers");
         try {
             dataOutputStream.writeUTF(reqOffPlayers.toString());
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
             JsonObject resOfflinePlayers = JsonParser.parseString(dataInputStream.readUTF()).getAsJsonObject();
-            // Add Offline players to a list of PlayerModel objects then add them to a hashmap
-            for (JsonElement jsonElement: resOfflinePlayers.get("offlineplayers").getAsJsonArray()) {
+            // Add Offline players to a list of PlayerModel objects then add them to a
+            // hashmap
+            for (JsonElement jsonElement : resOfflinePlayers.get("offlineplayers").getAsJsonArray()) {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
-                // Create a player model, add details from JsonObject into newly created Player object
+                // Create a player model, add details from JsonObject into newly created Player
+                // object
                 PlayerModel player = new PlayerModel(
                         jsonObject.get("id").getAsInt(),
                         jsonObject.get("username").getAsString(),
-                        jsonObject.get("score").getAsInt()
-                );
+                        jsonObject.get("score").getAsInt());
                 System.out.println(player.getUsername());
-                }
-            } catch (IOException e) {
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return listOfPlayers;
     }
-    public static boolean signUp(String userName, String password){
+
+    public static boolean signUp(String userName, String password) {
         // Declare variables with validated username & hashed password
         String validatedUserName = validateUserName(userName);
-        if(validatedUserName == null){return false;} // If username is invalid, return false to controller
+        if (validatedUserName == null) {
+            return false;
+        } // If username is invalid, return false to controller
         String hashedPassword = hashPassword(password);
         boolean validSignUp = false; // response for successful sign-up, defaulted to false
         connectSocket(); // Insure socket connection'
@@ -78,7 +82,7 @@ public class ClientServerHandler extends Thread {
         jsonSignUpPayload.addProperty("password", hashedPassword);
         try {
             dataOutputStream.writeUTF(jsonSignUpPayload.toString()); // Send Json payload to server
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
@@ -86,19 +90,21 @@ public class ClientServerHandler extends Thread {
             JsonObject resPayload = JsonParser.parseString(response).getAsJsonObject();
             String serverResponse = resPayload.get("successful").getAsString();
             // Only if the server response is true, then sign-up is valid
-            if(serverResponse.equals("true")){ validSignUp = true;}
-        }catch (IOException e){
+            if (serverResponse.equals("true")) {
+                validSignUp = true;
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return validSignUp;
     }
 
-    public static String signIn(String userName, String password){
+    public static String signIn(String userName, String password) {
         String hashedPassword = hashPassword(password);
         connectSocket();
         // Build Json payload
-        JsonObject jsonSignInPayload=new JsonObject();
-        jsonSignInPayload.addProperty("type","login");
+        JsonObject jsonSignInPayload = new JsonObject();
+        jsonSignInPayload.addProperty("type", "login");
         jsonSignInPayload.addProperty("username", userName);
         jsonSignInPayload.addProperty("password", hashedPassword);
         try {
@@ -107,13 +113,13 @@ public class ClientServerHandler extends Thread {
             e.printStackTrace();
         }
         try {
-            String resMsg= dataInputStream.readUTF();
+            String resMsg = dataInputStream.readUTF();
             JsonObject response = JsonParser.parseString(resMsg).getAsJsonObject();
             System.out.println(response);
             String type = response.get("type").getAsString();
-            if(type.equals("loginresponse")){
-                CurrentPlayerModel.login=response.get("successful").getAsString();
-                if(CurrentPlayerModel.login.equals("true")) {
+            if (type.equals("loginresponse")) {
+                CurrentPlayerModel.login = response.get("successful").getAsString();
+                if (CurrentPlayerModel.login.equals("true")) {
                     CurrentPlayerModel.id = response.get("id").getAsString();
                     CurrentPlayerModel.username = response.get("username").getAsString();
                     CurrentPlayerModel.score = response.get("score").getAsString();
@@ -127,7 +133,7 @@ public class ClientServerHandler extends Thread {
         return CurrentPlayerModel.login;
     }
 
-    public static void signOut(){
+    public static void signOut() {
         JsonObject signOutPayload = new JsonObject();
         signOutPayload.addProperty("type", "logout");
         signOutPayload.addProperty("username", CurrentPlayerModel.username);
@@ -138,14 +144,19 @@ public class ClientServerHandler extends Thread {
         }
     }
 
-    private static String validateUserName(String input){
-        // Regex to validate usernames -- standardized for no ._ combinations or at start or end of string
+    private static String validateUserName(String input) {
+        // Regex to validate usernames -- standardized for no ._ combinations or at
+        // start or end of string
         String regex = "^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
-        if(matcher.matches()){return input;} else return null;
+        if (matcher.matches()) {
+            return input;
+        } else
+            return null;
     }
-    private static String hashPassword(String input){
+
+    private static String hashPassword(String input) {
         try {
             // Call SHA-1 Algorithm
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
@@ -156,12 +167,12 @@ public class ClientServerHandler extends Thread {
             // Convert message digest into hex value
             String hashText = num.toString(16);
             // add preceding 0's to make to 32 bit
-            while(hashText.length() < 32){
+            while (hashText.length() < 32) {
                 hashText = "0" + hashText;
             }
             // Return hashed password
             return hashText;
-        }catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }

@@ -116,7 +116,7 @@ public class MainGameController implements Initializable {
             button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
             button.setTextFill(Color.rgb(255, 0, 0));
             button.setStyle("-fx-background-color: MediumSeaGreen");
-            //button.setStyle("-fx-text-fill: Red");
+            // button.setStyle("-fx-text-fill: Red");
 
             playerTurn = 1;
             filledButtonsCounter++;
@@ -125,7 +125,7 @@ public class MainGameController implements Initializable {
             button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
             button.setTextFill(Color.rgb(255, 255, 0));
             button.setStyle("-fx-background-color: Aqua");
-            //button.setStyle("-fx-text-fill: yellow");
+            // button.setStyle("-fx-text-fill: yellow");
 
             playerTurn = 0;
             filledButtonsCounter++;

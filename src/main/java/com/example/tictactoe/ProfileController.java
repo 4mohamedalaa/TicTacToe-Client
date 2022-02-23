@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable {
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -19,8 +18,7 @@ public class ProfileController implements Initializable {
     @FXML
     Label username;
 
-
-    public void DisplayUsername (String name){
+    public void DisplayUsername(String name) {
         username.setText(name);
     }
 }
