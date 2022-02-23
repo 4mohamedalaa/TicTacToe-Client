@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import com.example.tictactoe.*;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class SignupController {
 
@@ -31,36 +32,34 @@ public class SignupController {
     Button Signup;
     @FXML
     Button switchToLogin;
-//    public boolean CheckData (String name, String pass, String cpass ){
-//        name = usrname.getText();
-//        pass = password.getText();
-//        cpass = cpassword.getText();
-//
-//        if (name != null && (cpass.equals(pass))) {
-//            return true;}
-//        else{
-//                ShowSignUpFailed();
-//                return false;
-//            }
-//
-//    }
-//
-//    public void SignupBtn(EventHandler<ActionEvent> Action){
-//        Signup.setOnAction(Action);
-//    }
-//
-// void SignupBtn(ActionEvent event){
-//
-//
-//    Signup.setOnAction(new EventHandler<ActionEvent>() {
-//
-//        @Override
-//        public void handle(ActionEvent arg0) {
-//            // TODO Auto-generated method stub
-//            System.out.println("Button clicked");
-//
-//        }
-//    } );
+
+    public void SignupBtnAction(ActionEvent event) throws IOException {
+        System.out.println("Pressed action button");
+        System.out.println(usrname.getText() );
+        System.out.println(cpassword.getText() );
+        System.out.println(password.getText() );
+        // If the fields are NOT empty && the passwords are similar
+        if (!getUserName().isEmpty() && !getPassword().isEmpty() && !getcPassword().isEmpty()) {
+            if ((password.getText().equals(cpassword.getText()))) {
+                // Call client-server handler static signup function with user-provided username & password
+                boolean result = ClientServerHandler.signUp(getUserName(),getPassword());
+                if (result) {
+                    Stage stage;
+                    Scene scene;
+                    Parent root;
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                    }
+               }
+            } else {
+            ShowSignUpFailed();
+            }
+        }
+
+
 public void SwitchToLogin(ActionEvent event) throws IOException
 {
     Stage stage;
@@ -85,7 +84,9 @@ public void SwitchToLogin(ActionEvent event) throws IOException
         alert.show();
     }
 
-
+    public String getUserName(){return usrname.getText();}
+    public String getPassword(){return password.getText();}
+    public String getcPassword(){return password.getText();}
 }
 
 

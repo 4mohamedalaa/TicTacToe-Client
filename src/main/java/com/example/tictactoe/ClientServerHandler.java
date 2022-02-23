@@ -70,6 +70,7 @@ public class ClientServerHandler extends Thread {
         String hashedPassword = hashPassword(password);
         boolean validSignUp = false; // response for successful sign-up, defaulted to false
         connectSocket(); // Insure socket connection'
+        System.out.println(socket);
         // Create Json payload
         JsonObject jsonSignUpPayload = new JsonObject();
         jsonSignUpPayload.addProperty("type", "signup");
