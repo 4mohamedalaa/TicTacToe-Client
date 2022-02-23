@@ -32,7 +32,7 @@ public class StarterController implements Initializable {
     Stage stage;
     Scene scene;
     Parent root;
-    root = FXMLLoader.load(getClass().getResource("Signup.fxml"));
+    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Signup.fxml")));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);

@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -108,7 +107,7 @@
          <children>
             <ImageView fitHeight="97.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@robot.png" />
+                  <Image url="@lego.png" />
                </image>
             </ImageView>
             <Text fx:id="scoreO" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="134.9999976158142">
@@ -131,22 +130,6 @@
             </ImageView>
          </children>
       </VBox>
-      <HBox layoutX="14.0" layoutY="501.0" prefHeight="46.0" prefWidth="245.0" spacing="5.0">
-         <children>
-            <JFXButton buttonType="RAISED" prefHeight="46.0" prefWidth="85.0" style="-fx-background-color: #470000;" text="Easy" textFill="#ebe4e4">
-               <font>
-                  <Font name="Abyssinica SIL" size="13.0" />
-               </font></JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="10.0" lineSpacing="3.0" prefHeight="46.0" prefWidth="85.0" style="-fx-background-color: #470000;" text="Medium" textFill="#e8e4e4">
-               <font>
-                  <Font name="Abyssinica SIL" size="13.0" />
-               </font></JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="95.0" layoutY="10.0" prefHeight="46.0" prefWidth="85.0" style="-fx-background-color: #470000;" text="Hard" textFill="#fffafa">
-               <font>
-                  <Font name="Abyssinica SIL" size="13.0" />
-               </font></JFXButton>
-         </children>
-      </HBox>
       <JFXButton fx:id="restart" buttonType="RAISED" layoutX="565.0" layoutY="501.0" onAction="#restartGame" prefHeight="46.0" prefWidth="110.0" style="-fx-background-color: #470000;" text="Play Again" textFill="#f5f4f4">
          <font>
             <Font name="Abyssinica SIL" size="17.0" />

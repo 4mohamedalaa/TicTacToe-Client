@@ -23,22 +23,30 @@
             <center>
                 <AnchorPane prefHeight="347.0" prefWidth="533.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label layoutX="190.0" layoutY="119.0" text="Username" textFill="#e4dcdc">
+                        <FontAwesomeIconView glyphName="USER" layoutX="165.0" layoutY="69.0" size="18" text="" />
+                        <Label layoutX="189.0" layoutY="54.0" text="Username" textFill="#e4dcdc">
                             <font>
                                 <Font name="Book Antiqua Bold" size="14.0" />
                             </font>
                         </Label>
-                        <TextField layoutX="156.0" layoutY="152.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+                  <TextField fx:id="usrname" layoutX="156.0" layoutY="81.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+                  <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="135.0" size="18" text="" />
+                  <Label layoutX="190.0" layoutY="120.0" text="Password" textFill="#e4dcdc">
+                     <font>
+                        <Font name="Book Antiqua Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="password" layoutX="158.0" layoutY="149.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+                  <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="201.0" size="18" text="" />
+                        <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="210.0" size="18" text="" />
 
-                        <Label layoutX="192.0" layoutY="195.0" text="Password" textFill="#fffefe">
+                        <Label layoutX="192.0" layoutY="195.0" text="Confirm password" textFill="#fffefe">
                             <font>
                                 <Font name="Book Antiqua" size="14.0" />
                             </font>
                         </Label>
-                        <PasswordField layoutX="156.0" layoutY="223.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
-                        <FontAwesomeIconView glyphName="USER" layoutX="165.0" layoutY="135.0" size="18" text="" />
-                        <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="210.0" size="18" text="" />
-                        <Button layoutX="156.0" layoutY="264.0" lineSpacing="50.0" mnemonicParsing="false" opacity="0.59" prefHeight="29.0" prefWidth="189.0" style="-fx-background-color: grey; -fx-background-radius: 5;" text="Sign-up" textOverrun="CLIP" underline="true" wrapText="true">
+                        <PasswordField fx:id="cpassword" layoutX="156.0" layoutY="223.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+                        <Button fx:id="Signup" layoutX="156.0" layoutY="264.0" lineSpacing="50.0" mnemonicParsing="false" onAction="#SignupBtnAction" opacity="0.59" prefHeight="29.0" prefWidth="189.0" style="-fx-background-color: grey; -fx-background-radius: 5;" text="Sign-up" textOverrun="CLIP" underline="true" wrapText="true">
                             <font>
                                 <Font name="Book Antiqua Bold" size="16.0" />
                             </font>
@@ -77,13 +85,6 @@
                                 </LinearGradient>
                             </fill>
                         </FontAwesomeIconView>
-                  <TextField layoutX="156.0" layoutY="81.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
-                  <Label layoutX="190.0" layoutY="53.0" text="E-mail" textFill="#e4dcdc">
-                     <font>
-                        <Font name="Book Antiqua Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <FontAwesomeIconView glyphName="ENVELOPE" layoutX="163.0" layoutY="69.0" size="17" text="" />
                   <Button fx:id="switchToLogin" layoutX="156.0" layoutY="308.0" mnemonicParsing="false" onAction="#SwitchToLogin" opacity="0.72" style="-fx-background-color: transparent;" text="Already a member? Log-in" textFill="#fffbfb" />
                     </children>
                     <BorderPane.margin>
@@ -140,7 +141,7 @@
                 </VBox>
             </left>
         </BorderPane>
-        <VBox layoutX="-8.0" prefHeight="185.0" prefWidth="1161.0">
+        <VBox layoutX="413.0" prefHeight="185.0" prefWidth="740.0">
             <children>
                 <ImageView fitHeight="60.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                     <image>
