@@ -1,5 +1,7 @@
 package com.example.tictactoe;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -10,10 +12,11 @@ import java.math.BigInteger;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClientServerHandler {
+public class ClientServerHandler extends Thread {
     private static final String SERVER_ADDRESS = "3.70.169.200";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
@@ -32,9 +35,38 @@ public class ClientServerHandler {
         }
     }
 
+    public static ArrayList<PlayerModel> getOfflinePlayers(){
+        ArrayList<PlayerModel> listOfPlayers = new ArrayList<PlayerModel>();
+        connectSocket();
+        JsonObject reqOffPlayers = new JsonObject();
+        reqOffPlayers.addProperty("type", "offlineplayers");
+        try {
+            dataOutputStream.writeUTF(reqOffPlayers.toString());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        try {
+            JsonObject resOfflinePlayers = JsonParser.parseString(dataInputStream.readUTF()).getAsJsonObject();
+            // Add Offline players to a list of PlayerModel objects then add them to a hashmap
+            for (JsonElement jsonElement: resOfflinePlayers.get("offlineplayers").getAsJsonArray()) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                // Create a player model, add details from JsonObject into newly created Player object
+                PlayerModel player = new PlayerModel(
+                        jsonObject.get("id").getAsInt(),
+                        jsonObject.get("username").getAsString(),
+                        jsonObject.get("score").getAsInt()
+                );
+                System.out.println(player.getUsername());
+                }
+            } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listOfPlayers;
+    }
     public static boolean signUp(String userName, String password){
         // Declare variables with validated username & hashed password
         String validatedUserName = validateUserName(userName);
+        if(validatedUserName == null){return false;} // If username is invalid, return false to controller
         String hashedPassword = hashPassword(password);
         boolean validSignUp = false; // response for successful sign-up, defaulted to false
         connectSocket(); // Insure socket connection'
@@ -79,25 +111,25 @@ public class ClientServerHandler {
             System.out.println(response);
             String type = response.get("type").getAsString();
             if(type.equals("loginresponse")){
-                PlayerInfo.login=response.get("successful").getAsString();
-                if(PlayerInfo.login.equals("true")) {
-                    PlayerInfo.id = response.get("id").getAsString();
-                    PlayerInfo.username = response.get("username").getAsString();
-                    PlayerInfo.score = response.get("score").getAsString();
-                    PlayerInfo.wins = response.get("wins").getAsString();
-                    PlayerInfo.losses = response.get("losses").getAsString();
+                CurrentPlayerModel.login=response.get("successful").getAsString();
+                if(CurrentPlayerModel.login.equals("true")) {
+                    CurrentPlayerModel.id = response.get("id").getAsString();
+                    CurrentPlayerModel.username = response.get("username").getAsString();
+                    CurrentPlayerModel.score = response.get("score").getAsString();
+                    CurrentPlayerModel.wins = response.get("wins").getAsString();
+                    CurrentPlayerModel.losses = response.get("losses").getAsString();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return PlayerInfo.login;
+        return CurrentPlayerModel.login;
     }
 
     public static void signOut(){
         JsonObject signOutPayload = new JsonObject();
         signOutPayload.addProperty("type", "logout");
-        signOutPayload.addProperty("username", PlayerInfo.username);
+        signOutPayload.addProperty("username", CurrentPlayerModel.username);
         try {
             dataOutputStream.writeUTF(signOutPayload.toString());
         } catch (IOException e) {
@@ -107,7 +139,7 @@ public class ClientServerHandler {
 
     private static String validateUserName(String input){
         // Regex to validate usernames -- standardized for no ._ combinations or at start or end of string
-        String regex = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
+        String regex = "^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         if(matcher.matches()){return input;} else return null;

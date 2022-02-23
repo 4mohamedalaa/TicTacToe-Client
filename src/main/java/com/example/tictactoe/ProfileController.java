@@ -3,6 +3,7 @@ package com.example.tictactoe;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import com.example.tictactoe.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;

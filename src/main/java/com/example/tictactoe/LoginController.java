@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class LoginController {
@@ -23,14 +24,16 @@ public class LoginController {
     Button switchToSignUp;
 
     public void loginBtnAction(ActionEvent event) throws IOException{
-        System.out.println("Pressed action button");
+        System.out.println("Pressed sign-in button");
         // If the fields are NOT empty
         if(!getUserName().isEmpty() && !getPassword().isEmpty()){
             // Call client-server handler static signIn function with user-provided username & password
             String response = ClientServerHandler.signIn(getUserName(), getPassword());
-            System.out.println(response);
+            for (PlayerModel player : ClientServerHandler.getOfflinePlayers()) {
+                System.out.println(player.getUsername());
+            }
             // If the response is FALSE, show alert. Means username or password error
-            if(PlayerInfo.login.equals("false")){
+            if(CurrentPlayerModel.login.equals("false")){
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong password or username");
                 alert.show();
             }
@@ -41,29 +44,26 @@ public class LoginController {
             alert.show();
         }
         // Continue by switching scenes upon successful login
-        if (PlayerInfo.login.equals("true")){
+        if (CurrentPlayerModel.login.equals("true")){
             Stage stage;
             Scene scene;
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("profile.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         }
-
     }
-    public void SwitchToSignUp(ActionEvent event) throws IOException
-    {
+    public void SwitchToSignUp(ActionEvent event) throws IOException {
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("Signup.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Signup.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
     }
 
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import com.example.tictactoe.*;
 
 public class MainGameController implements Initializable {
     @FXML
