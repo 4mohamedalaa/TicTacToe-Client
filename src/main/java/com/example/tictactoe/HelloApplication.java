@@ -12,7 +12,7 @@ import java.util.Objects;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starter.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
         primaryStage.setTitle("Tic-Tac-Toe");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
