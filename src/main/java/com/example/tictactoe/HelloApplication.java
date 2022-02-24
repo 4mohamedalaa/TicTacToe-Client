@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
-//        new FadeIn(root).play();
+        new FadeIn(root).play();
     }
 
 
