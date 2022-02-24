@@ -34,14 +34,15 @@ public class SignupController {
 
     public void SignupBtnAction(ActionEvent event) throws IOException {
         System.out.println("Pressed action button");
-        System.out.println(usrname.getText() );
-        System.out.println(cpassword.getText() );
-        System.out.println(password.getText() );
+        System.out.println(usrname.getText());
+        System.out.println(cpassword.getText());
+        System.out.println(password.getText());
         // If the fields are NOT empty && the passwords are similar
         if (!getUserName().isEmpty() && !getPassword().isEmpty() && !getcPassword().isEmpty()) {
             if ((password.getText().equals(cpassword.getText()))) {
-                // Call client-server handler static signup function with user-provided username & password
-                boolean result = ClientServerHandler.signUp(getUserName(),getPassword());
+                // Call client-server handler static signup function with user-provided username
+                // & password
+                boolean result = ClientServerHandler.signUp(getUserName(), getPassword());
                 if (result) {
                     Stage stage;
                     Scene scene;
@@ -51,28 +52,24 @@ public class SignupController {
                     scene = new Scene(root);
                     stage.setScene(scene);
                     stage.show();
-                    }
-               }
-            } else {
-            ShowSignUpFailed();
+                }
             }
+        } else {
+            ShowSignUpFailed();
         }
+    }
 
+    public void SwitchToLogin(ActionEvent event) throws IOException {
+        Stage stage;
+        Scene scene;
+        Parent root;
+        root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
-public void SwitchToLogin(ActionEvent event) throws IOException
-{
-    Stage stage;
-    Scene scene;
-    Parent root;
-    root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-
-}
-
-
+    }
 
     public void ShowSignUpFailed() {
         Alert alert = new Alert(Alert.AlertType.NONE, "Check your data and try again :)", ButtonType.OK);
@@ -83,9 +80,15 @@ public void SwitchToLogin(ActionEvent event) throws IOException
         alert.show();
     }
 
-    public String getUserName(){return usrname.getText();}
-    public String getPassword(){return password.getText();}
-    public String getcPassword(){return password.getText();}
+    public String getUserName() {
+        return usrname.getText();
+    }
+
+    public String getPassword() {
+        return password.getText();
+    }
+
+    public String getcPassword() {
+        return password.getText();
+    }
 }
-
-
