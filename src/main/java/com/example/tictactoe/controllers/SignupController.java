@@ -1,7 +1,6 @@
 package com.example.tictactoe.controllers;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -64,7 +63,7 @@ public class SignupController {
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Login.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

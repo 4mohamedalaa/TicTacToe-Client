@@ -7,6 +7,7 @@ public class CurrentPlayerModel {
 
     public static Boolean login;
     public static String id;
+    public static Integer currentlyInvitedPlayerId;
     public static String username;
     public static String score;
     public static String wins;

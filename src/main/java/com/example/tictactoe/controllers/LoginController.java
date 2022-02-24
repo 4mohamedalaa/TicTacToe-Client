@@ -2,7 +2,6 @@ package com.example.tictactoe.controllers;
 
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
-import com.example.tictactoe.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
+import com.example.tictactoe.*;
 import java.io.IOException;
 import java.util.Objects;
 

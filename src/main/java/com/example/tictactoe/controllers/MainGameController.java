@@ -174,9 +174,8 @@ public class MainGameController implements Initializable {
         }
     }
 
-    Image image = new Image((getClass().getResourceAsStream("mute.png")));
-    Image image1 = new Image((getClass().getResourceAsStream("mute_color.png")));
-
+    Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream("/images/mute.png"))));
+    Image image1 = new Image((Objects.requireNonNull(getClass().getResourceAsStream("/images/mute_color.png"))));
     private boolean change = true;
 
     @FXML

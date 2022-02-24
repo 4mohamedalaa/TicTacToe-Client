@@ -33,7 +33,6 @@ public class StarterController implements Initializable {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
-
   }
 
   public void SwitchToLogin(ActionEvent event) throws IOException {
@@ -45,7 +44,6 @@ public class StarterController implements Initializable {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
-
   }
 
   @Override
