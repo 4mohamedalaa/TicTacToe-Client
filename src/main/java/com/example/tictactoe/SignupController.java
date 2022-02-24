@@ -1,5 +1,7 @@
 package com.example.tictactoe;
 
+import animatefx.animation.BounceInRight;
+import animatefx.animation.BounceInUp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -52,6 +54,7 @@ public class SignupController {
                     scene = new Scene(root);
                     stage.setScene(scene);
                     stage.show();
+                    new BounceInRight(root).play();
                 }
             }
         } else {
@@ -68,6 +71,7 @@ public class SignupController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        new BounceInUp(root).play();
 
     }
 
@@ -78,6 +82,7 @@ public class SignupController {
         alert.setTitle("sign up Failed");
         alert.setResizable(false);
         alert.show();
+//
     }
 
     public String getUserName() {

@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+import animatefx.animation.BounceInLeft;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,6 +65,7 @@ public class LoginController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        new BounceInLeft(root).play();
     }
 
     public String getUserName() {

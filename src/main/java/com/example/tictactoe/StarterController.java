@@ -1,5 +1,8 @@
 package com.example.tictactoe;
 
+import animatefx.animation.BounceInDown;
+import animatefx.animation.BounceInUp;
+import animatefx.animation.FadeIn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +36,7 @@ public class StarterController implements Initializable {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+    new BounceInUp(root).play();
 
   }
 
@@ -45,6 +49,7 @@ public class StarterController implements Initializable {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+    new BounceInDown(root).play();
 
   }
 
