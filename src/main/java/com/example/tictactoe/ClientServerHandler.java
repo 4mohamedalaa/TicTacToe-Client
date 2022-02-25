@@ -57,6 +57,7 @@ public class ClientServerHandler extends Thread {
                         jsonObject.get("username").getAsString(),
                         true
                 );
+                listOfPlayers.add(player);
                 System.out.println(player.getUsername());
                 System.out.println(player.isOnline());
             }
@@ -81,13 +82,17 @@ public class ClientServerHandler extends Thread {
             // Add Offline players to a list of PlayerModel objects then add them to a hashmap
             for (JsonElement jsonElement: resOfflinePlayers.get("offlineplayers").getAsJsonArray()) {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
+
                 // Create a player model, add details from JsonObject into newly created Player object
                 PlayerModel player = new PlayerModel(
                         jsonObject.get("id").getAsInt(),
                         jsonObject.get("username").getAsString(),
                         jsonObject.get("score").getAsInt()
+
                 );
+                listOfPlayers.add(player);
                 System.out.println(player.getUsername());
+
                 }
             } catch (IOException e) {
             e.printStackTrace();
@@ -122,6 +127,18 @@ public class ClientServerHandler extends Thread {
             e.printStackTrace();
         }
         return validSignUp;
+    }
+
+    public static void sendMessageToAll(String msg){
+        JsonObject responseObject = new JsonObject();
+        responseObject.addProperty("type", "sendmessageforall");
+        responseObject.addProperty("senderid",CurrentPlayerModel.id);
+        responseObject.addProperty("message",msg);
+        try {
+            dataOutputStream.writeUTF(responseObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String signIn(String userName, String password){

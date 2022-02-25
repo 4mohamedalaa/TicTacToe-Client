@@ -11,4 +11,6 @@ public class CurrentPlayerModel {
     public static String score;
     public static String wins;
     public static String losses;
+
+
 }

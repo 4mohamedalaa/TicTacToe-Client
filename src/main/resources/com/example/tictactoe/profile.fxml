@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="588.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.ProfileController">
    <children>
@@ -29,8 +30,23 @@
                         <Image url="@player1.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="47.0" layoutY="258.0" text="score" textFill="#fcf9f9" />
-                  <Label layoutX="28.0" layoutY="184.0" text="player name" textFill="#fcf3f3" />
+                  <Text fx:id="CurrentUser" fill="#f5f5f5" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="20.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="CurrentScore" fill="#fcf2f2" layoutX="55.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="17.0" />
+                     </font></Text>
+                  <Text fx:id="CurrentWin" fill="#ebe5e5" layoutX="60.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wins">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="14.0" />
+                     </font></Text>
+                  <Text fx:id="CurrentLoss" fill="#f8f1f1" layoutX="60.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Losses">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="15.0" />
+                     </font></Text>
                </children>
             </AnchorPane>
          </left>
@@ -94,27 +110,17 @@
          <right>
             <VBox prefHeight="466.0" prefWidth="226.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label prefHeight="40.0" prefWidth="209.0" text="Online players" textFill="#2ec913">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TableView opacity="0.8" prefHeight="180.0" prefWidth="209.0">
-                     <columns>
-                        <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="133.0" text="Score" />
-                     </columns>
-                  </TableView>
+                  <JFXDrawer fx:id="Drawer" direction="RIGHT" prefHeight="139.0" prefWidth="168.0" />
                   <Label prefHeight="45.0" prefWidth="206.0" text="Global Chat" textFill="#cd0303">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextArea prefHeight="157.0" prefWidth="209.0" />
+                  <TextArea prefHeight="204.0" prefWidth="226.0" />
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                      <buttons>
                         <TextField maxWidth="500.0" prefHeight="26.0" style="-fx-background-color: LIGHTGREY;" />
-                        <Button maxWidth="25.0" minWidth="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
+                        <Button fx:id="sendBtn" maxWidth="25.0" minWidth="30.0" mnemonicParsing="false" onAction="#sendMsgForAll" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
                            <graphic>
                               <FontAwesomeIconView fill="#f5eeee" glyphName="SEND" selectionFill="#f5eeee">
                                  <font>
@@ -132,14 +138,23 @@
             </VBox>
          </right>
          <top>
-            <Label text="TIC-TAC-TOE" textFill="#fcf2f2">
-               <font>
-                  <Font name="Copperplate Gothic Light" size="29.0" />
-               </font>
-               <BorderPane.margin>
-                  <Insets left="320.0" top="30.0" />
-               </BorderPane.margin>
-            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXHamburger fx:id="Ham">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </JFXHamburger>
+                  <Label text="TIC-TAC-TOE" textFill="#fcf2f2">
+                     <font>
+                        <Font name="Copperplate Gothic Light" size="29.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="240.0" top="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
          </top>
       </BorderPane>
    </children>
