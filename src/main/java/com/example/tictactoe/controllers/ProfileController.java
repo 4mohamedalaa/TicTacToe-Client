@@ -1,12 +1,5 @@
-package com.example.tictactoe;
+package com.example.tictactoe.controllers;
 
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +23,8 @@ import javafx.scene.layout.VBox;
 
 public class ProfileController extends Application implements Initializable {
 
+    @FXML
+    Label username;
     @FXML
     Button singlePlayer;
     @FXML
@@ -88,29 +83,32 @@ public void sendMsgForAll(){
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        System.out.println(getClass().getResource("/fxml/main.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
     }
 
     public void SwitchToMultiplayer(ActionEvent event) throws IOException {
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("multiPlayer.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/multiPlayer.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
     }
 
     public void logout(ActionEvent event) throws IOException {
         Stage stage;
         Scene scene;
         // Parent root;
-        Parent root = FXMLLoader.load(getClass().getResource("starter.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/starter.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

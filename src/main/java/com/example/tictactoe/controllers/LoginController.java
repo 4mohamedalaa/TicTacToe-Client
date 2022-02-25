@@ -1,7 +1,7 @@
-package com.example.tictactoe;
+package com.example.tictactoe.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.example.tictactoe.models.CurrentPlayerModel;
+import com.example.tictactoe.models.PlayerModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import com.example.tictactoe.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginController {
@@ -32,12 +30,9 @@ public class LoginController {
         if (!getUserName().isEmpty() && !getPassword().isEmpty()) {
             // Call client-server handler static signIn function with user-provided username
             // & password
-            String response = ClientServerHandler.signIn(getUserName(), getPassword());
-            for (PlayerModel player : ClientServerHandler.getOnlinePlayers()) {
-                System.out.println(player.getUsername());
-            }
+            boolean response = ClientServerHandler.signIn(getUserName(), getPassword());
             // If the response is FALSE, show alert. Means username or password error
-            if (CurrentPlayerModel.login.equals("false")) {
+            if (!response) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong password or username");
                 alert.show();
             }
@@ -47,16 +42,17 @@ public class LoginController {
             alert.show();
         }
         // Continue by switching scenes upon successful login
-        if (CurrentPlayerModel.login.equals("true")) {
+        if (CurrentPlayerModel.login) {
+            new ClientServerListener(); // Upon successful login, start a listener thread pointed at Server
+            ClientServerHandler.sendInvitation(1); // Testing invitation system with static data
             Stage stage;
             Scene scene;
             Parent root;
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("profile.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
         }
     }
 
@@ -64,7 +60,7 @@ public class LoginController {
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Signup.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Signup.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
