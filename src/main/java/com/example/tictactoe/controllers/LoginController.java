@@ -31,10 +31,6 @@ public class LoginController {
             // Call client-server handler static signIn function with user-provided username
             // & password
             boolean response = ClientServerHandler.signIn(getUserName(), getPassword());
-            System.out.println("The value is: " + String.valueOf(response));
-            for (PlayerModel player : ClientServerHandler.getOnlinePlayers()) {
-                System.out.println(player.getUsername());
-            }
             // If the response is FALSE, show alert. Means username or password error
             if (!response) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong password or username");
@@ -47,6 +43,8 @@ public class LoginController {
         }
         // Continue by switching scenes upon successful login
         if (CurrentPlayerModel.login) {
+            new ClientServerListener(); // Upon successful login, start a listener thread pointed at Server
+            ClientServerHandler.sendInvitation(1); // Testing invitation system with static data
             Stage stage;
             Scene scene;
             Parent root;
