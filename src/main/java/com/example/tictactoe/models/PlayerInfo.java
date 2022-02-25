@@ -1,7 +1,6 @@
 package com.example.tictactoe.models;
 
 public class PlayerInfo {
-
     public static String login;
     public static String id;
     public static String username;

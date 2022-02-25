@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,10 +24,10 @@ public class ClientServerHandler {
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
-    private static Socket socket;
+    public static Socket socket = connectSocket();
 
     // Insure we're connected to the server's socket
-    public static void connectSocket() {
+    public static Socket connectSocket() {
         if (socket == null || socket.isClosed()) {
             try {
                 socket = new Socket(SERVER_ADDRESS, Integer.parseInt(SERVER_PORT));
@@ -36,9 +37,27 @@ public class ClientServerHandler {
                 e.printStackTrace();
             }
         }
+        return socket;
     }
+
+    public static void acceptInvitation(){
+        connectSocket();
+        JsonObject requestObject = new JsonObject();
+        requestObject.addProperty("type", "acceptinvetation");
+        requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
+        requestObject.addProperty("accepter", CurrentPlayerModel.id);
+        requestObject.addProperty("accepted", CurrentPlayerModel.opponentId);
+        System.out.println("Accepted this invitation: " + requestObject);
+        try {
+            dataOutputStream.writeUTF(requestObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Takes the PlayerModel of the user you'd like to invite as input
     public static void sendInvitation(PlayerModel opponentPlayer){
+        connectSocket();
         JsonObject invitiationPayload = new JsonObject();
         invitiationPayload.addProperty("type", "sendInvitation");
         invitiationPayload.addProperty("senderplayerid", CurrentPlayerModel.id);
@@ -52,8 +71,10 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
+
     // Enabled over-loading, can also send the raw opponent ID
-    public static void sendInvitation(Integer opponentPlayerId){
+    public static void sendInvitation(int opponentPlayerId){
+        connectSocket();
         JsonObject invitiationPayload = new JsonObject();
         invitiationPayload.addProperty("type", "sendInvitation");
         invitiationPayload.addProperty("senderplayerid", CurrentPlayerModel.id);
@@ -61,6 +82,12 @@ public class ClientServerHandler {
         invitiationPayload.addProperty("senderscore", CurrentPlayerModel.score);
         invitiationPayload.addProperty("sendtoid", opponentPlayerId);
         CurrentPlayerModel.currentlyInvitedPlayerId = opponentPlayerId;
+        System.out.println("Sent invite: " + invitiationPayload);
+        try {
+            dataOutputStream.writeUTF(invitiationPayload.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Called to get currently online players list
@@ -87,6 +114,7 @@ public class ClientServerHandler {
                         jsonObject.get("score").getAsInt(),
                         jsonObject.get("username").getAsString(),
                         true);
+                listOfPlayers.add(player);
                 System.out.println(player.getUsername());
                 System.out.println(player.isOnline());
             }
@@ -113,12 +141,14 @@ public class ClientServerHandler {
             // hashmap
             for (JsonElement jsonElement : resOfflinePlayers.get("offlineplayers").getAsJsonArray()) {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
+                System.out.println(jsonObject);
                 // Create a player model, add details from JsonObject into newly created Player
                 // object
                 PlayerModel player = new PlayerModel(
                         jsonObject.get("id").getAsInt(),
                         jsonObject.get("username").getAsString(),
                         jsonObject.get("score").getAsInt());
+                listOfPlayers.add(player);
                 System.out.println(player.getUsername());
             }
         } catch (IOException e) {
@@ -183,7 +213,7 @@ public class ClientServerHandler {
             String type = response.get("type").getAsString();
             if (type.equals("loginresponse")) {
                 CurrentPlayerModel.login = Boolean.valueOf(response.get("successful").getAsString());
-                if (CurrentPlayerModel.login.equals("true")) {
+                if (CurrentPlayerModel.login) {
                     CurrentPlayerModel.id = response.get("id").getAsString();
                     CurrentPlayerModel.username = response.get("username").getAsString();
                     CurrentPlayerModel.score = response.get("score").getAsString();
@@ -231,19 +261,19 @@ public class ClientServerHandler {
             // Convert array into signum
             BigInteger num = new BigInteger(1, messageDigestByte);
             // Convert message digest into hex value
-            String hashText = num.toString(16);
+            StringBuilder hashText = new StringBuilder(num.toString(16));
             // add preceding 0's to make to 32 bit
             while (hashText.length() < 32) {
-                hashText = "0" + hashText;
+                hashText.insert(0, "0");
             }
             // Return hashed password
-            return hashText;
+            return hashText.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
-    boolean running = true;
-    Thread thread;
+//    boolean running = true;
+//    Thread thread;
 //    public void ServerConnector(){
 //        thread = new Thread(()->{
 //            System.out.println("readeron");
@@ -256,17 +286,14 @@ public class ClientServerHandler {
 //                    JsonObject requestObject = JsonParser.parseString(lineSent).getAsJsonObject();
 //                    String type = requestObject.get("type").getAsString();
 //                    System.out.println(type);
-//                    switch (type)
-//                    {
+//                    switch (type) {
 //                        case "oponnetmove" :
 //                            int position=requestObject.get("position").getAsInt();
 //                            opponentsMove(position);
 //
 //                            break;
-//                        case "loginresponse":
-//                            System.out.println("responsethroughthread");
+//                        case "loginresponse" -> System.out.println("responsethroughthread");
 //
-//                            break;
 //                        case "yourinvetationaccepted":
 //                            int accepterID=requestObject.get("whoaccepted").getAsInt();
 //                            CurrentPlayerModel.opponentId = String.valueOf(accepterID);
@@ -287,14 +314,13 @@ public class ClientServerHandler {
 //                                }
 //                            });
 //                            break;
-//                        case "invitationreceived":
-//                            int opponentID=requestObject.get("sender").getAsInt();
-//                            CurrentPlayerModel.gameId=requestObject.get("game_id").getAsInt();
-//                            CurrentPlayerModel.opponentId= String.valueOf(opponentID);
-//                            CurrentPlayerModel.opponentUsername=requestObject.get("opponentusername").getAsString();
-//                            CurrentPlayerModel.opponentScore=requestObject.get("opponentsscore").getAsInt();
-//
-//                            System.out.println(opponentID+"chalenges you");
+//                        case "invitationreceived" -> {
+//                            int opponentID = requestObject.get("sender").getAsInt();
+//                            CurrentPlayerModel.gameId = requestObject.get("game_id").getAsInt();
+//                            CurrentPlayerModel.opponentId = String.valueOf(opponentID);
+//                            CurrentPlayerModel.opponentUsername = requestObject.get("opponentusername").getAsString();
+//                            CurrentPlayerModel.opponentScore = requestObject.get("opponentsscore").getAsInt();
+//                            System.out.println(opponentID + "chalenges you");
 //                            Platform.runLater(new Runnable() {
 //                                @Override
 //                                public void run() {
@@ -309,13 +335,13 @@ public class ClientServerHandler {
 //                                    if (button == ButtonType.YES) {
 //                                        // if condition yes && no : call isma3el methods
 //                                        System.out.println("yes"); //accept play
-//                                        CurrentPlayerModel.playerTurn=true;
-//                                        CurrentPlayerModel.allowFire=true;
-//                                        CurrentPlayerModel.mySign="X";
+//                                        CurrentPlayerModel.playerTurn = true;
+//                                        CurrentPlayerModel.allowFire = true;
+//                                        CurrentPlayerModel.mySign = "X";
 //                                        acceptInvetation();
-//                                        boolean playAgainstPC=false;
+//                                        boolean playAgainstPC = false;
 //                                        System.out.println("newgameboard");
-//                                        GameBoard root = new GameBoard(primaryStage,  playAgainstPC,false,false);
+//                                        GameBoard root = new GameBoard(primaryStage, playAgainstPC, false, false);
 //                                        Scene scene = new Scene(root);
 //                                        primaryStage.setTitle("GameBoard screen ");
 //                                        primaryStage.setScene(scene);
@@ -327,52 +353,48 @@ public class ClientServerHandler {
 //                                    }
 //                                }
 //                            });
-//                            break;
-//                        case "game_record":
+//                        }
+//                        case "game_record" -> {
 //                            System.out.println(requestObject);
-//                            String moves= requestObject.get("moves").getAsString();
+//                            String moves = requestObject.get("moves").getAsString();
 //                            renderRecordedGame(moves);
-//                            break;
-//
-//
-//                        case "offlineplayers":
-//                            if(offlinePlayersFromServer != null) offlinePlayersFromServer.clear();
-//                            JsonArray offlinePlayers=requestObject.getAsJsonArray("offlineplayers");
+//                        }
+//                        case "offlineplayers" -> {
+//                            if (offlinePlayersFromServer != null) offlinePlayersFromServer.clear();
+//                            JsonArray offlinePlayers = requestObject.getAsJsonArray("offlineplayers");
 //                            System.out.println(offlinePlayers);
-//                            for(JsonElement rplayerobject : offlinePlayers) {
-//                                JsonObject playerObject=rplayerobject.getAsJsonObject();
-//                                Player player= new  Player();
-//                                player.id=playerObject.get("id").getAsInt();
+//                            for (JsonElement rplayerobject : offlinePlayers) {
+//                                JsonObject playerObject = rplayerobject.getAsJsonObject();
+//                                Player player = new Player();
+//                                player.id = playerObject.get("id").getAsInt();
 //                                // System.out.println(player.id);
-//                                player.username=playerObject.get("username").getAsString();
-//                                player.score=playerObject.get("score").getAsInt();
+//                                player.username = playerObject.get("username").getAsString();
+//                                player.score = playerObject.get("score").getAsInt();
 //                                offlinePlayersFromServer.add(player);
 //                            }
-//                            for(Player player:offlinePlayersFromServer){
+//                            for (Player player : offlinePlayersFromServer) {
 //                                System.out.println(player.username);
 //                            }
-//                            break;
-//
-//                        case "onlineplayers":
-//
-//                            JsonArray onlinePlayers=requestObject.getAsJsonArray("onlineplayers");
-//                            if(onlinePlayersFromServer != null) onlinePlayersFromServer.clear();
+//                        }
+//                        case "onlineplayers" -> {
+//                            JsonArray onlinePlayers = requestObject.getAsJsonArray("onlineplayers");
+//                            if (onlinePlayersFromServer != null) onlinePlayersFromServer.clear();
 //                            System.out.println(onlinePlayers);
-//                            for(JsonElement rplayerobject : onlinePlayers) {
-//                                JsonObject playerObject=rplayerobject.getAsJsonObject();
-//                                Player player= new  Player();
-//                                player.id=playerObject.get("id").getAsInt();
-//                                player.username=playerObject.get("username").getAsString();
-//                                player.score=playerObject.get("score").getAsInt();
+//                            for (JsonElement rplayerobject : onlinePlayers) {
+//                                JsonObject playerObject = rplayerobject.getAsJsonObject();
+//                                Player player = new Player();
+//                                player.id = playerObject.get("id").getAsInt();
+//                                player.username = playerObject.get("username").getAsString();
+//                                player.score = playerObject.get("score").getAsInt();
 //                                onlinePlayersFromServer.add(player);
 //                            }
-//                            break;
-//                        case "opponent_disconnect":
+//                        }
+//                        case "opponent_disconnect" -> {
 //                            ServerConnector.dataOutputStream.close();
 //                            ServerConnector.dataInputStream.close();
 //                            System.out.println("opponent_disconnect");
 //                            ServerConnector.socket.close();
-//                            running=false;
+//                            running = false;
 //                            Platform.runLater(new Runnable() {
 //                                @Override
 //                                public void run() {
@@ -386,7 +408,7 @@ public class ClientServerHandler {
 //                                    alert.getButtonTypes();
 //
 //                                    Optional<ButtonType> result = alert.showAndWait();
-//                                    if (result.get() == ButtonType.OK){
+//                                    if (result.get() == ButtonType.OK) {
 //                                        // ... user chose OK button
 //                                        Home root = new Home(primaryStage);
 //                                        Scene scene = new Scene(root);
@@ -398,53 +420,48 @@ public class ClientServerHandler {
 //
 //                                }
 //                            });
-//                            break;
-//                        case "update-list":
-//
+//                        }
+//                        case "update-list" -> {
 //                            System.out.println("clientclosed");
-//                            JsonArray newonlinePlayers=requestObject.getAsJsonArray("onlineplayers");
-//                            if(onlinePlayersFromServer != null) onlinePlayersFromServer.clear();
+//                            JsonArray newonlinePlayers = requestObject.getAsJsonArray("onlineplayers");
+//                            if (onlinePlayersFromServer != null) onlinePlayersFromServer.clear();
 //                            //System.out.println(newonlinePlayers);
-//                            for(JsonElement rplayerobject : newonlinePlayers) {
-//                                JsonObject playerObject=rplayerobject.getAsJsonObject();
-//                                Player player= new  Player();
-//                                player.id=playerObject.get("id").getAsInt();
-//                                player.username=playerObject.get("username").getAsString();
-//                                player.score=playerObject.get("score").getAsInt();
+//                            for (JsonElement rplayerobject : newonlinePlayers) {
+//                                JsonObject playerObject = rplayerobject.getAsJsonObject();
+//                                Player player = new Player();
+//                                player.id = playerObject.get("id").getAsInt();
+//                                player.username = playerObject.get("username").getAsString();
+//                                player.score = playerObject.get("score").getAsInt();
 //                                onlinePlayersFromServer.add(player);
 //                            }
-//                            for(Player offplayer : onlinePlayersFromServer)
-//                            {
+//                            for (Player offplayer : onlinePlayersFromServer) {
 //                                System.out.println("new onlineplayers");
 //                                System.out.println(offplayer.getUsername());
 //                            }
-//                            if(offlinePlayersFromServer != null) offlinePlayersFromServer.clear();
-//                            JsonArray newofflinePlayers=requestObject.getAsJsonArray("offlineplayers");
+//                            if (offlinePlayersFromServer != null) offlinePlayersFromServer.clear();
+//                            JsonArray newofflinePlayers = requestObject.getAsJsonArray("offlineplayers");
 //                            //System.out.println(offlinePlayers);
-//                            for(JsonElement rplayerobject : newofflinePlayers) {
-//                                JsonObject playerObject=rplayerobject.getAsJsonObject();
-//                                Player player= new  Player();
-//                                player.id=playerObject.get("id").getAsInt();
+//                            for (JsonElement rplayerobject : newofflinePlayers) {
+//                                JsonObject playerObject = rplayerobject.getAsJsonObject();
+//                                Player player = new Player();
+//                                player.id = playerObject.get("id").getAsInt();
 //                                // System.out.println(player.id);
-//                                player.username=playerObject.get("username").getAsString();
-//                                player.score=playerObject.get("score").getAsInt();
+//                                player.username = playerObject.get("username").getAsString();
+//                                player.score = playerObject.get("score").getAsInt();
 //                                offlinePlayersFromServer.add(player);
 //                            }
-//                            for(Player offplayer : offlinePlayersFromServer)
-//                            {
+//                            for (Player offplayer : offlinePlayersFromServer) {
 //                                System.out.println("new offlineplayers");
 //                                System.out.println(offplayer.getUsername());
 //                            }
-//
 //                            Platform.runLater(new Runnable() {
 //                                @Override
 //                                public void run() {
-//                                    if(playonlinescreen !=null)
-//                                        playonlinescreen.renderLists(onlinePlayersFromServer,offlinePlayersFromServer);
+//                                    if (playonlinescreen != null)
+//                                        playonlinescreen.renderLists(onlinePlayersFromServer, offlinePlayersFromServer);
 //                                }
 //                            });
-//
-//                            break;
+//                        }
 //                    }
 //                }catch (IOException e){}
 //                try {
