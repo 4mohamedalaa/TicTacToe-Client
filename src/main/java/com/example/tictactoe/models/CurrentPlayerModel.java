@@ -18,4 +18,36 @@ public class CurrentPlayerModel {
     public static boolean playerTurn;
     public static boolean allowFire;
     public static String mySign;
+
+
+    //@samboo
+
+    static int opponentScore;
+
+    static public String getOpponentUsername()
+    {
+        return opponentUsername;
+    }
+    static public int getOpponentScore()
+    {
+        return opponentScore;
+    }
+    /*public String getLogin() {
+        return login;
+    }*/
+    public String getId() {
+        return id;
+    }
+    public static String getLosses() {
+        return losses;
+    }
+    public static String getScore() {
+        return score;
+    }
+    public static String getUsername() {
+        return username;
+    }
+    public static String getWins() {
+        return wins;
+    }
 }

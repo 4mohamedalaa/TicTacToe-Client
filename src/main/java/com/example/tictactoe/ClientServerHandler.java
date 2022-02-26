@@ -292,24 +292,13 @@ public class ClientServerHandler {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static void passMoveToOponnent(JsonObject boardUpdate) {
+        try {
+            dataOutputStream.writeUTF(String.valueOf(boardUpdate));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     //    boolean running = true;

@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.controllers.ProfileController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.google.gson.JsonObject;
@@ -26,6 +27,7 @@ public class ClientServerListener extends Thread {
     private static Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
+    public static MultiGameController multicontrollerhandler;
     public ClientServerListener(){
         setDaemon(true);
         start();
@@ -52,6 +54,26 @@ public class ClientServerListener extends Thread {
                 String type = jsonObject.get("type").getAsString();
                 System.out.println(type);
                 switch (type){
+                    case "oponnetmove" :
+                        multicontrollerhandler.opponent_action(jsonObject);
+                        break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     case "invitationreceived":
                         CurrentPlayerModel.opponentId = jsonObject.get("sender").getAsInt();
                         CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
