@@ -66,65 +66,58 @@ Button BackBtn;
         OnlinePlayerScore.setCellValueFactory(new PropertyValueFactory<>("score"));
 OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
 
-//        ArrayList<PlayerModel> OnPlayers = ClientServerHandler.getOnlinePlayers();
+        ArrayList<PlayerModel> OnPlayers = ClientServerHandler.getOnlinePlayers();
         ObservableList<PlayerModel> OnPlayerList = FXCollections.observableArrayList();
-//        Button []buttonInvite = new Button[OnPlayerList.size()];
+
         List<Button> buttonInvite =new ArrayList<>();
 
-        //invite button
 
 
-
-        for(int i=0; i<5; i++) {
-//            String OnName = OnPlayers.get(i).getUsername();
-//            Integer OnWins = OnPlayers.get(i).getWins();
+        for(int i=0; i<OnPlayers.size(); i++) {
+            String OnName = OnPlayers.get(i).getUsername();
+            Integer OnWins = OnPlayers.get(i).getWins();
 
             PlayerModel OnPlayer = new PlayerModel();
+//            OnPlayer.setInviteBtn(buttonInvite.get(i));
             buttonInvite.add(OnPlayer.getInviteBtn());
-            //            OnPlayer.setUsername(OnName);
-//            OnPlayer.setWins(OnWins);
-//
-//            System.out.println(OnName);
-//            OnPlayer.setInviteBtn(buttonInvite[i]);
+
+            OnPlayer.setUsername(OnName);
+            OnPlayer.setWins(OnWins);
+            OnPlayer.setId(OnPlayers.get(i).getId());
 
             OnPlayerList.add(OnPlayer);
-
         }
-        System.out.println(buttonInvite.size());
+
         OnlinePlayers.getItems().setAll(OnPlayerList);
+
 
         for (int b = 0; b <buttonInvite.size() ; b++) {
             System.out.println("hallo invite loop");
-//            buttonInvite.get(b) = new Button();
             buttonInvite.get(b).setOnAction(this::handleInviteButton);
         }
 
 
-    //offline table list
-//            OfflinePlayerName.setCellValueFactory(new PropertyValueFactory<>("username"));
-//            OfflinePlayerScore.setCellValueFactory(new PropertyValueFactory<>("score"));
-//            OfflinePlayerLoss.setCellValueFactory(new PropertyValueFactory<>("losses"));
-//
-////
-//            ArrayList<PlayerModel> OffPlayers = ClientServerHandler.getOfflinePlayers();
-//            ObservableList<PlayerModel> OffPlayerList = FXCollections.observableArrayList();
-//
-//            for(int O=0; O<OffPlayers.size(); O++){
-//                String OffName= OffPlayers.get(O).getUsername();
-//                Integer OffScore=OffPlayers.get(O).getScore();
-//                Integer OffLosses=OffPlayers.get(O).getLosses();
-//
-//                PlayerModel Offplayer = new PlayerModel();
-//                Offplayer.setUsername(OffName);
-//                Offplayer.setWins(OffScore);
-//                Offplayer.setLosses(OffLosses);
-//                OffPlayerList.add(Offplayer);
-//            }
-//            OfflinePlayers.getItems().setAll(OffPlayerList);
-//
-//
+//    offline table list
+            OfflinePlayerName.setCellValueFactory(new PropertyValueFactory<>("username"));
+            OfflinePlayerScore.setCellValueFactory(new PropertyValueFactory<>("score"));
+            OfflinePlayerLoss.setCellValueFactory(new PropertyValueFactory<>("losses"));
 
+//
+            ArrayList<PlayerModel> OffPlayers = ClientServerHandler.getOfflinePlayers();
+            ObservableList<PlayerModel> OffPlayerList = FXCollections.observableArrayList();
 
+            for(int O=0; O<OffPlayers.size(); O++){
+                String OffName= OffPlayers.get(O).getUsername();
+                Integer OffScore=OffPlayers.get(O).getScore();
+                Integer OffLosses=OffPlayers.get(O).getLosses();
+
+                PlayerModel Offplayer = new PlayerModel();
+                Offplayer.setUsername(OffName);
+                Offplayer.setWins(OffScore);
+                Offplayer.setLosses(OffLosses);
+                OffPlayerList.add(Offplayer);
+            }
+            OfflinePlayers.getItems().setAll(OffPlayerList);
 
   }
     public void BackBtn(ActionEvent event) throws IOException {
@@ -139,6 +132,7 @@ OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
 
     }
     public void handleInviteButton(ActionEvent inviteAction){
+
         System.out.println("hallo");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Send invitation");

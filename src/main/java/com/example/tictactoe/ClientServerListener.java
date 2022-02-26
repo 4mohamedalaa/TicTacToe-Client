@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
-import static com.example.tictactoe.controllers.ProfileController.myControllerHandle2;
+//import static com.example.tictactoe.controllers.ProfileController.myControllerHandle2;
 
 public class ClientServerListener extends Thread {
     private static DataInputStream dataInputStream;
@@ -155,13 +155,13 @@ public class ClientServerListener extends Thread {
                     // recieved Json from server to print message from one client to only another
                     // opponent one
                     // need controller of game board to be finished
-                    case "receivemessagefromone":
-                        String senderUserName = jsonObject.get("senderusername").toString();
-                        String msg = jsonObject.get("message").toString();
-                        String message1 = senderUserName.concat(" : ").concat(msg);
-                        myControllerHandle2.txtA.appendText(message1);
-                        myControllerHandle2.txtA.appendText("\n");
-                        break;
+//                    case "receivemessagefromone":
+//                        String senderUserName = jsonObject.get("senderusername").toString();
+//                        String msg = jsonObject.get("message").toString();
+//                        String message1 = senderUserName.concat(" : ").concat(msg);
+//                        myControllerHandle2.txtA.appendText(message1);
+//                        myControllerHandle2.txtA.appendText("\n");
+//                        break;
 
                     // @samboooo
                     // recieved Json from server to print message from one client to all online
@@ -173,7 +173,7 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
-                        myControllerHandle1.txtA.appendText(msgtoProfile);
+//                        myControllerHandle1.txtA.appendText(msgtoProfile);
 
                         break;
                     default:
