@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClientServerHandler {
-    private static final String SERVER_ADDRESS = "3.70.169.200";
+    private static final String SERVER_ADDRESS = "18.197.17.158";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
