@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="1107.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.MainGameController">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="1107.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.MultiGameController">
 
    <children>
       <VBox layoutX="284.0" layoutY="136.0" prefHeight="220.0" prefWidth="245.0" spacing="10.0">
