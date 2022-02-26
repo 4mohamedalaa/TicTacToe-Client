@@ -1,5 +1,6 @@
 package com.example.tictactoe.controllers;
 
+import com.example.tictactoe.models.PlayerAI;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +25,8 @@ import java.util.*;
 
 import com.example.tictactoe.*;
 import javafx.stage.Stage;
+
+import static java.lang.Thread.sleep;
 
 public class MainGameController implements Initializable {
     @FXML
@@ -74,12 +77,22 @@ public class MainGameController implements Initializable {
     @FXML
     private Button restart;
 
+    static class Point {
+        int row, col;
+
+        Point(int row, int col) {
+            this.col = col;
+            this.row = row;
+        }
+    }
+
     public String line = "";
     int counterX = 0;
     int counterO = 0;
+
     private int board[][] = new int[3][3];
     private int movesLeft = 9;
-    private  boolean gameOver = false;
+    private boolean gameOver = false;
 
     // Image cross = new Image((getClass().getResourceAsStream("CROSS.png")));
     // Image circle = new Image((getClass().getResourceAsStream("CIRCLE.png")));
@@ -87,16 +100,31 @@ public class MainGameController implements Initializable {
     // ImageView o = new ImageView(circle);
 
     private int playerTurn = 0;
-
+    PlayerAI aiPlayer = new PlayerAI("dump");
     ArrayList<Button> buttons;
+    Map<Button, Point> btnBoard = new HashMap<>();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         buttons = new ArrayList<>(
                 Arrays.asList(button1, button2, button3, button4, button5, button6, button7, button8, button9));
 
+        int i = 0;
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                //System.out.println(buttons.get(i));
+                btnBoard.put(buttons.get(i++), new Point(row, col));
+            }
+        }
+
+        for (var entry : btnBoard.entrySet()) {
+            System.out.println(entry.getKey() + "/" + entry.getValue().row + "/" + entry.getValue().col);
+        }
+
         buttons.forEach(button -> {
-            setupButton(button);
+            humanTurn(button);
             button.setFocusTraversable(false);
         });
     }
@@ -106,7 +134,7 @@ public class MainGameController implements Initializable {
     void restartGame(ActionEvent event) {
         movesLeft = 9;
         gameOver = false;
-        for (int[] row: board)
+        for (int[] row : board)
             Arrays.fill(row, 0);
         buttons.forEach(this::resetButton);
         winnerText.setText("Tic-Tac-Toe");
@@ -117,120 +145,144 @@ public class MainGameController implements Initializable {
         button.setText("");
         filledButtonsCounter = 0;
         button.setStyle("-fx-background-color: #808080 ");
-
     }
 
-    private void setupButton(Button button) {
+    private void humanTurn(Button button) {
         button.setOnMouseClicked(mouseEvent -> {
             movesLeft--;
-
 //          setPlayerSymbol(button);
             button.setDisable(true);
             button.setText("X");
+            Point p = btnBoard.get(button);
+            System.out.println("Human Selected "+p.row + "  " + p.col);
+            System.out.println("Human Selected " + button);
+
+            board[p.row][p.col] = 1;
 //            button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
 //            button.setTextFill(Color.rgb(255, 0, 0));
 //            button.setStyle("-fx-background-color: MediumSeaGreen");
-            updateBoard(button);
+            //updateBoard(button);
             checkIfGameIsOver();
-            if(movesLeft > 1 && !gameOver)
-            {
-                computerMove();
+
+            if (movesLeft > 1 && !gameOver) {
+                aiPlayer.computerMove(board);
+                int playedX = aiPlayer.getX();
+                int playedY = aiPlayer.getY();
+                board[playedX][playedY] = 2;
+                System.out.println("Ai Selected " + playedX + " " + playedY);
+
+                for (var entry : btnBoard.entrySet()) {
+                    if (entry.getValue().row == playedX && entry.getValue().col == playedY) {
+                        System.out.println("Ai Selected " + entry.getKey());
+                        try {
+                            sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        entry.getKey().setText("O");
+                        entry.getKey().setDisable(true);
+                        break;
+                    }
+                }
                 movesLeft--;
                 checkIfGameIsOver();
             }
         });
     }
-    private void computerMove(){
-        int x = 0;
-        int y = 0;
-        Random rand = new Random();
-        do{
-            x = rand.nextInt(3);
-            y = rand.nextInt(3);
-        }while(board[x][y] != 0);
-        board[x][y] = 2;
 
-        if(x == 0 && y == 0)
-        {
-            button1.setText("O");
-            button1.setDisable(true);
-        }
-        else if(x == 0 && y == 1){
-            button2.setText("O");
-            button2.setDisable(true);
-        }
-        else if(x == 0 && y == 2){
-            button3.setText("O");
-            button3.setDisable(true);
-        }
-        else if(x == 1 && y == 0){
-            button4.setText("O");
-            button4.setDisable(true);
-        }
-        else if(x == 1 && y == 1){
-            button5.setText("O");
-            button5.setDisable(true);
-        }
-        else if(x == 1 && y == 2){
-            button6.setText("O");
-            button6.setDisable(true);
-        }
-        else if(x == 2 && y == 0){
-            button7.setText("O");
-            button7.setDisable(true);
-        }
-        else if(x == 2 && y == 1){
-            button8.setText("O");
-            button8.setDisable(true);
-        }
-        else if(x == 2 && y == 2){
-            button9.setText("O");
-            button9.setDisable(true);
-        }
-    }
-    private void updateBoard(Button b){
-        int x = 0;
-        int y = 0;
-        switch (b.getId()){
-            case "button1":
-                x = 0;
-                y = 0;
-                break;
-            case "button2":
-                x = 0;
-                y = 1;
-                break;
-            case "button3":
-                x = 0;
-                y = 2;
-                break;
-            case "button4":
-                x = 1;
-                y = 0;
-                break;
-            case "button5":
-                x = 1;
-                y = 1;
-                break;
-            case "button6":
-                x = 1;
-                y = 2;
-                break;
-            case "button7":
-                x = 2;
-                y = 0;
-                break;
-            case "button8":
-                x = 2;
-                y = 1;
-                break;
-            case "button9":
-                x = 2;
-                y = 2;
-                break;
-        }
-        board[x][y] = 1;
-    }
+//    private void computerMove() {
+//        int x = 0;
+//        int y = 0;
+//        Random rand = new Random();
+//        do {
+//            x = rand.nextInt(3);
+//            y = rand.nextInt(3);
+//        } while (board[x][y] != 0);
+//        board[x][y] = 2;
+//
+////        if(x == 0 && y == 0)
+////        {
+////            button1.setText("O");
+////            button1.setDisable(true);
+////        }
+////        else if(x == 0 && y == 1){
+////            button2.setText("O");
+////            button2.setDisable(true);
+////        }
+////        else if(x == 0 && y == 2){
+////            button3.setText("O");
+////            button3.setDisable(true);
+////        }
+////        else if(x == 1 && y == 0){
+////            button4.setText("O");
+////            button4.setDisable(true);
+////        }
+////        else if(x == 1 && y == 1){
+////            button5.setText("O");
+////            button5.setDisable(true);
+////        }
+////        else if(x == 1 && y == 2){
+////            button6.setText("O");
+////            button6.setDisable(true);
+////        }
+////        else if(x == 2 && y == 0){
+////            button7.setText("O");
+////            button7.setDisable(true);
+////        }
+////        else if(x == 2 && y == 1){
+////            button8.setText("O");
+////            button8.setDisable(true);
+////        }
+////        else if(x == 2 && y == 2){
+////            button9.setText("O");
+////            button9.setDisable(true);
+////        }
+//    }
+
+    //    private void updateBoard(Button b){
+//        int x = 0;
+//        int y = 0;
+//        switch (b.getId()){
+//            case "button1":
+//                x = 0;
+//                y = 0;
+//
+//                break;
+//            case "button2":
+//                x = 0;
+//                y = 1;
+//                break;
+//            case "button3":
+//                x = 0;
+//                y = 2;
+//                break;
+//            case "button4":
+//                x = 1;
+//                y = 0;
+//                break;
+//            case "button5":
+//                x = 1;
+//                y = 1;
+//                break;
+//            case "button6":
+//                x = 1;
+//                y = 2;
+//                break;
+//            case "button7":
+//                x = 2;
+//                y = 0;
+//                break;
+//            case "button8":
+//                x = 2;
+//                y = 1;
+//                break;
+//            case "button9":
+//                x = 2;
+//                y = 2;
+//                break;
+//        }
+//        board[x][y] = 1;
+//    }
     private int filledButtonsCounter = 0;
 
 //    public void setPlayerSymbol(Button button) {
@@ -281,7 +333,7 @@ public class MainGameController implements Initializable {
                     filledButtonsCounter = 0;
                 });
                 gameOver = true;
-            } // O winner
+            } //O winner
             else if (line.equals("OOO")) {
                 winnerText.setText("O won!");
                 counterO++;
@@ -292,8 +344,7 @@ public class MainGameController implements Initializable {
                 });
                 gameOver = true;
             }
-           if(movesLeft == 0 &&!gameOver)
-            {
+            if (movesLeft == 0 && !gameOver) {
                 winnerText.setText("Draw");
                 gameOver = true;
             }
@@ -317,7 +368,7 @@ public class MainGameController implements Initializable {
 
     public void SwitchToProfile(ActionEvent event) throws IOException {
 
-       Parent  root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
