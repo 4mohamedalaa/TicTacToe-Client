@@ -11,19 +11,22 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 
-<Pane prefHeight="420.0" prefWidth="604.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.SignupController">
+<Pane prefHeight="402.0" prefWidth="604.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.SignupController">
     <children>
         <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
             <center>
-                <AnchorPane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+                <AnchorPane prefHeight="423.0" prefWidth="600.0" style="-fx-background-color: rgba(0,0,0,0.1);" BorderPane.alignment="CENTER">
                     <children>
-                  <ImageView fx:id="logo" disable="true" fitHeight="141.0" fitWidth="200.0" layoutX="211.0" layoutY="-17.0">
+                  <ImageView fx:id="logo" disable="true" fitHeight="111.0" fitWidth="158.0" layoutX="221.0" layoutY="-12.0">
                      <image>
                         <Image url="@logo.png" />
                      </image>
                   </ImageView>
-                  <VBox layoutX="193.0" layoutY="106.0" prefHeight="279.0" prefWidth="236.0" style="-fx-background-color: rgba(0,0,0,0.3);">
+                  <VBox layoutX="193.0" layoutY="106.0" prefHeight="279.0" prefWidth="236.0" style="-fx-background-color: rgba(255,255,255,0.1);">
                      <children>
                         <HBox alignment="CENTER" prefHeight="34.0" prefWidth="250.0" style="-fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;">
                            <children>
@@ -37,7 +40,7 @@
                         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="250.0" style="-fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;">
                            <children>
                               <FontAwesomeIconView fill="WHITE" glyphName="KEY" size="1.5em" />
-                              <TextField fx:id="password" promptText="password" style="-fx-background-color: transparent; -fx-prompt-text-fill: white;" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="password" editable="true" promptText="password" style="-fx-background-color: transparent; -fx-prompt-text-fill: white;" HBox.hgrow="ALWAYS" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -53,16 +56,79 @@
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </VBox.margin>
                         </HBox>
-                        <Button fx:id="Signup" mnemonicParsing="false" onAction="#SwitchToLogin" prefHeight="26.0" prefWidth="457.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="    Signup">
+                        <Button fx:id="Signup" mnemonicParsing="false" onAction="#SignupBtnAction" prefHeight="26.0" prefWidth="457.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="    Signup">
                            <graphic>
-                              <FontAwesomeIconView glyphName="CHECK" onDragDetected="#SwitchToLogin" size="1.5em" />
+                              <FontAwesomeIconView glyphName="CHECK" size="1.5em">
+                                 <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.8799999952316284" green="0.09679999947547913" blue="0.09679999947547913" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill></FontAwesomeIconView>
                            </graphic>
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="1.0" green="0.09019608050584793" blue="0.09019608050584793" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
                         </Button>
+                              <Button fx:id="switchToLogin" mnemonicParsing="false" onAction="#SwitchToLogin" opacity="0.72" prefHeight="46.0" prefWidth="239.0" style="-fx-background-color: transparent; -fx-font-weight: bold;" text="Already a member? Log-in" textFill="#fffbfb" />
                      </children>
                   </VBox>
+                  <ImageView fx:id="o1" fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="350.0">
+                     <image>
+                        <Image url="@CIRCLE.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="o2" fitHeight="49.0" fitWidth="49.0" layoutX="14.0" layoutY="298.0">
+                     <image>
+                        <Image url="@CIRCLE.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="o3" fitHeight="49.0" fitWidth="49.0" layoutX="14.0" layoutY="243.0">
+                     <image>
+                        <Image url="@CIRCLE.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="4.0" fx:id="x1">
+                     <image>
+                        <Image url="@CROSS.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="64.0" fx:id="x2">
+                     <image>
+                        <Image url="@CROSS.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="124.0" fx:id="x3">
+                     <image>
+                        <Image url="@CROSS.png" />
+                     </image>
+                  </ImageView>
                     </children>
                     <BorderPane.margin>
                         <Insets />
