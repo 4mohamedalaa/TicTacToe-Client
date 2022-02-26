@@ -7,6 +7,7 @@ import com.example.tictactoe.models.CurrentPlayerModel;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +18,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import com.example.tictactoe.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
@@ -26,9 +32,13 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.layout.VBox;
 
-
-public class ProfileController extends Application implements Initializable {
-
+public class ProfileController implements Initializable  {
+    @FXML
+    Button sendMsg;
+    @FXML
+    TextField txtF;
+    @FXML
+    public TextArea txtA;
     @FXML
     Label username;
     @FXML
@@ -97,8 +107,18 @@ public void init(){
         stage.show();
 
     }
-
     public void SwitchToMultiplayer(ActionEvent event) throws IOException {
+        Stage stage ;
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene;
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+        root = loader.load();
+        myControllerHandle2 = loader.getController();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        /*
         Stage stage;
         Scene scene;
         Parent root;
@@ -106,10 +126,9 @@ public void init(){
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.show();
+        stage.show();*/
 
     }
-
     public void logout(ActionEvent event) throws IOException {
         Stage stage;
         Scene scene;
@@ -153,6 +172,16 @@ public void init(){
         CurrentLoss.setText(CurrentPlayerModel.losses);
 
 
+    }
+    public void sendToAll( ){
+        //System.out.println("clicked");
+               String msg = txtF.getText();
+                if(msg != null ){
+                   // System.out.println("inside clicked ");
+                    System.out.println(CurrentPlayerModel.username);
+                    System.out.println(msg);
+                    ClientServerHandler.sendMessageForAll(msg, CurrentPlayerModel.username);
+                }
     }
 
     @Override
