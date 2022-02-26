@@ -24,7 +24,6 @@ public class LoginController {
     Button switchToSignUp;
     public static ProfileController myControllerHandle1;
 
-
     public void loginBtnAction(ActionEvent event) throws IOException {
         System.out.println("Pressed sign-in button");
         // If the fields are NOT empty
@@ -42,11 +41,23 @@ public class LoginController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please input text before trying to sign in");
             alert.show();
         }
+
         // Continue by switching scenes upon successful login
         if (CurrentPlayerModel.login) {
-            new ClientServerListener(); // Upon successful login, start a listener thread pointed at Server
-           // ClientServerHandler.sendInvitation(1); // Testing invitation system with static data
-            Stage stage ;
+            ClientServerListener clientServerListener = new ClientServerListener(); // Upon successful login, start a
+                                                                                    // listener thread pointed at Server
+
+            // Sleep for 1 second while we wait for updated-list from server -- Bug fix for
+            // Freezing GUI
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // ClientServerHandler.sendInvitation(1); // Testing invitation system with
+            // static data
+            Stage stage;
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene;
             Parent root;

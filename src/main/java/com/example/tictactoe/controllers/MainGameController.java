@@ -367,13 +367,13 @@ public class MainGameController implements Initializable {
     }
 
     public void SwitchToProfile(ActionEvent event) throws IOException {
-
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+
     public void sendToOne( ){
         //System.out.println("clicked");
         String msg = txtF.getText();

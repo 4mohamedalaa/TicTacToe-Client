@@ -1,5 +1,12 @@
 package com.example.tictactoe.models;
 
+import com.example.tictactoe.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+
+import java.util.EventListener;
+
 public class PlayerModel {
     private Integer id;
     private String username;
@@ -8,6 +15,7 @@ public class PlayerModel {
     private Integer score;
     private boolean online = false;
     private String hashedPassword;
+    private Button InviteBtn;
 
     public PlayerModel(){
         this.id = 0;
@@ -16,6 +24,7 @@ public class PlayerModel {
         this.score = 0;
         this.wins = 0;
         this.losses = 0;
+        this.InviteBtn=new Button("Invite");
     }
 
     public PlayerModel(Integer playerId, String playerUsername, Integer playerScore){
@@ -25,6 +34,7 @@ public class PlayerModel {
         this.online = false;
         this.losses = 0;
         this.wins = 0;
+
     }
 
     public PlayerModel(Integer playerId, Integer playerScore, String playerUsername, boolean playerStatus){
@@ -100,5 +110,18 @@ public class PlayerModel {
 
     public void setOnline(boolean online) {
         this.online = online;
+    }
+
+    public void setInviteBtn(Button button){this.InviteBtn = button; }
+
+    public Button getInviteBtn(){return InviteBtn;}
+
+    public void setInviteButtonHandler(){
+        this.InviteBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ClientServerHandler.sendInvitation(id);
+            }
+        });
     }
 }
