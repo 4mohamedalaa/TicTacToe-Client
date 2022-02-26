@@ -137,11 +137,11 @@
                         <Insets top="180.0" />
                      </padding>
                   </Label>
-                  <TextArea layoutX="-14.0" layoutY="127.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="259.0" prefWidth="200.0" />
+                  <TextArea fx:id="txtA" layoutX="-14.0" layoutY="127.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="259.0" prefWidth="200.0" />
                   <ButtonBar layoutX="-14.0" layoutY="383.0" prefHeight="40.0" prefWidth="200.0">
                      <buttons>
-                        <TextField maxWidth="500.0" prefHeight="26.0" style="-fx-background-color: LIGHTGREY;" />
-                        <Button fx:id="sendBtn" maxWidth="51.0" minWidth="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
+                        <TextField fx:id="txtF" maxWidth="500.0" prefHeight="26.0" style="-fx-background-color: LIGHTGREY;" />
+                        <Button fx:id="sendBtn" maxWidth="51.0" minWidth="30.0" mnemonicParsing="false" onAction="#sendToAll" prefHeight="25.0" prefWidth="51.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
                            <graphic>
                               <FontAwesomeIconView fill="#f5eeee" glyphName="SEND" selectionFill="#f5eeee">
                                  <font>
