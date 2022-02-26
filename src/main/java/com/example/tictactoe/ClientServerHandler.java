@@ -287,8 +287,6 @@ public class ClientServerHandler {
         responseObject.addProperty("message",msg);
         try {
             dataOutputStream.writeUTF(responseObject.toString());
-            //MultiPlayerController.appendTextChat(msg);
-            //MultiPlayerController.appendTextChat("\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
