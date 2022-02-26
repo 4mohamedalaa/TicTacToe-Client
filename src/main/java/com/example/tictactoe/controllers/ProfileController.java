@@ -1,5 +1,11 @@
 package com.example.tictactoe.controllers;
 
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.example.tictactoe.ClientServerHandler;
+import com.example.tictactoe.models.CurrentPlayerModel;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,13 +77,13 @@ public void init(){
 
 
 
-public void sendMsgForAll(){
-        String msg ;
-        if(txtF.getText() != null ){
-            msg = txtF.getText() ;
-            ClientServerHandler.sendMessageToAll(msg) ;
-        }
-    }
+//public void sendMsgForAll(){
+//        String msg ;
+//        if(txtF.getText() != null ){
+//            msg = txtF.getText() ;
+//            ClientServerHandler.sendMessageToAll(msg) ;
+//        }
+//    }
 
     public void SwitchToSinglePlayer(ActionEvent event) throws IOException {
         Stage stage;
@@ -96,7 +102,7 @@ public void sendMsgForAll(){
         Stage stage;
         Scene scene;
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("/fxml/multiPlayer.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/fxml/TablePlayers.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -125,8 +131,7 @@ public void sendMsgForAll(){
             transition1.play();
             try {
                 System.out.println("hallo");
-                VBox Tables = FXMLLoader.load((getClass().getResource("TablePlayers.fxml")));
-//                pane.getChildren().addAll();
+                VBox Tables = FXMLLoader.load(getClass().getResource("/fxml/TablePlayers.fxml"));
                 Drawer.setSidePane(Tables);
                 if(Drawer.isOpened()) {
                     Drawer.close();
