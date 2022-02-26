@@ -23,21 +23,35 @@
          <center>
             <AnchorPane prefHeight="347.0" prefWidth="407.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="188.0" layoutY="63.0" text="Username" textFill="#e4dcdc">
+                  <FontAwesomeIconView glyphName="USER" layoutX="165.0" layoutY="69.0" size="18" text="" />
+                  <Label layoutX="189.0" layoutY="54.0" text="Username" textFill="#e4dcdc">
                      <font>
                         <Font name="Book Antiqua Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="userTxt" layoutX="156.0" layoutY="88.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />
-      
-                  <Label layoutX="190.0" layoutY="151.0" text="Password" textFill="#fffefe">
+                  <TextField fx:id="userTxt"  layoutX="156.0" layoutY="81.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+                  <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="135.0" size="18" text="" />
+                  <Label layoutX="190.0" layoutY="120.0" text="Password" textFill="#e4dcdc">
                      <font>
-                        <Font name="Book Antiqua" size="14.0" />
+                        <Font name="Book Antiqua Bold" size="14.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="passwordField" layoutX="156.0" layoutY="174.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />
-                  <FontAwesomeIconView glyphName="USER" layoutX="163.0" layoutY="78.0" size="18" />
-                  <FontAwesomeIconView glyphName="KEY" layoutX="160.0" layoutY="166.0" size="18" text="" />
+                  <PasswordField fx:id="passwordField"  layoutX="158.0" layoutY="149.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+<!--                  <Label layoutX="188.0" layoutY="63.0" text="Username" textFill="#e4dcdc">-->
+<!--                     <font>-->
+<!--                        <Font name="Book Antiqua Bold" size="14.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <TextField fx:id="userTxt" layoutX="156.0" layoutY="88.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />-->
+
+<!--                  <Label layoutX="190.0" layoutY="151.0" text="Password" textFill="#fffefe">-->
+<!--                     <font>-->
+<!--                        <Font name="Book Antiqua" size="14.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <PasswordField fx:id="passwordField" layoutX="156.0" layoutY="174.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3;" />-->
+<!--                  <FontAwesomeIconView glyphName="USER" layoutX="163.0" layoutY="78.0" size="18" />-->
+<!--                  <FontAwesomeIconView glyphName="KEY" layoutX="160.0" layoutY="166.0" size="18" text="" />-->
                   <Button fx:id="loginBtn" layoutX="156.0" layoutY="231.0" lineSpacing="50.0" mnemonicParsing="false" onAction="#loginBtnAction" opacity="0.59" prefHeight="29.0" prefWidth="189.0" style="-fx-background-color: grey; -fx-background-radius: 5;" text="Log-in" textOverrun="CLIP" underline="true" wrapText="true">
                      <font>
                         <Font name="Book Antiqua Bold" size="16.0" />

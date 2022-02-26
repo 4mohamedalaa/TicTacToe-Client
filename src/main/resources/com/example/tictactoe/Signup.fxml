@@ -29,15 +29,15 @@
                                 <Font name="Book Antiqua Bold" size="14.0" />
                             </font>
                         </Label>
-                  <TextField fx:id="usrname" layoutX="156.0" layoutY="81.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
-                  <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="135.0" size="18" text="" />
-                  <Label layoutX="190.0" layoutY="120.0" text="Password" textFill="#e4dcdc">
-                     <font>
-                        <Font name="Book Antiqua Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <PasswordField fx:id="password" layoutX="158.0" layoutY="149.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
-                  <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="201.0" size="18" text="" />
+                        <TextField fx:id="usrname" layoutX="156.0" layoutY="81.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+                        <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="135.0" size="18" text="" />
+                        <Label layoutX="190.0" layoutY="120.0" text="Password" textFill="#e4dcdc">
+                            <font>
+                                <Font name="Book Antiqua Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <PasswordField fx:id="password" layoutX="158.0" layoutY="149.0" prefHeight="29.0" prefWidth="189.0" style="-fx-border-color: linear-gradient(to top right, #442dad, #650c13); -fx-border-width: 2; -fx-border-radius: 3; -fx-background-color: transparent;" />
+                        <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="201.0" size="18" text="" />
                         <FontAwesomeIconView glyphName="KEY" layoutX="162.0" layoutY="210.0" size="18" text="" />
 
                         <Label layoutX="192.0" layoutY="195.0" text="Confirm password" textFill="#fffefe">
