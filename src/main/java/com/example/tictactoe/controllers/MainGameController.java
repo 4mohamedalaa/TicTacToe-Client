@@ -1,5 +1,6 @@
 package com.example.tictactoe.controllers;
 
+import com.example.tictactoe.models.CurrentPlayerModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -26,6 +29,12 @@ public class MainGameController implements Initializable {
     @FXML
     public Button mute;
     public ImageView myImage;
+    @FXML
+    public Button send;
+    @FXML
+    public TextArea txtA;
+    @FXML
+    public TextField txtF;
     @FXML
     private Button button1;
 
@@ -313,6 +322,16 @@ public class MainGameController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    public void sendToOne( ){
+        //System.out.println("clicked");
+        String msg = txtF.getText();
+        if(msg != null ){
+            // System.out.println("inside clicked ");
+            System.out.println(CurrentPlayerModel.username);
+            System.out.println(msg);
+            ClientServerHandler.sendMessageToOne(msg, CurrentPlayerModel.username);
+        }
     }
 
 }

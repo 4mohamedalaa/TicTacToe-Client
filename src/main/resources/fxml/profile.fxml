@@ -1,36 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="588.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.ProfileController">
+<AnchorPane prefHeight="588.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.ProfileController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="867.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
          <left>
-            <AnchorPane prefHeight="499.0" prefWidth="145.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="518.0" prefWidth="182.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="121.0" fitWidth="131.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="193.0" fitWidth="176.0" layoutX="6.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../com/example/tictactoe/player1.png" />
+                        <Image url="@../images/avatar2.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="47.0" layoutY="258.0" text="score" textFill="#fcf9f9" />
-                  <Label layoutX="28.0" layoutY="184.0" text="player name" textFill="#fcf3f3" />
+                  <Label layoutX="77.0" layoutY="258.0" text="score" textFill="#fcf9f9" />
+                  <Label layoutX="58.0" layoutY="196.0" text="player name" textFill="#fcf3f3" />
                </children>
             </AnchorPane>
          </left>
@@ -110,13 +100,13 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextArea prefHeight="157.0" prefWidth="209.0" />
+                  <TextArea fx:id="txtA" prefHeight="157.0" prefWidth="209.0" />
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                      <buttons>
-                        <TextField maxWidth="500.0" prefHeight="26.0" style="-fx-background-color: LIGHTGREY;" />
-                        <Button maxWidth="25.0" minWidth="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
+                        <TextField fx:id="txtF" maxWidth="500.0" prefHeight="26.0" style="-fx-background-color: LIGHTGREY;" />
+                        <Button fx:id="sendMsg" maxWidth="25.0" minWidth="30.0" mnemonicParsing="false" onAction="#sendToAll" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
                            <graphic>
-                              <FontAwesomeIconView fill="#f5eeee" glyphName="SEND" selectionFill="#f5eeee">
+                              <FontAwesomeIconView fill="#f5eeee" glyphName="SEND" selectionFill="#f5eeee" text="">
                                  <font>
                                     <Font size="23.0" />
                                  </font>

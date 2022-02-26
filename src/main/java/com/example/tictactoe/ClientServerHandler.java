@@ -20,12 +20,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClientServerHandler {
-    private static final String SERVER_ADDRESS = "3.70.169.200";
+    //private static final String SERVER_ADDRESS = "3.70.169.200";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
+    //private static final String SERVER_PORT = "5001";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
     public static Socket socket = connectSocket();
-
     // Insure we're connected to the server's socket
     public static Socket connectSocket() {
         if (socket == null || socket.isClosed()) {
@@ -39,7 +40,6 @@ public class ClientServerHandler {
         }
         return socket;
     }
-
     public static void acceptInvitation(){
         connectSocket();
         JsonObject requestObject = new JsonObject();
@@ -54,7 +54,6 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
-
     // Takes the PlayerModel of the user you'd like to invite as input
     public static void sendInvitation(PlayerModel opponentPlayer){
         connectSocket();
@@ -71,7 +70,6 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
-
     // Enabled over-loading, can also send the raw opponent ID
     public static void sendInvitation(int opponentPlayerId){
         connectSocket();
@@ -89,7 +87,6 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
-
     // Called to get currently online players list
     public static ArrayList<PlayerModel> getOnlinePlayers() {
         ArrayList<PlayerModel> listOfPlayers = new ArrayList<PlayerModel>();
@@ -123,7 +120,6 @@ public class ClientServerHandler {
         }
         return listOfPlayers;
     }
-
     // Called to get currently offline players list
     public static ArrayList<PlayerModel> getOfflinePlayers() {
         ArrayList<PlayerModel> listOfPlayers = new ArrayList<PlayerModel>();
@@ -156,7 +152,6 @@ public class ClientServerHandler {
         }
         return listOfPlayers;
     }
-
     // Called when user wants to make a new account
     public static boolean signUp(String userName, String password) {
         // Declare variables with validated username & hashed password
@@ -191,7 +186,6 @@ public class ClientServerHandler {
         }
         return validSignUp;
     }
-
     // Called to sign in a user into server
     public static boolean signIn(String userName, String password) {
         String hashedPassword = hashPassword(password);
@@ -226,7 +220,6 @@ public class ClientServerHandler {
         }
         return CurrentPlayerModel.login;
     }
-
     // Called to sign a user out of the server
     public static void signOut() {
         JsonObject signOutPayload = new JsonObject();
@@ -238,7 +231,6 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
-
     private static String validateUserName(String input) {
         // Regex to validate usernames -- standardized for no ._ combinations or at
         // start or end of string
@@ -250,7 +242,6 @@ public class ClientServerHandler {
         } else
             return null;
     }
-
     // Hash a user's password
     private static String hashPassword(String input) {
         try {
@@ -272,7 +263,58 @@ public class ClientServerHandler {
             throw new RuntimeException(e);
         }
     }
-//    boolean running = true;
+    //@Sambo
+    //sending message in global chat logic
+    public static void sendMessageForAll(String msg,String username){
+        JsonObject responseObject = new JsonObject();
+        responseObject.addProperty("type","sendmessageforall");
+        responseObject.addProperty("username",username);
+        responseObject.addProperty("message",msg);
+        try {
+
+            dataOutputStream.writeUTF(responseObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //@Sambo
+    //sending message in global chat logic
+    public static void sendMessageToOne(String msg ,String username){
+        JsonObject responseObject = new JsonObject();
+        responseObject.addProperty("type","sendmessageforone");
+        responseObject.addProperty("senderusername",username);
+        //responseObject.addProperty("recieverid", Integer.parseInt(CurentPlayerModel.opponentId));
+        responseObject.addProperty("message",msg);
+        try {
+            dataOutputStream.writeUTF(responseObject.toString());
+            //MultiPlayerController.appendTextChat(msg);
+            //MultiPlayerController.appendTextChat("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //    boolean running = true;
 //    Thread thread;
 //    public void ServerConnector(){
 //        thread = new Thread(()->{

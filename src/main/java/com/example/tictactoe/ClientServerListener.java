@@ -1,11 +1,13 @@
 package com.example.tictactoe;
 
+import com.example.tictactoe.controllers.ProfileController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.DataInputStream;
@@ -14,13 +16,16 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Optional;
 
+import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
+import static com.example.tictactoe.controllers.ProfileController.myControllerHandle2;
+
+
 public class ClientServerListener extends Thread {
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
     private static Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
-
     public ClientServerListener(){
         setDaemon(true);
         start();
@@ -87,7 +92,7 @@ public class ClientServerListener extends Thread {
                             @Override
                             public void run() {
                                 boolean playAgainstPC = false;
-//                                System.out.println("Your invitation was accepted, joining game ID: " + CurrentPlayerModel.gameId.toString());
+//                              System.out.println("Your invitation was accepted, joining game ID: " + CurrentPlayerModel.gameId.toString());
                                 System.out.println("Your accepted invitation is: " + jsonObject);
                             }
                         });
@@ -98,6 +103,32 @@ public class ClientServerListener extends Thread {
                         break;
                     case "update-list":
                         System.out.println("received update-list");
+                        break;
+
+
+                        //@samboooo
+                    //recieved Json from server to print message from one client to only another opponent one
+                    //need controller of game board to be finished
+                    case"receivemessagefromone":
+                        String senderUserName =  jsonObject.get("senderusername").toString();
+                        String msg = jsonObject.get("message").toString();
+                        String message1 = senderUserName.concat(" : ").concat(msg);
+                        myControllerHandle2.txtA.appendText(message1);
+                        myControllerHandle2.txtA.appendText("\n");
+                        break;
+
+                    //@samboooo
+                    //recieved Json from server to print message from one client to all online players
+                    case"allreceivemessagefromone":
+                        String name = jsonObject.get("senderusername").toString();
+                        String message2 = jsonObject.get("message").toString();
+                        String msgtoProfile = name.concat(" : ").concat(message2).concat("\n") ;
+                        //System.out.println("********************");
+                        //System.out.println(jsonObject);
+                        //System.out.println("********************");
+                        myControllerHandle1.txtA.appendText(msgtoProfile);
+
+
                         break;
                     default:
                         System.out.println("Invalid server request");
