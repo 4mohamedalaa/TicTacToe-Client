@@ -41,10 +41,18 @@ public class LoginController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please input text before trying to sign in");
             alert.show();
         }
+
         // Continue by switching scenes upon successful login
         if (CurrentPlayerModel.login) {
-            new ClientServerListener(); // Upon successful login, start a listener thread pointed at Server
-            ClientServerHandler.sendInvitation(1); // Testing invitation system with static data
+            ClientServerListener clientServerListener = new ClientServerListener(); // Upon successful login, start a listener thread pointed at Server
+
+            // Sleep for 1 second while we wait for updated-list from server -- Bug fix for Freezing GUI
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             Stage stage;
             Scene scene;
             Parent root;

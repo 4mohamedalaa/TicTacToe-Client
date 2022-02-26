@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -20,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClientServerHandler {
-    private static final String SERVER_ADDRESS = "3.70.169.200";
+    private static final String SERVER_ADDRESS = "18.197.17.158";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
@@ -101,27 +102,7 @@ public class ClientServerHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            JsonObject resOfflinePlayers = JsonParser.parseString(dataInputStream.readUTF()).getAsJsonObject();
-            // Add Offline players to a list of PlayerModel objects then add them to a
-            // hashmap
-            for (JsonElement jsonElement : resOfflinePlayers.get("onlineplayers").getAsJsonArray()) {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                // Create a player model, add details from JsonObject into newly created Player
-                // object
-                PlayerModel player = new PlayerModel(
-                        jsonObject.get("id").getAsInt(),
-                        jsonObject.get("score").getAsInt(),
-                        jsonObject.get("username").getAsString(),
-                        true);
-                listOfPlayers.add(player);
-                System.out.println(player.getUsername());
-                System.out.println(player.isOnline());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return listOfPlayers;
+        return ClientServerListener.onlinePlayersList;
     }
 
     // Called to get currently offline players list
@@ -135,26 +116,7 @@ public class ClientServerHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            JsonObject resOfflinePlayers = JsonParser.parseString(dataInputStream.readUTF()).getAsJsonObject();
-            // Add Offline players to a list of PlayerModel objects then add them to a
-            // hashmap
-            for (JsonElement jsonElement : resOfflinePlayers.get("offlineplayers").getAsJsonArray()) {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                System.out.println(jsonObject);
-                // Create a player model, add details from JsonObject into newly created Player
-                // object
-                PlayerModel player = new PlayerModel(
-                        jsonObject.get("id").getAsInt(),
-                        jsonObject.get("username").getAsString(),
-                        jsonObject.get("score").getAsInt());
-                listOfPlayers.add(player);
-                System.out.println(player.getUsername());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return listOfPlayers;
+        return ClientServerListener.offlinePlayersList;
     }
 
     // Called when user wants to make a new account

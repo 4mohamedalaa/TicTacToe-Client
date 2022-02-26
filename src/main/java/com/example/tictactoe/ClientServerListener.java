@@ -1,6 +1,10 @@
 package com.example.tictactoe;
 
+import com.example.tictactoe.controllers.LoginController;
 import com.example.tictactoe.models.CurrentPlayerModel;
+import com.example.tictactoe.models.PlayerModel;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Platform;
@@ -12,6 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ClientServerListener extends Thread {
@@ -20,6 +25,9 @@ public class ClientServerListener extends Thread {
     private static Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
+    // Created ArrayLists to track offline and online players in Real-Time
+    public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
+    public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
 
     public ClientServerListener(){
         setDaemon(true);
@@ -43,7 +51,9 @@ public class ClientServerListener extends Thread {
         super.run();
         while(true){
             try {
-                JsonObject jsonObject = JsonParser.parseString(dataInputStream.readUTF()).getAsJsonObject();
+                String serverMsg = dataInputStream.readUTF();
+                if(serverMsg == null) throw new IOException();
+                JsonObject jsonObject = JsonParser.parseString(serverMsg).getAsJsonObject();
                 String type = jsonObject.get("type").getAsString();
                 System.out.println(type);
                 switch (type){
@@ -93,16 +103,56 @@ public class ClientServerListener extends Thread {
                         });
                         break;
                     case "playermove":
+
                         break;
                     case "opponentmove":
                         break;
+                    case "onlineplayers":
+
+                        break;
+                    case "offlineplayers":
+                        break;
                     case "update-list":
+                        if(onlinePlayersList != null){
+                            onlinePlayersList.clear();
+                        }
+                        for(JsonElement responsePlayerObject : jsonObject.getAsJsonArray("onlineplayers")){
+                            JsonObject offlinePlayerObject = responsePlayerObject.getAsJsonObject();
+                            // Instantiate a PlayerModel for each object in response
+                            PlayerModel newlyOnlinePlayer = new PlayerModel(
+                                    offlinePlayerObject.get("id").getAsInt(),
+                                    offlinePlayerObject.get("username").getAsString(),
+                                    offlinePlayerObject.get("score").getAsInt()
+                            );
+                            onlinePlayersList.add(newlyOnlinePlayer);
+                        }
+
+                        if(offlinePlayersList != null){
+                            offlinePlayersList.clear();
+                        }
+                        for (JsonElement responsePlayerObject : jsonObject.get("offlineplayers").getAsJsonArray()) {
+                            JsonObject offlinePlayerObject = responsePlayerObject.getAsJsonObject();
+//                            System.out.println(jsonObject);
+                            // Create a player model, add details from JsonObject into newly created Player
+                            // object
+                            PlayerModel newlyOfflinePlayer = new PlayerModel(
+                                    offlinePlayerObject.get("id").getAsInt(),
+                                    offlinePlayerObject.get("username").getAsString(),
+                                    offlinePlayerObject.get("score").getAsInt());
+                            offlinePlayersList.add(newlyOfflinePlayer);
+                        }
                         System.out.println("received update-list");
+                        // Could create a thread to keep lists updated here of both offline and online players
                         break;
                     default:
                         System.out.println("Invalid server request");
                 }
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
