@@ -1,5 +1,8 @@
 package com.example.tictactoe.controllers;
 
+import animatefx.animation.BounceInDown;
+import animatefx.animation.BounceInUp;
+import animatefx.animation.FadeIn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +36,8 @@ public class StarterController implements Initializable {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+    new BounceInUp(root).play();
+
   }
 
   public void SwitchToLogin(ActionEvent event) throws IOException {
@@ -44,6 +49,8 @@ public class StarterController implements Initializable {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+    new BounceInDown(root).play();
+
   }
 
   @Override
