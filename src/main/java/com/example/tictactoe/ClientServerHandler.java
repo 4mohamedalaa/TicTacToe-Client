@@ -317,6 +317,8 @@ public class ClientServerHandler {
     public static void sendFinishingObj(JsonObject gameFinish) {
         try {
             dataOutputStream.writeUTF(gameFinish.toString());
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
     public static void passMoveToOponnent(JsonObject boardUpdate) {
