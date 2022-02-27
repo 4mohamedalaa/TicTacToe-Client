@@ -1,6 +1,5 @@
 package com.example.tictactoe;
 
-import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.controllers.ProfileController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
@@ -25,17 +24,18 @@ import static com.example.tictactoe.controllers.LoginController.myControllerHand
 //import static com.example.tictactoe.controllers.ProfileController.myControllerHandle2;
 
 public class ClientServerListener extends Thread {
-    private static DataInputStream dataInputStream;
-    private static DataOutputStream dataOutputStream;
-    private static Socket socket;
+    public  DataInputStream dataInputStream;
+    public  DataOutputStream dataOutputStream;
+    public  Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
     // Created ArrayLists to track offline and online players in Real-Time
     public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
-    public static MultiGameController multicontrollerhandler;
+    public boolean running = true ;
+    private static ArrayList<javafx.scene.control.Button> buttons;
 
-    public ClientServerListener(){
+    public ClientServerListener() {
         setDaemon(true);
         start();
     }
@@ -55,7 +55,7 @@ public class ClientServerListener extends Thread {
     @Override
     public void run() {
         super.run();
-        while (true) {
+        while (running) {
             try {
                 String serverMsg = dataInputStream.readUTF();
                 if (serverMsg == null)
@@ -64,9 +64,6 @@ public class ClientServerListener extends Thread {
                 String type = jsonObject.get("type").getAsString();
                 System.out.println(type);
                 switch (type) {
-                    case "oponnetmove" :
-                        multicontrollerhandler.opponent_action(jsonObject);
-                        break;
                     case "invitationreceived":
                         CurrentPlayerModel.opponentId = jsonObject.get("sender").getAsInt();
                         CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
@@ -185,7 +182,8 @@ public class ClientServerListener extends Thread {
                         System.out.println("Invalid server request");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client Signed Out");
+                //e.printStackTrace();
             }
             try {
                 sleep(1000);

@@ -23,6 +23,7 @@ public class LoginController {
     @FXML
     Button switchToSignUp;
     public static ProfileController myControllerHandle1;
+    public static ClientServerListener clientServerListener;
 
     public void loginBtnAction(ActionEvent event) throws IOException {
         System.out.println("Pressed sign-in button");
@@ -44,7 +45,7 @@ public class LoginController {
 
         // Continue by switching scenes upon successful login
         if (CurrentPlayerModel.login) {
-            ClientServerListener clientServerListener = new ClientServerListener(); // Upon successful login, start a
+             clientServerListener = new ClientServerListener(); // Upon successful login, start a
                                                                                     // listener thread pointed at Server
 
             // Sleep for 1 second while we wait for updated-list from server -- Bug fix for

@@ -72,7 +72,6 @@ Button BackBtn;
         List<Button> buttonInvite =new ArrayList<>();
 
 
-
         for(int i=0; i<OnPlayers.size(); i++) {
             String OnName = OnPlayers.get(i).getUsername();
             Integer OnWins = OnPlayers.get(i).getWins();
