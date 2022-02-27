@@ -56,6 +56,34 @@
             <version>4.7.0-9.1.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.xdty.media</groupId>
+            <artifactId>mediaplayer</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.wseemann</groupId>
+            <artifactId>FFmpegMediaPlayer</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ravenfeld</groupId>
+            <artifactId>easyvideoplayer</artifactId>
+            <version>1.5.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>17.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>17.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
