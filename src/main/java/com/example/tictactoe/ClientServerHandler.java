@@ -318,6 +318,9 @@ public class ClientServerHandler {
         try {
             dataOutputStream.writeUTF(gameFinish.toString());
         }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
     public static void passMoveToOponnent(JsonObject boardUpdate) {
         try {

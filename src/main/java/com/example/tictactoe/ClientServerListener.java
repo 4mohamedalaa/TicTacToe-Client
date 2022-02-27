@@ -1,38 +1,29 @@
 package com.example.tictactoe;
 
+
+
 import com.example.tictactoe.controllers.MultiGameController;
-import com.example.tictactoe.controllers.ProfileController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 
-import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
-//import static com.example.tictactoe.controllers.ProfileController.myControllerHandle2;
 
 public class ClientServerListener extends Thread {
     public  DataInputStream dataInputStream;
@@ -40,13 +31,13 @@ public class ClientServerListener extends Thread {
     public  Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
-    public static MultiGameController multicontrollerhandler;
+   //public static MultiGameController multicontrollerhandler;
     // Created ArrayLists to track offline and online players in Real-Time
     public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
     public boolean running = true ;
     private static ArrayList<javafx.scene.control.Button> buttons;
-    public static MultiGameController myControllerHandle2;
+    public static MultiGameController myControllerHandle2 = new MultiGameController();
 
     public ClientServerListener() {
         setDaemon(true);
@@ -131,7 +122,7 @@ public class ClientServerListener extends Thread {
                             }
                         });
                         break;
-                    case "yourinvetationaccepted":
+                    case "yourinvetationaccepted": // "acceptinvetation"
                         int accepterId = jsonObject.get("whoaccepted").getAsInt();
                         CurrentPlayerModel.opponentId = Integer.valueOf(String.valueOf(accepterId));
                         CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
@@ -208,18 +199,19 @@ public class ClientServerListener extends Thread {
                         String senderUserName = jsonObject.get("senderusername").toString();
                         String msg = jsonObject.get("message").toString();
                         String message1 = senderUserName.concat(" : ").concat(msg);
-                        myControllerHandle2.txtA.appendText(message1);
-                        myControllerHandle2.txtA.appendText("\n");
+                        //myControllerHandle2.txtA.appendText(message1);
+                        //myControllerHandle2.txtA.appendText("\n");
                         break;
 
                     // @samboooo
                     // recieved Json from server to print message from one client to all online
                     // players
 
+                    /*
                     case "oponnetmove" :
                         multicontrollerhandler.opponent_action(jsonObject);
                         break;
-
+                    */
                     case "allreceivemessagefromone":
                         String name = jsonObject.get("senderusername").toString();
                         String message2 = jsonObject.get("message").toString();
@@ -227,7 +219,7 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
-                        myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
+                       // myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
 
                         break;
                     case "game_record":

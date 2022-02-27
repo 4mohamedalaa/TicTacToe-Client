@@ -7,15 +7,20 @@ import com.jfoenix.controls.JFXButton;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class MultiGameController extends Application {
+import static com.example.tictactoe.ClientServerListener.myControllerHandle2;
+
+public class MultiGameController implements Initializable {
     public Button button6;
     public Button button2;
     public Button button3;
@@ -38,8 +43,8 @@ public class MultiGameController extends Application {
     public TextField txtF;
     public TextArea txtA;
     protected  Button record;
-    private final Stage stage;
-    private final ArrayList<Button> btns;
+    private final Stage stage = new Stage();
+    private final ArrayList<Button> btns=  new ArrayList<>();
     private boolean opponentsTurn ;
     private boolean currentplayerturn;
     private int[] marks = {0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -48,25 +53,28 @@ public class MultiGameController extends Application {
     private int moves;
     private int gameID;
 
-    public MultiGameController(ArrayList<Button> btns) {
+   /* public MultiGameController(ArrayList<Button> btns) {
         this.btns = btns;
         stage = null;
     }
-
-
+    public MultiGameController() {
+        stage = null;
+        this.btns = null;
+    }*/
     @Override
-    public void start(Stage stage) throws Exception {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         gameID= CurrentPlayerModel.gameId;
         System.out.println("**********************");
         System.out.println("inside game board");
         System.out.println("**********************");
-        stage.setOnCloseRequest((e)->{
-            JsonObject closingObj = new JsonObject();
-            closingObj.addProperty("type","client_close_while_playing");
-            closingObj.addProperty("opponentId", CurrentPlayerModel.opponentId);
-            ClientServerHandler.close(closingObj);
-        });
+        //
+        System.out.println("assign buttons for this btn array");
+        btns.add(button1);btns.add(button2);btns.add(button3);
+        btns.add(button4);btns.add(button5);btns.add(button6);
+        btns.add(button7);btns.add(button8);btns.add(button9);
+        //
         currentplayerturn=CurrentPlayerModel.playerTurn;
+        System.out.println("-----------------------------------");
         for (Button bt : btns) {
             bt.setOnAction(event -> {
                 if (CurrentPlayerModel.allowFire){
@@ -77,7 +85,6 @@ public class MultiGameController extends Application {
                     if (!bt.isDisable() && !gameEnded) {
                         bt.setText(getPlayer());
                         bt.setDisable(true);
-
                         int sign = (bt.getText().equals("X")) ? 8 : 1;
                         toggleTurns();
                         marks[index] = sign;
@@ -96,7 +103,18 @@ public class MultiGameController extends Application {
             });
 
         }
+        System.out.println("-----------------------------------");
+        myControllerHandle2.stage.setOnCloseRequest((e)->{
+            JsonObject closingObj = new JsonObject();
+            closingObj.addProperty("type","client_close_while_playing");
+            closingObj.addProperty("opponentId", CurrentPlayerModel.opponentId);
+            ClientServerHandler.close(closingObj);
+        });
     }
+
+
+
+
     public String getPlayer() {
         return playerMark;
     }
@@ -126,7 +144,7 @@ public class MultiGameController extends Application {
                     founded = true;
                     Button[] winningTiles = {btns.get(tile), btns.get(tile + 1), btns.get(tile + 2)};
                     showWinningTiles(winningTiles);
-//                    ShowWinDialog();
+                    ShowWinDialog();
 
                 }
             }
@@ -279,7 +297,46 @@ public class MultiGameController extends Application {
             }
         };
     }
+    public void restartGame(ActionEvent event) {
+    }
+    public void displayImage(ActionEvent event) {
+    }
+    public void sendToOne(ActionEvent event) {
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 import com.example.tictactoe.*;
@@ -575,7 +632,7 @@ public class MultiGameController implements Initializable {
 
 
 
-
+/*
 
 
     private int filledButtonsCounter = 0;
@@ -605,6 +662,7 @@ public class MultiGameController implements Initializable {
                 ();
     }
 
+*/
 
 
 
@@ -665,13 +723,9 @@ public class MultiGameController implements Initializable {
 
 
 
-
-
+/*
 
     public void sendToOne( ){
-
-//System.out.println
-//        ("clicked");
         String msg = txtF.getText();
         if(msg != null ){
             // System.out.println("inside clicked ");
@@ -684,3 +738,4 @@ public class MultiGameController implements Initializable {
     public void displayImage(ActionEvent event) {
     }
 }
+*/
