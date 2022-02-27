@@ -320,9 +320,6 @@ public class ClientServerHandler {
         }catch (IOException e){
             e.printStackTrace();
         }
-        catch(IOException e){
-            System.out.println(e.getMessage());
-        }
     }
     public static void passMoveToOponnent(JsonObject boardUpdate) {
         try {
