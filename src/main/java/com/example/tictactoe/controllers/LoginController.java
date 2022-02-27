@@ -1,5 +1,6 @@
 package com.example.tictactoe.controllers;
 
+import com.example.tictactoe.models.CurrentPlayerModel;
 import animatefx.animation.BounceInLeft;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -43,6 +44,9 @@ public class LoginController implements Initializable {
     ImageView x2;
     @FXML
     ImageView x3;
+
+    public static ProfileController myControllerHandle1;
+    public static ClientServerListener clientServerListener;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,7 +104,6 @@ public class LoginController implements Initializable {
         if (CurrentPlayerModel.login) {
             clientServerListener = new ClientServerListener(); // Upon successful login, start a
                                                                // listener thread pointed at Server
-
             // Sleep for 1 second while we wait for updated-list from server -- Bug fix for
             // Freezing GUI
             try {

@@ -23,7 +23,6 @@ public class StarterController implements Initializable {
 
   @FXML
   public Button Login;
-
   @FXML
   public Button Signup;
 
@@ -37,7 +36,6 @@ public class StarterController implements Initializable {
     stage.setScene(scene);
     stage.show();
     new BounceInUp(root).play();
-
   }
 
   public void SwitchToLogin(ActionEvent event) throws IOException {
