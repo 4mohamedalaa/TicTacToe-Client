@@ -72,7 +72,6 @@ public class LoginController {
 
         }
     }
-
     public void SwitchToSignUp(ActionEvent event) throws IOException {
         Stage stage;
         Scene scene;

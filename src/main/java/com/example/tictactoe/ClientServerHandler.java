@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+//import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
 import com.google.gson.JsonArray;
@@ -24,10 +25,12 @@ import static com.example.tictactoe.controllers.LoginController.clientServerList
 
 public class ClientServerHandler {
     private static final String SERVER_ADDRESS = "18.197.17.158";
+    //private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
     public static Socket socket = connectSocket();
+    private static ArrayList<javafx.scene.control.Button> buttons;
 
     // Insure we're connected to the server's socket
     public static Socket connectSocket() {
@@ -264,7 +267,6 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
-
     // @Sambo
     // sending message in global chat logic
     public static void sendMessageToOne(String msg, String username) {
@@ -280,6 +282,7 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
+    //@Sambo
 
     public static void close(JsonObject closingObj) {
 
@@ -303,7 +306,11 @@ public class ClientServerHandler {
             requestObject.addProperty("game_id",CurrentPlayerModel.gameId);
             requestObject.addProperty("position",position);
             requestObject.addProperty("sign",sign);
-            System.out.println(position);
+            System.out.println("position : "+position);
+            System.out.println("sign : "+sign);
+            System.out.println("from inside play function :");
+            System.out.println("game id : "+CurrentPlayerModel.gameId);
+            System.out.println("opponent id : "+CurrentPlayerModel.opponentId);
             try {
                 dataOutputStream.writeUTF(requestObject.toString());
             } catch (IOException e) {
@@ -329,6 +336,20 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
+
+
+    /*public static void opponentsMove(int position) {
+        System.out.println("opponent"+position);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                CurrentPlayerModel.allowFire = true;
+                buttons.get(position).fire();
+                //myControllerHandle2.btns.get(position).setText("X");
+               CurrentPlayerModel.playerTurn=true;
+            }
+        });
+    }*/
 
     // boolean running = true;
     // Thread thread;

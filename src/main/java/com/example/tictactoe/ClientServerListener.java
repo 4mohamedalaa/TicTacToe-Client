@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.DataInputStream;
@@ -31,13 +33,15 @@ public class ClientServerListener extends Thread {
     public  Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
-   //public static MultiGameController multicontrollerhandler;
+   public static MultiGameController multicontrollerhandler;
     // Created ArrayLists to track offline and online players in Real-Time
     public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
     public boolean running = true ;
     private static ArrayList<javafx.scene.control.Button> buttons;
-    public static MultiGameController myControllerHandle2 = new MultiGameController();
+    public static MultiGameController guest = new MultiGameController();
+    public static MultiGameController host = new MultiGameController();
+
 
     public ClientServerListener() {
         setDaemon(true);
@@ -107,10 +111,22 @@ public class ClientServerListener extends Thread {
                                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
                                             try {
                                                 root = loader.load();
-                                                myControllerHandle2 = loader.getController();
+                                                guest = loader.getController();
+                                                System.out.println(guest);
+                                                //myControllerHandle2.player2Name.setText(CurrentPlayerModel.username);
+                                                System.out.println("inside invitation received");//sambo sending to said
+                                                System.out.println("host : " +CurrentPlayerModel.username);
+                                                System.out.println("guest : "+CurrentPlayerModel.opponentUsername);
                                                 scene = new Scene(root);
                                                 stage.setScene(scene);
+                                                System.out.println();
                                                 stage.show();
+                                                guest.player2Name.setText(CurrentPlayerModel.opponentUsername) ;
+                                                guest.player2Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                                guest.player2Name.setStyle("-fx-background-color: green");
+                                                guest.player1Name.setText(CurrentPlayerModel.username);
+                                                guest.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                                guest.player1Name.setStyle("-fx-background-color: green");
                                             } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
@@ -128,6 +144,8 @@ public class ClientServerListener extends Thread {
                         CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
                         CurrentPlayerModel.playerTurn = false;
                         CurrentPlayerModel.mySign = "O";
+                        CurrentPlayerModel.username = jsonObject.get("accptedname").getAsString();
+                        CurrentPlayerModel.opponentUsername = jsonObject.get("acceptername").getAsString() ;
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
@@ -139,25 +157,27 @@ public class ClientServerListener extends Thread {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
                                 try {
                                     root = loader.load();
-                                    myControllerHandle2 = loader.getController();
+                                    host = loader.getController();
+                                    System.out.println(host);
+                                   // myControllerHandle2.player1Name.setText(CurrentPlayerModel.username);
+                                    System.out.println("inside invitation accept");
+                                    System.out.println("host : " +CurrentPlayerModel.username);
+                                    System.out.println("guest : "+CurrentPlayerModel.opponentUsername);
                                     scene = new Scene(root);
                                     stage.setScene(scene);
                                     stage.show();
+                                    host.player2Name.setText(CurrentPlayerModel.username) ;
+                                    host.player2Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                    host.player2Name.setStyle("-fx-background-color: green");
+                                    host.player1Name.setText(CurrentPlayerModel.opponentUsername);
+                                    host.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                    host.player1Name.setStyle("-fx-background-color: green");
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
                         });
                         break;
-                    case "playermove":
-
-                        break;
-//                    case "onlineplayers":
-//
-//                        break;
-//                    case "offlineplayers":
-//
-//                        break;
                     case "update-list":
                         if (onlinePlayersList != null) {
                             onlinePlayersList.clear();
@@ -212,6 +232,10 @@ public class ClientServerListener extends Thread {
                         multicontrollerhandler.opponent_action(jsonObject);
                         break;
                     */
+                    case "oponnetmove" :
+                        int position=jsonObject.get("position").getAsInt();
+                        MultiGameController.opponentsMove(position);
+                        break;
                     case "allreceivemessagefromone":
                         String name = jsonObject.get("senderusername").toString();
                         String message2 = jsonObject.get("message").toString();
