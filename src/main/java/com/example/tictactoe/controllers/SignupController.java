@@ -1,8 +1,9 @@
-package com.example.tictactoe;
+package com.example.tictactoe.controllers;
 
 //
 import animatefx.animation.*;
 //import animatefx.animation.BounceInUp;
+import com.example.tictactoe.ClientServerHandler;
 import javafx.event.ActionEvent;
 import javafx.animation.*;
 //import javafx.animation.Duration;
@@ -13,10 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -29,9 +27,9 @@ public class SignupController implements Initializable {
     @FXML
     TextField usrname;
     @FXML
-    TextField password;
+    PasswordField password;
     @FXML
-    TextField cpassword;
+    PasswordField cpassword;
     @FXML
     Button Signup;
     @FXML
