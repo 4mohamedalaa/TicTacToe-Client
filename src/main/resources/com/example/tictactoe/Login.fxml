@@ -22,7 +22,7 @@
          <center>
             <AnchorPane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fx:id="logo" disable="true" fitHeight="141.0" fitWidth="200.0" layoutX="211.0" layoutY="-17.0">
+                  <ImageView fx:id="logo" disable="true" fitHeight="164.0" fitWidth="232.0" layoutX="188.0">
                      <image>
                         <Image url="@logo.png" />
                      </image>
