@@ -1,16 +1,18 @@
 package com.example.tictactoe;
 
-import com.example.tictactoe.controllers.ProfileController;
+import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.DataInputStream;
@@ -20,18 +22,19 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
-//import static com.example.tictactoe.controllers.ProfileController.myControllerHandle2;
-
 public class ClientServerListener extends Thread {
-    private static DataInputStream dataInputStream;
-    private static DataOutputStream dataOutputStream;
-    private static Socket socket;
+    public DataInputStream dataInputStream;
+    public DataOutputStream dataOutputStream;
+    public Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
+    // public static MultiGameController multicontrollerhandler;
     // Created ArrayLists to track offline and online players in Real-Time
     public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
+    public boolean running = true;
+    private static ArrayList<javafx.scene.control.Button> buttons;
+    public static MultiGameController myControllerHandle2 = new MultiGameController();
 
     public ClientServerListener() {
         setDaemon(true);
@@ -50,10 +53,14 @@ public class ClientServerListener extends Thread {
         }
     }
 
+    public void switchToMultiplayerMatch(ActionEvent event) throws IOException {
+
+    }
+
     @Override
     public void run() {
         super.run();
-        while (true) {
+        while (running) {
             try {
                 String serverMsg = dataInputStream.readUTF();
                 if (serverMsg == null)
@@ -86,13 +93,34 @@ public class ClientServerListener extends Thread {
                                     CurrentPlayerModel.allowFire = true;
                                     CurrentPlayerModel.mySign = "X";
                                     ClientServerHandler.acceptInvitation();
+                                    Platform.runLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // Switching scenes
+                                            Stage stage;
+                                            stage = CurrentPlayerModel.eventWindow;
+                                            Scene scene;
+                                            Parent root;
+                                            FXMLLoader loader = new FXMLLoader(
+                                                    getClass().getResource("/fxml/multiPlayer.fxml"));
+                                            try {
+                                                root = loader.load();
+                                                myControllerHandle2 = loader.getController();
+                                                scene = new Scene(root);
+                                                stage.setScene(scene);
+                                                stage.show();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
                                 } else {
                                     System.out.println("Invitation rejected");
                                 }
                             }
                         });
                         break;
-                    case "yourinvetationaccepted":
+                    case "yourinvetationaccepted": // "acceptinvetation"
                         int accepterId = jsonObject.get("whoaccepted").getAsInt();
                         CurrentPlayerModel.opponentId = Integer.valueOf(String.valueOf(accepterId));
                         CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
@@ -101,23 +129,33 @@ public class ClientServerListener extends Thread {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                boolean playAgainstPC = false;
-                                // System.out.println("Your invitation was accepted, joining game ID: " +
-                                // CurrentPlayerModel.gameId.toString());
-                                System.out.println("Your accepted invitation is: " + jsonObject);
+                                // Switching scenes
+                                Stage stage;
+                                stage = CurrentPlayerModel.eventWindow;
+                                Scene scene;
+                                Parent root;
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+                                try {
+                                    root = loader.load();
+                                    myControllerHandle2 = loader.getController();
+                                    scene = new Scene(root);
+                                    stage.setScene(scene);
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                         break;
                     case "playermove":
 
                         break;
-                    case "opponentmove":
-                        break;
-                    case "onlineplayers":
-
-                        break;
-                    case "offlineplayers":
-                        break;
+                    // case "onlineplayers":
+                    //
+                    // break;
+                    // case "offlineplayers":
+                    //
+                    // break;
                     case "update-list":
                         if (onlinePlayersList != null) {
                             onlinePlayersList.clear();
@@ -155,17 +193,21 @@ public class ClientServerListener extends Thread {
                     // recieved Json from server to print message from one client to only another
                     // opponent one
                     // need controller of game board to be finished
-//                    case "receivemessagefromone":
-//                        String senderUserName = jsonObject.get("senderusername").toString();
-//                        String msg = jsonObject.get("message").toString();
-//                        String message1 = senderUserName.concat(" : ").concat(msg);
-//                        myControllerHandle2.txtA.appendText(message1);
-//                        myControllerHandle2.txtA.appendText("\n");
-//                        break;
+                    case "receivemessagefromone":
+                        String senderUserName = jsonObject.get("senderusername").toString();
+                        String msg = jsonObject.get("message").toString();
+                        String message1 = senderUserName.concat(" : ").concat(msg);
+                        // myControllerHandle2.txtA.appendText(message1);
+                        // myControllerHandle2.txtA.appendText("\n");
+                        break;
 
                     // @samboooo
                     // recieved Json from server to print message from one client to all online
                     // players
+
+                    case "oponnetmove":
+                        // multicontrollerhandler.opponent_action(jsonObject);
+                        // break;
                     case "allreceivemessagefromone":
                         String name = jsonObject.get("senderusername").toString();
                         String message2 = jsonObject.get("message").toString();
@@ -173,14 +215,94 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
-//                        myControllerHandle1.txtA.appendText(msgtoProfile);
+                        // myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
 
                         break;
+                    case "game_record":
+                        // System.out.println(jsonObject);
+                        // String moves = jsonObject.get("moves").getAsString();
+                        // Platform.runLater(new Runnable() {
+                        // @Override
+                        // public void run() {
+                        // Stage stage;
+                        // stage = CurrentPlayerModel.eventWindow;
+                        // Scene scene;
+                        // Parent root;
+                        // FXMLLoader loader = new
+                        // FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+                        // try {
+                        // root = loader.load();
+                        // myControllerHandle2 = loader.getController();
+                        // scene = new Scene(root);
+                        // stage.setScene(scene);
+                        // stage.show();
+                        // } catch (IOException e) {
+                        // e.printStackTrace();
+                        // }
+                        // }
+                        // });
+                        // String[] string = recordsArray.replaceAll("\[", "").replaceAll("]",
+                        // "").split(",");
+                        // for (int i = 0; i < string.length; i++) {
+                        // String[] st = string[i].trim().split("-");
+                        // System.out.println(Arrays.toString(st));
+                        //
+                        //
+                        // int pos = Integer.parseInt(st[0]);
+                        // int sign = Integer.parseInt(st[1]);
+                        // int player_id = Integer.parseInt(st[2]);
+                        //
+                        //
+                        // double tim = i + 0.5;
+                        //
+                        // PauseTransition pause = new PauseTransition(Duration.seconds(i));
+                        // pause.setOnFinished(event -> {
+                        // Button btn = buttons.get(pos);
+                        // btn.setFont(new Font("System Bold Italic", 200));
+                        // btn.setStyle("-fx-font-size:40");
+                        // String si = (sign == 8) ? "X" : "O";
+                        // btn.setText(si);
+                        // });
+                        // pause.playFromStart();
+                        // }
+                        break;
+                    case "opponent_disconnect":
+                        // ServerConnector.dataOutputStream.close();
+                        // ServerConnector.dataInputStream.close();
+                        // System.out.println("opponent_disconnect");
+                        // ServerConnector.socket.close();
+                        // running=false;
+                        // Platform.runLater(new Runnable() {
+                        // @Override
+                        // public void run() {
+                        // //render pop up
+                        // Alert alert = new Alert(Alert.AlertType.WARNING);
+                        // alert.setContentText("Connection failed");
+                        // alert.setTitle("connection");
+                        // alert.initOwner(primaryStage);
+                        //
+                        //
+                        // alert.getButtonTypes();
+                        //
+                        // Optional<ButtonType> result = alert.showAndWait();
+                        // if (result.get() == ButtonType.OK){
+                        // // ... user chose OK button
+                        // Home root = new Home(primaryStage);
+                        // Scene scene = new Scene(root);
+                        // primaryStage.setTitle("home screen ");
+                        // primaryStage.setScene(scene);
+                        // primaryStage.show();
+                        //
+                        // }
+                        //
+                        // }
+                        // });
                     default:
                         System.out.println("Invalid server request");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client Signed Out");
+                // e.printStackTrace();
             }
             try {
                 sleep(1000);

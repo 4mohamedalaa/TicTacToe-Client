@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.example.tictactoe.controllers.LoginController.clientServerListener;
+
+
 public class ClientServerHandler {
     private static final String SERVER_ADDRESS = "18.197.17.158";
     private static final String SERVER_PORT = "5001";
@@ -199,6 +202,19 @@ public class ClientServerHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            //@sambo------------------------------------
+            clientServerListener.running = false ;
+            clientServerListener.socket.close();
+            clientServerListener.dataInputStream.close();
+            clientServerListener.dataOutputStream.close();
+            clientServerListener.stop();
+            //---------------------------------------------
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private static String validateUserName(String input) {
@@ -261,6 +277,54 @@ public class ClientServerHandler {
         responseObject.addProperty("message", msg);
         try {
             dataOutputStream.writeUTF(responseObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void close(JsonObject closingObj) {
+
+            try {
+                dataOutputStream.writeUTF(closingObj.toString());
+                dataOutputStream.close();
+                dataInputStream.close();
+                socket.close();
+                clientServerListener.running = false ;
+            } catch (IOException e) {
+
+            }
+
+    }
+
+    public static void play(int position, int sign) {
+
+            JsonObject requestObject=new JsonObject();
+            requestObject.addProperty("type","play");
+            requestObject.addProperty("opponet",CurrentPlayerModel.opponentId);
+            requestObject.addProperty("game_id",CurrentPlayerModel.gameId);
+            requestObject.addProperty("position",position);
+            requestObject.addProperty("sign",sign);
+            System.out.println(position);
+            try {
+                dataOutputStream.writeUTF(requestObject.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //opponentsMove();
+
+
+    }
+
+    public static void sendFinishingObj(JsonObject gameFinish) {
+        try {
+            dataOutputStream.writeUTF(gameFinish.toString());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static void passMoveToOponnent(JsonObject boardUpdate) {
+        try {
+            dataOutputStream.writeUTF(String.valueOf(boardUpdate));
         } catch (IOException e) {
             e.printStackTrace();
         }

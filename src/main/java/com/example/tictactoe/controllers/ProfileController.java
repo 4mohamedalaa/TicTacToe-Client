@@ -33,12 +33,12 @@ import java.util.ResourceBundle;
 import javafx.scene.layout.VBox;
 
 public class ProfileController implements Initializable  {
-    @FXML
-    Button sendMsg;
+//    @FXML
+//    Button sendMsg;
 //    @FXML
 //    TextField txtF;
-//    @FXML
-//    public TextArea txtA;
+    @FXML
+    public TextArea txtA;
     @FXML
     Label username;
     @FXML
@@ -65,8 +65,8 @@ public class ProfileController implements Initializable  {
 @FXML
 Button sendBtn;
 
-//@FXML
-//TextField txtF;
+@FXML
+TextField txtF;
 
 @FXML
 JFXDrawer Drawer;
@@ -184,16 +184,16 @@ TableView OfflinePlayers;
 
     }
 
-//    public void sendToAll( ){
-//        //System.out.println("clicked");
-//               String msg = txtF.getText();
-//                if(msg != null ){
-//                   // System.out.println("inside clicked ");
-//                    System.out.println(CurrentPlayerModel.username);
-//                    System.out.println(msg);
-//                    ClientServerHandler.sendMessageForAll(msg, CurrentPlayerModel.username);
-//                }
-//    }
+    public void sendToAll(){
+        //System.out.println("clicked");
+               String msg = txtF.getText();
+                if(msg != null ){
+                   // System.out.println("inside clicked ");
+                    System.out.println(CurrentPlayerModel.username);
+                    System.out.println(msg);
+                    ClientServerHandler.sendMessageForAll(msg, CurrentPlayerModel.username);
+                }
+    }
 
    
 }
