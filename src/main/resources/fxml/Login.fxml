@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 
-<Pane prefHeight="420.0" prefWidth="604.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.LoginController">
+<Pane prefHeight="420.0" prefWidth="604.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.LoginController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
          <center>
@@ -24,7 +24,7 @@
                <children>
                   <ImageView fx:id="logo" disable="true" fitHeight="141.0" fitWidth="200.0" layoutX="211.0" layoutY="-17.0">
                      <image>
-                        <Image url="@logo.png" />
+                        <Image url="@../images/logo.png" />
                      </image>
                   </ImageView>
                   <VBox layoutX="179.0" layoutY="106.0" prefHeight="279.0" prefWidth="250.0" style="-fx-background-color: rgba(255,255,255,0.1);">
@@ -116,17 +116,17 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="4.0" fx:id="x1">
                      <image>
-                        <Image url="@CROSS.png" />
+                        <Image url="@../images/CROSS.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="64.0" fx:id="x2">
                      <image>
-                        <Image url="@CROSS.png" />
+                        <Image url="@../images/CROSS.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="124.0" fx:id="x3">
                      <image>
-                        <Image url="@CROSS.png" />
+                        <Image url="@../images/CROSS.png" />
                      </image>
                   </ImageView>
                </children>
