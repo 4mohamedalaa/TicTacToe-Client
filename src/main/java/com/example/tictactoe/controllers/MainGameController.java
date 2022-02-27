@@ -162,14 +162,24 @@ public class MainGameController implements Initializable {
 //            button.setStyle("-fx-background-color: MediumSeaGreen");
             //updateBoard(button);
             checkIfGameIsOver();
-
             if (movesLeft > 1 && !gameOver) {
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        System.out.print(board[i][j]);
+                    }
+                    System.out.println("");
+                }
                 aiPlayer.computerMove(board);
                 int playedX = aiPlayer.getX();
                 int playedY = aiPlayer.getY();
                 board[playedX][playedY] = 2;
-                System.out.println("Ai Selected " + playedX + " " + playedY);
-
+                System.out.println("Ai Selected" + playedX + " " + playedY);
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        System.out.print(board[i][j]);
+                    }
+                    System.out.println("");
+                }
                 for (var entry : btnBoard.entrySet()) {
                     if (entry.getValue().row == playedX && entry.getValue().col == playedY) {
                         System.out.println("Ai Selected " + entry.getKey());
@@ -186,6 +196,8 @@ public class MainGameController implements Initializable {
                 movesLeft--;
                 checkIfGameIsOver();
             }
+
+
         });
     }
 
@@ -320,7 +332,6 @@ public class MainGameController implements Initializable {
                 case 7 -> button3.getText() + button6.getText() + button9.getText();
                 default -> "null";
             };
-
             // X winner
             if (line.equals("XXX")) {
                 winnerText.setText("X won!");
