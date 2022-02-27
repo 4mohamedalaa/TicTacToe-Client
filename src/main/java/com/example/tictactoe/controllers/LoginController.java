@@ -60,6 +60,7 @@ public class LoginController {
             // static data
             Stage stage;
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            CurrentPlayerModel.eventWindow = stage;
             Scene scene;
             Parent root;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));

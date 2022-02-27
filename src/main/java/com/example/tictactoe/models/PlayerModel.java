@@ -1,11 +1,19 @@
 package com.example.tictactoe.models;
 
 import com.example.tictactoe.*;
+import com.example.tictactoe.controllers.MultiGameController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.EventListener;
+import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
 
 public class PlayerModel {
     private Integer id;

@@ -317,10 +317,16 @@ public class ClientServerHandler {
     public static void sendFinishingObj(JsonObject gameFinish) {
         try {
             dataOutputStream.writeUTF(gameFinish.toString());
+        }
+    }
+    public static void passMoveToOponnent(JsonObject boardUpdate) {
+        try {
+            dataOutputStream.writeUTF(String.valueOf(boardUpdate));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     // boolean running = true;
     // Thread thread;
     // public void ServerConnector(){
