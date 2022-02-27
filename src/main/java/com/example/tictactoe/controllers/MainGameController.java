@@ -2,10 +2,12 @@ package com.example.tictactoe.controllers;
 
 import com.example.tictactoe.models.PlayerAI;
 import com.example.tictactoe.models.CurrentPlayerModel;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +16,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -23,6 +29,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import static java.lang.Thread.sleep;
 
@@ -342,6 +349,19 @@ public class MainGameController implements Initializable {
                     button.setDisable(true);
                     filledButtonsCounter = 0;
                 });
+                StackPane secondaryLayout2 = new StackPane();
+                MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/Winner.mp4").toExternalForm()));
+                MediaView mediaView2 = new MediaView(videoForWinner);
+                secondaryLayout2.getChildren().addAll(mediaView2);
+                Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
+                Stage secondStage2 = new Stage();
+                secondStage2.setResizable(false);
+                secondStage2.setScene(secondScene2);
+                secondStage2.show();
+                videoForWinner.play();
+                PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                delay.setOnFinished( event -> secondStage2.close() );
+                delay.play();
                 gameOver = true;
             } //O winner
             else if (line.equals("OOO")) {
@@ -352,6 +372,19 @@ public class MainGameController implements Initializable {
                     button.setDisable(true);
                     filledButtonsCounter = 0;
                 });
+                StackPane secondaryLayout2 = new StackPane();
+                MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/loser.mp4").toExternalForm()));
+                MediaView mediaView2 = new MediaView(videoForWinner);
+                secondaryLayout2.getChildren().addAll(mediaView2);
+                Scene secondScene2 = new Scene(secondaryLayout2, 420, 300);
+                Stage secondStage2 = new Stage();
+                secondStage2.setResizable(false);
+                secondStage2.setScene(secondScene2);
+                secondStage2.show();
+                videoForWinner.play();
+                PauseTransition delay = new PauseTransition(Duration.seconds(5));
+                delay.setOnFinished( event -> secondStage2.close() );
+                delay.play();
                 gameOver = true;
             }
             if (movesLeft == 0 && !gameOver) {
@@ -376,7 +409,7 @@ public class MainGameController implements Initializable {
         }
     }
 
-    public void SwitchToProfile(ActionEvent event) throws IOException {
+    public void backToProfile(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

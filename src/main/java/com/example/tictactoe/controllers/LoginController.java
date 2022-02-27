@@ -1,19 +1,27 @@
 package com.example.tictactoe.controllers;
 
 import com.example.tictactoe.models.CurrentPlayerModel;
+import animatefx.animation.BounceInLeft;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import com.example.tictactoe.*;
-import java.io.IOException;
-import java.util.Objects;
+import javafx.util.Duration;
 
-public class LoginController {
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
     @FXML
     Button loginBtn;
     @FXML
@@ -22,8 +30,57 @@ public class LoginController {
     PasswordField passwordField;
     @FXML
     Button switchToSignUp;
+    @FXML
+    ImageView logo;
+    @FXML
+    ImageView o1;
+    @FXML
+    ImageView o2;
+    @FXML
+    ImageView o3;
+    @FXML
+    ImageView x1;
+    @FXML
+    ImageView x2;
+    @FXML
+    ImageView x3;
+
     public static ProfileController myControllerHandle1;
     public static ClientServerListener clientServerListener;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        moveX(logo, -90);
+        moveY(o1, 50);
+        moveY(o2, 100);
+        moveY(o3, 200);
+        moveY(x1, 50);
+        moveY(x2, 100);
+        moveY(x3, 200);
+    }
+
+    public void moveY(Node node, int valueY) {
+        TranslateTransition translate = new TranslateTransition();
+        translate.setNode(node);
+        translate.setDuration(Duration.millis(1000)); // do the translate in 1 sec
+        // translate.setByX(valueX); // or 250
+        translate.setByY(valueY); // or 250
+        translate.setCycleCount(2); // repeat the translate 2 times
+        translate.setAutoReverse(true); // return to your original position after translation
+        translate.play();
+    }
+
+    public void moveX(Node node, int valueX) {
+        TranslateTransition translate = new TranslateTransition();
+        translate.setNode(node);
+        translate.setDuration(Duration.millis(1000)); // do the translate in 1 sec
+        translate.setByX(valueX); // or 250
+        // translate.setByX(valueY); // or 250
+        translate.setCycleCount(2); // repeat the translate 2 times
+        translate.setAutoReverse(true); // return to your original position after translation
+        translate.play();
+    }
 
     public void loginBtnAction(ActionEvent event) throws IOException {
         System.out.println("Pressed sign-in button");
@@ -45,9 +102,8 @@ public class LoginController {
 
         // Continue by switching scenes upon successful login
         if (CurrentPlayerModel.login) {
-             clientServerListener = new ClientServerListener(); // Upon successful login, start a
-                                                                                    // listener thread pointed at Server
-
+            clientServerListener = new ClientServerListener(); // Upon successful login, start a
+                                                               // listener thread pointed at Server
             // Sleep for 1 second while we wait for updated-list from server -- Bug fix for
             // Freezing GUI
             try {
@@ -81,6 +137,7 @@ public class LoginController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        new BounceInLeft(root).play();
     }
 
     public String getUserName() {
@@ -90,4 +147,5 @@ public class LoginController {
     public String getPassword() {
         return passwordField.getText();
     }
+
 }

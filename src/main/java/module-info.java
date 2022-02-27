@@ -4,6 +4,7 @@ module com.example.tictactoe {
     requires AnimateFX;
     requires com.google.gson;
     requires com.jfoenix;
+    requires javafx.media;
 
 //opens com.example.tictactoe.models.PlayerModel;
     opens com.example.tictactoe to javafx.fxml;

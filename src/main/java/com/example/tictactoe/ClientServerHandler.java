@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 import static com.example.tictactoe.controllers.LoginController.clientServerListener;
 
+
 public class ClientServerHandler {
     private static final String SERVER_ADDRESS = "18.197.17.158";
     //private static final String SERVER_ADDRESS = "127.0.0.1";
@@ -324,9 +325,8 @@ public class ClientServerHandler {
     public static void sendFinishingObj(JsonObject gameFinish) {
         try {
             dataOutputStream.writeUTF(gameFinish.toString());
-        }
-        catch(IOException e){
-            System.out.println(e.getMessage());
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
     public static void passMoveToOponnent(JsonObject boardUpdate) {

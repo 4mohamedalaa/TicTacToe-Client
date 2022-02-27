@@ -1,5 +1,6 @@
 package com.example.tictactoe.controllers;
-import com.example.tictactoe.ClientServerHandler;
+
+import com.example.tictactoe.*;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXButton;
@@ -92,8 +93,8 @@ public class MultiGameController implements Initializable {
                         System.out.println(CurrentPlayerModel.playerTurn);
                         if(CurrentPlayerModel.playerTurn) {
                             ClientServerHandler.play(index, sign);
-                            CurrentPlayerModel.playerTurn=false;
-                            CurrentPlayerModel.allowFire=false;
+                            CurrentPlayerModel.playerTurn = false;
+                            CurrentPlayerModel.allowFire = false;
                         }
                         System.out.println("play");
                         CheckWinning();
@@ -104,7 +105,7 @@ public class MultiGameController implements Initializable {
         System.out.println("-----------------------------------");
         this.stage.setOnCloseRequest((e)->{
             JsonObject closingObj = new JsonObject();
-            closingObj.addProperty("type","client_close_while_playing");
+            closingObj.addProperty("type", "client_close_while_playing");
             closingObj.addProperty("opponentId", CurrentPlayerModel.opponentId);
             ClientServerHandler.close(closingObj);
         });
@@ -113,9 +114,11 @@ public class MultiGameController implements Initializable {
     public String getPlayer() {
         return playerMark;
     }
+
     public void toggleTurns() {
         playerMark = (playerMark.equals("X")) ? "O" : "X";
     }
+
     private void CheckWinning() {
         if (!(winningRowFounded() || winningColFounded())) {
             if (!(checkTopRight() || checkTopLeft())) {
@@ -124,19 +127,21 @@ public class MultiGameController implements Initializable {
         }
 
     }
+
     private boolean winningRowFounded() {
         boolean founded = false;
         if (!gameEnded) {
-//            0   1   2
-//            3   4   5
-//            6   7   8
+            // 0 1 2
+            // 3 4 5
+            // 6 7 8
             for (int tile = 0; tile < marks.length - 2; tile += 3) {
-                if (marks[tile] == 0 || marks[tile+1]==0 || marks[tile+2]==0) continue;
+                if (marks[tile] == 0 || marks[tile + 1] == 0 || marks[tile + 2] == 0)
+                    continue;
                 if ((marks[tile] == marks[tile + 1]) && (marks[tile] == marks[tile + 2])) {
                     String wins = (marks[tile] == 8) ? "X" : "O";
                     gameEnding(wins);
                     founded = true;
-                    Button[] winningTiles = {btns.get(tile), btns.get(tile + 1), btns.get(tile + 2)};
+                    Button[] winningTiles = { btns.get(tile), btns.get(tile + 1), btns.get(tile + 2) };
                     showWinningTiles(winningTiles);
                     ShowWinDialog();
 
@@ -146,16 +151,18 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
+
     private boolean winningColFounded() {
         boolean founded = false;
         if (!gameEnded) {
             for (int tile = 0; tile < 3; tile++) {
-                if (marks[tile] == 0 || marks[tile+3] == 0 || marks[tile+6] == 0) continue;
+                if (marks[tile] == 0 || marks[tile + 3] == 0 || marks[tile + 6] == 0)
+                    continue;
                 if ((marks[tile] == marks[tile + 3]) && (marks[tile] == marks[tile + 6])) {
                     String wins = (marks[tile] == 8) ? "X" : "O";
                     gameEnding(wins);
                     founded = true;
-                    Button[] winningTiles = {btns.get(tile), btns.get(tile + 3), btns.get(tile + 6)};
+                    Button[] winningTiles = { btns.get(tile), btns.get(tile + 3), btns.get(tile + 6) };
                     showWinningTiles(winningTiles);
 
                 }
@@ -163,6 +170,7 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
+
     private boolean checkTopRight() {
         boolean founded = false;
         if (!gameEnded) {
@@ -173,7 +181,7 @@ public class MultiGameController implements Initializable {
                     System.out.println("top right");
                     gameEnding(wins);
                     founded = true;
-                    Button[] winningTiles = {btns.get(tile), btns.get(tile + 4), btns.get(tile + 8)};
+                    Button[] winningTiles = { btns.get(tile), btns.get(tile + 4), btns.get(tile + 8) };
                     showWinningTiles(winningTiles);
 
                 }
@@ -181,6 +189,7 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
+
     private boolean checkTopLeft() {
         boolean founded = false;
         if (!gameEnded) {
@@ -191,7 +200,7 @@ public class MultiGameController implements Initializable {
                     System.out.println("top right");
                     gameEnding(wins);
                     founded = true;
-                    Button[] winningTiles = {btns.get(tile), btns.get(tile + 2), btns.get(tile + 4)};
+                    Button[] winningTiles = { btns.get(tile), btns.get(tile + 2), btns.get(tile + 4) };
                     showWinningTiles(winningTiles);
 
                 }
@@ -199,12 +208,14 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
+
     private void checkFoeTie() {
         if (!gameEnded && moves == 9) {
             gameEnded = true;
             System.out.println("tieee");
         }
     }
+
     private void gameEnding(String wins) {
         gameEnded = true;
         btns.forEach(bt -> {
@@ -228,11 +239,13 @@ public class MultiGameController implements Initializable {
 
 
     }
+
     public void showWinningTiles(Button[] winningTiles) {
         for (Button tile : winningTiles) {
             tile.setId("winninglabel");
         }
     }
+
     public void resetAllTiles() {
         for (Button tile : btns) {
             tile.setId("label1");
@@ -241,18 +254,21 @@ public class MultiGameController implements Initializable {
     public Button getRestart() {
         return restart;
     }
+
     public void makeFinishGameObj() {
         JsonObject gameFinish = new JsonObject();
-        gameFinish.addProperty("type","finish_game");
-        gameFinish.addProperty("winner",CurrentPlayerModel.id);
-        gameFinish.addProperty("looser",CurrentPlayerModel.opponentId);
-        gameFinish.addProperty("game_id",CurrentPlayerModel.gameId);
+        gameFinish.addProperty("type", "finish_game");
+        gameFinish.addProperty("winner", CurrentPlayerModel.id);
+        gameFinish.addProperty("looser", CurrentPlayerModel.opponentId);
+        gameFinish.addProperty("game_id", CurrentPlayerModel.gameId);
         ClientServerHandler.sendFinishingObj(gameFinish);
     }
+
     public void ShowWinDialog() {
-        //MediaPlayer mediaPlayer = new MediaPlayer(new Media(this.getClass().getResource("/Controllers/../ui_modules/Resources/winner.mp4").toExternalForm()));
-        //mediaPlayer.setAutoPlay(true);
-        //MediaView mediaView = new MediaView(mediaPlayer);
+        // MediaPlayer mediaPlayer = new MediaPlayer(new
+        // Media(this.getClass().getResource("/Controllers/../ui_modules/Resources/winner.mp4").toExternalForm()));
+        // mediaPlayer.setAutoPlay(true);
+        // MediaView mediaView = new MediaView(mediaPlayer);
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
         alert.getDialogPane().setMinHeight(600);
         alert.getDialogPane().setMinWidth(600);
@@ -265,9 +281,11 @@ public class MultiGameController implements Initializable {
         //alert.initOwner(stage);
         //alert.show();
     }
+
     public void ShowLoseDialog() {
-        // MediaPlayer player = new MediaPlayer(new Media(getClass().getResource("/Controllers/../ui_modules/Resources/losser.mp4").toExternalForm()));
-        //MediaView mediaView = new MediaView(player);
+        // MediaPlayer player = new MediaPlayer(new
+        // Media(getClass().getResource("/Controllers/../ui_modules/Resources/losser.mp4").toExternalForm()));
+        // MediaView mediaView = new MediaView(player);
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
         alert.getDialogPane().setMinHeight(210);
         alert.getDialogPane().setMinWidth(210);
@@ -280,13 +298,14 @@ public class MultiGameController implements Initializable {
         //alert.initOwner(stage);
         //alert.show();
     }
-    private EventHandler<ActionEvent> sendToOne(Stage primaryStage){
+
+    private EventHandler<ActionEvent> sendToOne(Stage primaryStage) {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 String msg = txtF.getText();
-                if(msg != null ){
-                    ClientServerHandler.sendMessageToOne(msg,CurrentPlayerModel.opponentUsername);
+                if (msg != null) {
+                    ClientServerHandler.sendMessageToOne(msg, CurrentPlayerModel.opponentUsername);
                 }
 
             }
@@ -310,6 +329,11 @@ public class MultiGameController implements Initializable {
             }
         });
     }
+
+
+
+
+
 }
 
 
@@ -626,121 +650,3 @@ public class MultiGameController implements Initializable {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-    private int filledButtonsCounter = 0;
-    Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream("/images/mute.png"))));
-    Image image1 = new Image((Objects.requireNonNull(getClass().getResourceAsStream("/images/mute_color.png"))));
-    private boolean change = true;
-
-    @FXML
-    public void displayImage() {
-        if (change) {
-            myImage.setImage(image);
-            change = false;
-        } else {
-            myImage.setImage(image1);
-            change = true;
-        }
-    }
-
-    public void SwitchToProfile(ActionEvent event) throws IOException {
-
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-
-        stage.show
-                ();
-    }
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-    public void sendToOne( ){
-        String msg = txtF.getText();
-        if(msg != null ){
-            // System.out.println("inside clicked ");
-            System.out.println(CurrentPlayerModel.username);
-            System.out.println(msg);
-            ClientServerHandler.sendMessageToOne(msg, CurrentPlayerModel.username);
-        }
-    }
-
-    public void displayImage(ActionEvent event) {
-    }
-}
-*/

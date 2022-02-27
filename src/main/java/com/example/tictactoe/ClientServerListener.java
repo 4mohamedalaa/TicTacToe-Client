@@ -1,7 +1,5 @@
 package com.example.tictactoe;
 
-
-
 import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
@@ -26,18 +24,18 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Optional;
 
-
 public class ClientServerListener extends Thread {
-    public  DataInputStream dataInputStream;
-    public  DataOutputStream dataOutputStream;
-    public  Socket socket;
+    public DataInputStream dataInputStream;
+    public DataOutputStream dataOutputStream;
+    public Socket socket;
     private static String currentMsg;
     private static Stage primaryStage;
-   public static MultiGameController multicontrollerhandler;
+   //public static MultiGameController multicontrollerhandler;
+    // public static MultiGameController multicontrollerhandler;
     // Created ArrayLists to track offline and online players in Real-Time
     public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
-    public boolean running = true ;
+    public boolean running = true;
     private static ArrayList<javafx.scene.control.Button> buttons;
     public static MultiGameController guest = new MultiGameController();
     public static MultiGameController host = new MultiGameController();
@@ -108,7 +106,8 @@ public class ClientServerListener extends Thread {
                                             stage = CurrentPlayerModel.eventWindow;
                                             Scene scene;
                                             Parent root;
-                                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+                                            FXMLLoader loader = new FXMLLoader(
+                                                    getClass().getResource("/fxml/multiPlayer.fxml"));
                                             try {
                                                 root = loader.load();
                                                 guest = loader.getController();
@@ -178,6 +177,15 @@ public class ClientServerListener extends Thread {
                             }
                         });
                         break;
+                    case "playermove":
+
+                        break;
+                    // case "onlineplayers":
+                    //
+                    // break;
+                    // case "offlineplayers":
+                    //
+                    // break;
                     case "update-list":
                         if (onlinePlayersList != null) {
                             onlinePlayersList.clear();
@@ -219,8 +227,8 @@ public class ClientServerListener extends Thread {
                         String senderUserName = jsonObject.get("senderusername").toString();
                         String msg = jsonObject.get("message").toString();
                         String message1 = senderUserName.concat(" : ").concat(msg);
-                        //myControllerHandle2.txtA.appendText(message1);
-                        //myControllerHandle2.txtA.appendText("\n");
+                        // myControllerHandle2.txtA.appendText(message1);
+                        // myControllerHandle2.txtA.appendText("\n");
                         break;
 
                     // @samboooo
@@ -243,92 +251,94 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
-                       // myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
+                        // myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
 
                         break;
                     case "game_record":
-//                        System.out.println(jsonObject);
-//                        String moves = jsonObject.get("moves").getAsString();
-//                        Platform.runLater(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Stage stage;
-//                                stage = CurrentPlayerModel.eventWindow;
-//                                Scene scene;
-//                                Parent root;
-//                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
-//                                try {
-//                                    root = loader.load();
-//                                    myControllerHandle2 = loader.getController();
-//                                    scene = new Scene(root);
-//                                    stage.setScene(scene);
-//                                    stage.show();
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        });
-//                        String[] string = recordsArray.replaceAll("\[", "").replaceAll("]", "").split(",");
-//                        for (int i = 0; i < string.length; i++) {
-//                            String[] st = string[i].trim().split("-");
-//                            System.out.println(Arrays.toString(st));
-//
-//
-//                            int pos = Integer.parseInt(st[0]);
-//                            int sign = Integer.parseInt(st[1]);
-//                            int player_id = Integer.parseInt(st[2]);
-//
-//
-//                            double tim = i + 0.5;
-//
-//                            PauseTransition pause = new PauseTransition(Duration.seconds(i));
-//                            pause.setOnFinished(event -> {
-//                                Button btn = buttons.get(pos);
-//                                btn.setFont(new Font("System Bold Italic", 200));
-//                                btn.setStyle("-fx-font-size:40");
-//                                String si = (sign == 8) ? "X" : "O";
-//                                btn.setText(si);
-//                            });
-//                            pause.playFromStart();
-//                        }
+                        // System.out.println(jsonObject);
+                        // String moves = jsonObject.get("moves").getAsString();
+                        // Platform.runLater(new Runnable() {
+                        // @Override
+                        // public void run() {
+                        // Stage stage;
+                        // stage = CurrentPlayerModel.eventWindow;
+                        // Scene scene;
+                        // Parent root;
+                        // FXMLLoader loader = new
+                        // FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+                        // try {
+                        // root = loader.load();
+                        // myControllerHandle2 = loader.getController();
+                        // scene = new Scene(root);
+                        // stage.setScene(scene);
+                        // stage.show();
+                        // } catch (IOException e) {
+                        // e.printStackTrace();
+                        // }
+                        // }
+                        // });
+                        // String[] string = recordsArray.replaceAll("\[", "").replaceAll("]",
+                        // "").split(",");
+                        // for (int i = 0; i < string.length; i++) {
+                        // String[] st = string[i].trim().split("-");
+                        // System.out.println(Arrays.toString(st));
+                        //
+                        //
+                        // int pos = Integer.parseInt(st[0]);
+                        // int sign = Integer.parseInt(st[1]);
+                        // int player_id = Integer.parseInt(st[2]);
+                        //
+                        //
+                        // double tim = i + 0.5;
+                        //
+                        // PauseTransition pause = new PauseTransition(Duration.seconds(i));
+                        // pause.setOnFinished(event -> {
+                        // Button btn = buttons.get(pos);
+                        // btn.setFont(new Font("System Bold Italic", 200));
+                        // btn.setStyle("-fx-font-size:40");
+                        // String si = (sign == 8) ? "X" : "O";
+                        // btn.setText(si);
+                        // });
+                        // pause.playFromStart();
+                        // }
                         break;
                     case "opponent_disconnect":
-//                        ServerConnector.dataOutputStream.close();
-//                        ServerConnector.dataInputStream.close();
-//                        System.out.println("opponent_disconnect");
-//                        ServerConnector.socket.close();
-//                        running=false;
-//                        Platform.runLater(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                //render pop up
-//                                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                                alert.setContentText("Connection failed");
-//                                alert.setTitle("connection");
-//                                alert.initOwner(primaryStage);
-//
-//
-//                                alert.getButtonTypes();
-//
-//                                Optional<ButtonType> result = alert.showAndWait();
-//                                if (result.get() == ButtonType.OK){
-//                                    // ... user chose OK button
-//                                    Home root = new Home(primaryStage);
-//                                    Scene scene = new Scene(root);
-//                                    primaryStage.setTitle("home screen ");
-//                                    primaryStage.setScene(scene);
-//                                    primaryStage.show();
-//
-//                                }
-//
-//                            }
-//                        });
+                        // ServerConnector.dataOutputStream.close();
+                        // ServerConnector.dataInputStream.close();
+                        // System.out.println("opponent_disconnect");
+                        // ServerConnector.socket.close();
+                        // running=false;
+                        // Platform.runLater(new Runnable() {
+                        // @Override
+                        // public void run() {
+                        // //render pop up
+                        // Alert alert = new Alert(Alert.AlertType.WARNING);
+                        // alert.setContentText("Connection failed");
+                        // alert.setTitle("connection");
+                        // alert.initOwner(primaryStage);
+                        //
+                        //
+                        // alert.getButtonTypes();
+                        //
+                        // Optional<ButtonType> result = alert.showAndWait();
+                        // if (result.get() == ButtonType.OK){
+                        // // ... user chose OK button
+                        // Home root = new Home(primaryStage);
+                        // Scene scene = new Scene(root);
+                        // primaryStage.setTitle("home screen ");
+                        // primaryStage.setScene(scene);
+                        // primaryStage.show();
+                        //
+                        // }
+                        //
+                        // }
+                        // });
                     default:
                         System.out.println("Invalid server request");
                 }
             } catch (IOException e) {
                 System.out.println("Client Signed Out");
-                //e.printStackTrace();
+                // e.printStackTrace();
             }
             try {
                 sleep(1000);

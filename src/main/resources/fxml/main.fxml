@@ -166,7 +166,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <JFXButton fx:id="exit" buttonType="RAISED" layoutX="699.0" layoutY="501.0" prefHeight="46.0" prefWidth="110.0" style="-fx-background-color: #470000;" text="Exit" textFill="#f5f4f4">
+      <JFXButton fx:id="exit" buttonType="RAISED" layoutX="699.0" layoutY="501.0" prefHeight="46.0" prefWidth="110.0" style="-fx-background-color: #470000;" text="Exit" textFill="#f5f4f4" onAction="#backToProfile" >
          <font>
             <Font name="Abyssinica SIL" size="17.0" />
          </font>
