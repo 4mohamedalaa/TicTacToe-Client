@@ -18,12 +18,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
+import com.example.tictactoe.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-
-import com.example.tictactoe.*;
 import javafx.stage.Stage;
 
 import static java.lang.Thread.sleep;
@@ -125,6 +123,7 @@ public class MainGameController implements Initializable {
 
         buttons.forEach(button -> {
             humanTurn(button);
+            System.out.println("Human turn");
             button.setFocusTraversable(false);
         });
     }

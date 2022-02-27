@@ -1,4 +1,7 @@
 package com.example.tictactoe.models;
+
+import javafx.stage.Stage;
+
 /*
 * Class created to represent the currently signed-in player and their details
 * All attributes are static for ease of access, they also won't change throughout the session.
@@ -18,4 +21,5 @@ public class CurrentPlayerModel {
     public static boolean playerTurn;
     public static boolean allowFire;
     public static String mySign;
+    public static Stage eventWindow;
 }
