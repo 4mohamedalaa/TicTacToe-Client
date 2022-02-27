@@ -99,10 +99,10 @@ public class MainGameController implements Initializable {
     private int movesLeft = 9;
     private boolean gameOver = false;
 
-    // Image cross = new Image((getClass().getResourceAsStream("CROSS.png")));
-    // Image circle = new Image((getClass().getResourceAsStream("CIRCLE.png")));
-    // ImageView x = new ImageView(cross);
-    // ImageView o = new ImageView(circle);
+//     Image cross = new Image((getClass().getResourceAsStream("CROSS.png")));
+//     Image circle = new Image((getClass().getResourceAsStream("CIRCLE.png")));
+//     ImageView x = new ImageView(cross);
+//     ImageView o = new ImageView(circle);
 
     private int playerTurn = 0;
     PlayerAI aiPlayer = new PlayerAI("dump");
@@ -159,14 +159,15 @@ public class MainGameController implements Initializable {
 //          setPlayerSymbol(button);
             button.setDisable(true);
             button.setText("X");
+            button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
+            button.setTextFill(Color.rgb(255, 0, 0));
+            button.setStyle("-fx-background-color: MediumSeaGreen");
             Point p = btnBoard.get(button);
             System.out.println("Human Selected "+p.row + "  " + p.col);
             System.out.println("Human Selected " + button);
 
             board[p.row][p.col] = 1;
-//            button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
-//            button.setTextFill(Color.rgb(255, 0, 0));
-//            button.setStyle("-fx-background-color: MediumSeaGreen");
+
             //updateBoard(button);
             checkIfGameIsOver();
             if (movesLeft > 1 && !gameOver) {
@@ -197,6 +198,9 @@ public class MainGameController implements Initializable {
                         }
                         entry.getKey().setText("O");
                         entry.getKey().setDisable(true);
+                        entry.getKey().setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 42));
+                        entry.getKey().setTextFill(Color.rgb(0, 255, 0));
+                        entry.getKey().setStyle("-fx-background-color: green");
                         break;
                     }
                 }

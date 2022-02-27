@@ -18,9 +18,14 @@ public class PlayerAI {
 
     public void computerMove(int[][] board) {
         this.board = board;
-        Move selectedMove = findBestMove(board);
-        this.x = selectedMove.row;
-        this.y = selectedMove.col;
+
+        if(this.type == "dump"){
+
+        }
+//        Move selectedMove = findBestMove(board);
+//        this.x = selectedMove.row;
+//        this.y = selectedMove.col;
+        getRandomMove();
     }
 
     void getRandomMove() {
@@ -31,23 +36,6 @@ public class PlayerAI {
         } while (board[x][y] != 0);
     }
 
-    void bestMove() {
-        int bestFinalScore = -10000000;
-        Move bestMove = new Move();
-
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] == 0) {
-
-                    board[i][j] = 2;
-                    int score = minimax(board,0, false);
-                    board[i][j] = 0;
-                    Math.max(score, bestFinalScore);
-                }
-            }
-        }
-    }
     static Move findBestMove(int[][] board)
     {
         int bestVal = -100000;
