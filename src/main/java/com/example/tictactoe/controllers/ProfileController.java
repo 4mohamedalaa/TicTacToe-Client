@@ -2,7 +2,7 @@ package com.example.tictactoe.controllers;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
-import com.example.tictactoe.ClientServerHandler;
+import com.example.tictactoe.*;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.application.Application;

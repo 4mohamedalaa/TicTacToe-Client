@@ -1,6 +1,6 @@
 package com.example.tictactoe.controllers;
 
-import com.example.tictactoe.ClientServerHandler;
+import com.example.tictactoe.*;
 import com.example.tictactoe.models.PlayerModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,7 +64,7 @@ Button BackBtn;
         //online player list
         OnlinePlayerName.setCellValueFactory(new PropertyValueFactory<>("username"));
         OnlinePlayerScore.setCellValueFactory(new PropertyValueFactory<>("score"));
-OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
+        OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
 
         ArrayList<PlayerModel> OnPlayers = ClientServerHandler.getOnlinePlayers();
         ObservableList<PlayerModel> OnPlayerList = FXCollections.observableArrayList();
@@ -77,7 +77,9 @@ OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
             String OnName = OnPlayers.get(i).getUsername();
             Integer OnWins = OnPlayers.get(i).getWins();
 
-            PlayerModel OnPlayer = new PlayerModel();
+            PlayerModel OnPlayer = new PlayerModel(
+
+            );
 //            OnPlayer.setInviteBtn(buttonInvite.get(i));
             buttonInvite.add(OnPlayer.getInviteBtn());
 
@@ -93,7 +95,8 @@ OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
 
         for (int b = 0; b <buttonInvite.size() ; b++) {
             System.out.println("hallo invite loop");
-            buttonInvite.get(b).setOnAction(this::handleInviteButton);
+//            buttonInvite.get(b).setOnAction(this::handleInviteButton);
+            OnPlayerList.get(b).setInviteButtonHandler();
         }
 
 
@@ -131,13 +134,13 @@ OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
         stage.show();
 
     }
-    public void handleInviteButton(ActionEvent inviteAction){
-
-        System.out.println("hallo");
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Send invitation");
-//        alert.setGraphic();
-        alert.showAndWait();
-    }
+//    public void handleInviteButton(ActionEvent inviteAction){
+//
+//        System.out.println("hallo");
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Send invitation");
+////        alert.setGraphic();
+//        alert.showAndWait();
+//    }
 
 }
