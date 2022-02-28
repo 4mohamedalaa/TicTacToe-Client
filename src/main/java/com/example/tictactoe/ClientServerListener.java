@@ -24,6 +24,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
+
 public class ClientServerListener extends Thread {
     public DataInputStream dataInputStream;
     public DataOutputStream dataOutputStream;
@@ -37,8 +39,8 @@ public class ClientServerListener extends Thread {
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
     public boolean running = true;
     private static ArrayList<javafx.scene.control.Button> buttons;
-    public static MultiGameController guest = new MultiGameController();
-    public static MultiGameController host = new MultiGameController();
+    public static MultiGameController guest ;
+    public static MultiGameController host ;
 
 
     public ClientServerListener() {
@@ -223,12 +225,31 @@ public class ClientServerListener extends Thread {
                     // recieved Json from server to print message from one client to only another
                     // opponent one
                     // need controller of game board to be finished
-                    case "receivemessagefromone":
+                   /* case "receivemessagefromone":
                         String senderUserName = jsonObject.get("senderusername").toString();
                         String msg = jsonObject.get("message").toString();
                         String message1 = senderUserName.concat(" : ").concat(msg);
                         // myControllerHandle2.txtA.appendText(message1);
                         // myControllerHandle2.txtA.appendText("\n");
+                        break;
+                    */
+                    case"receivemessagefromone":
+                        String senderUserName =  jsonObject.get("senderusername").toString();
+                        String msg = jsonObject.get("message").toString();
+                        String message1 = senderUserName.concat(" : ").concat(msg).concat("\n");
+                        System.out.println("********  inside receive message from one  ");
+                        if(host==null)   {
+                            System.out.println("host is null");
+                            guest.txtA.appendText(message1);
+                        }
+                        if(guest==null){
+                            System.out.println("guest is null");
+                            host.txtA.appendText(message1);
+                        }
+
+
+
+
                         break;
 
                     // @samboooo
@@ -251,7 +272,7 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
-                        // myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
+                        myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
 
                         break;
                     case "game_record":

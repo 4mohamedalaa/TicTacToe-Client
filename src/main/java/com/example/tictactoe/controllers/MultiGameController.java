@@ -4,18 +4,26 @@ import com.example.tictactoe.*;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXButton;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -44,7 +52,7 @@ public class MultiGameController implements Initializable {
     public JFXButton exit;
     public Button send;
     public TextField txtF;
-    public TextArea txtA;
+    public  TextArea txtA;
     private final Stage stage = new Stage();
     public static ArrayList<Button> btns=  new ArrayList<>();
         private int[] marks = {0, 0, 0, 0, 0, 0, 0, 0, 0};          //   0   8   0
@@ -53,9 +61,12 @@ public class MultiGameController implements Initializable {
     private int moves;
     private int gameID;
 
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        //txtA = new TextArea() ;
         gameID= CurrentPlayerModel.gameId;
         System.out.println("assign buttons for this btn array");
         btns.add(button1);btns.add(button2);btns.add(button3);
@@ -114,11 +125,9 @@ public class MultiGameController implements Initializable {
     public String getPlayer() {
         return playerMark;
     }
-
     public void toggleTurns() {
         playerMark = (playerMark.equals("X")) ? "O" : "X";
     }
-
     private void CheckWinning() {
         if (!(winningRowFounded() || winningColFounded())) {
             if (!(checkTopRight() || checkTopLeft())) {
@@ -127,7 +136,6 @@ public class MultiGameController implements Initializable {
         }
 
     }
-
     private boolean winningRowFounded() {
         boolean founded = false;
         if (!gameEnded) {
@@ -151,7 +159,6 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
-
     private boolean winningColFounded() {
         boolean founded = false;
         if (!gameEnded) {
@@ -170,7 +177,6 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
-
     private boolean checkTopRight() {
         boolean founded = false;
         if (!gameEnded) {
@@ -189,7 +195,6 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
-
     private boolean checkTopLeft() {
         boolean founded = false;
         if (!gameEnded) {
@@ -208,14 +213,12 @@ public class MultiGameController implements Initializable {
         }
         return founded;
     }
-
     private void checkFoeTie() {
         if (!gameEnded && moves == 9) {
             gameEnded = true;
             System.out.println("tieee");
         }
     }
-
     private void gameEnding(String wins) {
         gameEnded = true;
         btns.forEach(bt -> {
@@ -239,13 +242,11 @@ public class MultiGameController implements Initializable {
 
 
     }
-
     public void showWinningTiles(Button[] winningTiles) {
         for (Button tile : winningTiles) {
             tile.setId("winninglabel");
         }
     }
-
     public void resetAllTiles() {
         for (Button tile : btns) {
             tile.setId("label1");
@@ -254,7 +255,6 @@ public class MultiGameController implements Initializable {
     public Button getRestart() {
         return restart;
     }
-
     public void makeFinishGameObj() {
         JsonObject gameFinish = new JsonObject();
         gameFinish.addProperty("type", "finish_game");
@@ -263,17 +263,29 @@ public class MultiGameController implements Initializable {
         gameFinish.addProperty("game_id", CurrentPlayerModel.gameId);
         ClientServerHandler.sendFinishingObj(gameFinish);
     }
-
     public void ShowWinDialog() {
+        StackPane secondaryLayout2 = new StackPane();
+        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/Winner.mp4").toExternalForm()));
+        MediaView mediaView2 = new MediaView(videoForWinner);
+        secondaryLayout2.getChildren().addAll(mediaView2);
+        Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
+        Stage secondStage2 = new Stage();
+        secondStage2.setResizable(false);
+        secondStage2.setScene(secondScene2);
+        secondStage2.show();
+        videoForWinner.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished( event -> secondStage2.close() );
+        delay.play();
         // MediaPlayer mediaPlayer = new MediaPlayer(new
         // Media(this.getClass().getResource("/Controllers/../ui_modules/Resources/winner.mp4").toExternalForm()));
         // mediaPlayer.setAutoPlay(true);
         // MediaView mediaView = new MediaView(mediaPlayer);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
+       /* Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
         alert.getDialogPane().setMinHeight(600);
         alert.getDialogPane().setMinWidth(600);
         alert.setTitle("You win!!");
-        System.out.println("you win **********");
+        System.out.println("you win **********");*/
         //VBox content = new VBox(mediaView);
         //content.setAlignment(Pos.CENTER);
         //alert.getDialogPane().setContent(content);
@@ -281,16 +293,28 @@ public class MultiGameController implements Initializable {
         //alert.initOwner(stage);
         //alert.show();
     }
-
     public void ShowLoseDialog() {
+        StackPane secondaryLayout2 = new StackPane();
+        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/loser.mp4").toExternalForm()));
+        MediaView mediaView2 = new MediaView(videoForWinner);
+        secondaryLayout2.getChildren().addAll(mediaView2);
+        Scene secondScene2 = new Scene(secondaryLayout2, 420, 300);
+        Stage secondStage2 = new Stage();
+        secondStage2.setResizable(false);
+        secondStage2.setScene(secondScene2);
+        secondStage2.show();
+        videoForWinner.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+        delay.setOnFinished( event -> secondStage2.close() );
+        delay.play();
         // MediaPlayer player = new MediaPlayer(new
         // Media(getClass().getResource("/Controllers/../ui_modules/Resources/losser.mp4").toExternalForm()));
         // MediaView mediaView = new MediaView(player);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
+        /*Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
         alert.getDialogPane().setMinHeight(210);
         alert.getDialogPane().setMinWidth(210);
         alert.setTitle("You lose!!");
-        System.out.println("you lose **********");
+        System.out.println("you lose **********");*/
         //VBox content = new VBox(mediaView);
         //content.setAlignment(Pos.CENTER);
         //alert.getDialogPane().setContent(content);
@@ -298,7 +322,6 @@ public class MultiGameController implements Initializable {
         //alert.initOwner(stage);
         //alert.show();
     }
-
     private EventHandler<ActionEvent> sendToOne(Stage primaryStage) {
         return new EventHandler<ActionEvent>() {
             @Override
@@ -315,7 +338,14 @@ public class MultiGameController implements Initializable {
     }
     public void displayImage(ActionEvent event) {
     }
-    public void sendToOne(ActionEvent event) {
+    public void sendToOne() {
+                    String msg =txtF.getText();
+                    if(msg != null ){
+                        txtA.appendText(msg);
+                        txtA.appendText("\n");
+                       ClientServerHandler.sendMessageToOne(msg,CurrentPlayerModel.opponentUsername);
+
+                    }
     }
     public static void opponentsMove(int position) {
         System.out.println("opponent"+position);

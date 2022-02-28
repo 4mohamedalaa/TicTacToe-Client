@@ -203,8 +203,6 @@ public class MainGameController implements Initializable {
                 movesLeft--;
                 checkIfGameIsOver();
             }
-
-
         });
     }
 
