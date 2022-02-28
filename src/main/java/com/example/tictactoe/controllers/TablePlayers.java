@@ -148,7 +148,6 @@ public class TablePlayers implements Initializable  {
 
 
         for (int b = 0; b <buttonInvite.size() ; b++) {
-            System.out.println("hallo invite loop");
 //            buttonInvite.get(b).setOnAction(this::handleInviteButton);
             OnPlayerList.get(b).setInviteButtonHandler();
         }
