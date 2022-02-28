@@ -15,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import com.example.tictactoe.*;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -90,9 +89,9 @@ public class LoginController implements Initializable {
            alert.show();
            return;
        }
-            // Call client-server handler static signIn function with user-provided username
-            // & password
+            // Call client-server handler static signIn function with user-provided username & password
             boolean response = ClientServerHandler.signIn(getUserName(), getPassword());
+
             // If the response is FALSE, show alert. Means username or password error
             if (!response) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong username or password");
@@ -105,18 +104,16 @@ public class LoginController implements Initializable {
 
         // Continue by switching scenes upon successful login
         if (CurrentPlayerModel.login) {
-            clientServerListener = new ClientServerListener(); // Upon successful login, start a
-                                                               // listener thread pointed at Server
-            // Sleep for 1 second while we wait for updated-list from server -- Bug fix for
-            // Freezing GUI
+            // Upon successful login, start a listener thread pointed at Server
+            clientServerListener = new ClientServerListener();
+
+            // Sleep for 1 second while we wait for updated-list from server -- Bug fix for Freezing GUI
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            // ClientServerHandler.sendInvitation(1); // Testing invitation system with
-            // static data
             Stage stage;
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             CurrentPlayerModel.eventWindow = stage;
@@ -124,11 +121,10 @@ public class LoginController implements Initializable {
             Parent root;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
             root = loader.load();
-            myControllerHandle1 = loader.getController();
+            myControllerHandle1 = loader.getController(); // Capture profile controller
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
         }
     }
     public void SwitchToSignUp(ActionEvent event) throws IOException {
