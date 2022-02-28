@@ -31,11 +31,10 @@
 }
 
 .button:hover{
-    
-    
+
     -fx-background-color: white;
-    -fx-text-fill:    #39b5ff;
-    -fx-border-color:    #39b5ff;
+    -fx-text-fill:    #442dad;
+    -fx-border-color:    #442dad;
     -fx-border-width: 2;
     -fx-border-radius: 30;
     -fx-font-size: 14;
@@ -49,8 +48,8 @@
 .button:pressed{
     
     -fx-background-color: white;
-    -fx-text-fill:  #39b5ff;
-    -fx-border-color:  #39b5ff;
+    -fx-text-fill:  #442dad;
+    -fx-border-color:  #442dad;
     -fx-border-width: 2;
     -fx-rotate: 10;
     -fx-font-size: 14;
