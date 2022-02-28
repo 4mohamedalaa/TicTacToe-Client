@@ -27,16 +27,18 @@ import java.util.Optional;
 import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
 
 public class ClientServerListener extends Thread {
+    // Inherit dataStreams and socket from ClientServerHandler
     public DataInputStream dataInputStream;
     public DataOutputStream dataOutputStream;
     public Socket socket;
-    private static String currentMsg;
+
+    // Create a stage for dialog box
     private static Stage primaryStage;
-   //public static MultiGameController multicontrollerhandler;
-    // public static MultiGameController multicontrollerhandler;
+
     // Created ArrayLists to track offline and online players in Real-Time
     public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
+    // Declaring buttons and controller
     public boolean running = true;
     private static ArrayList<javafx.scene.control.Button> buttons;
     public static MultiGameController guest ;
@@ -139,6 +141,7 @@ public class ClientServerListener extends Thread {
                             }
                         });
                         break;
+
                     case "yourinvetationaccepted": // "acceptinvetation"
                         int accepterId = jsonObject.get("whoaccepted").getAsInt();
                         CurrentPlayerModel.opponentId = Integer.valueOf(String.valueOf(accepterId));
@@ -179,15 +182,7 @@ public class ClientServerListener extends Thread {
                             }
                         });
                         break;
-                    case "playermove":
 
-                        break;
-                    // case "onlineplayers":
-                    //
-                    // break;
-                    // case "offlineplayers":
-                    //
-                    // break;
                     case "update-list":
                         if (onlinePlayersList != null) {
                             onlinePlayersList.clear();
@@ -200,6 +195,9 @@ public class ClientServerListener extends Thread {
                                     offlinePlayerObject.get("username").getAsString(),
                                     offlinePlayerObject.get("score").getAsInt());
                             onlinePlayersList.add(newlyOnlinePlayer);
+                            synchronized (onlinePlayersList){
+                                onlinePlayersList.notifyAll();
+                            }
                         }
 
                         if (offlinePlayersList != null) {
@@ -215,24 +213,13 @@ public class ClientServerListener extends Thread {
                                     offlinePlayerObject.get("username").getAsString(),
                                     offlinePlayerObject.get("score").getAsInt());
                             offlinePlayersList.add(newlyOfflinePlayer);
+                            synchronized (offlinePlayersList){
+                                offlinePlayersList.notifyAll();
+                            }
                         }
                         System.out.println("received update-list");
-                        // Could create a thread to keep lists updated here of both offline and online
-                        // players
                         break;
 
-                    // @samboooo
-                    // recieved Json from server to print message from one client to only another
-                    // opponent one
-                    // need controller of game board to be finished
-                   /* case "receivemessagefromone":
-                        String senderUserName = jsonObject.get("senderusername").toString();
-                        String msg = jsonObject.get("message").toString();
-                        String message1 = senderUserName.concat(" : ").concat(msg);
-                        // myControllerHandle2.txtA.appendText(message1);
-                        // myControllerHandle2.txtA.appendText("\n");
-                        break;
-                    */
                     case"receivemessagefromone":
                         String senderUserName =  jsonObject.get("senderusername").toString();
                         String msg = jsonObject.get("message").toString();
@@ -246,21 +233,8 @@ public class ClientServerListener extends Thread {
                             System.out.println("guest is null");
                             host.txtA.appendText(message1);
                         }
-
-
-
-
                         break;
 
-                    // @samboooo
-                    // recieved Json from server to print message from one client to all online
-                    // players
-
-                    /*
-                    case "oponnetmove" :
-                        multicontrollerhandler.opponent_action(jsonObject);
-                        break;
-                    */
                     case "oponnetmove" :
                         int position=jsonObject.get("position").getAsInt();
                         MultiGameController.opponentsMove(position);
