@@ -22,6 +22,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
@@ -34,9 +36,11 @@ public class ClientServerListener extends Thread {
     private static Stage primaryStage;
    //public static MultiGameController multicontrollerhandler;
     // public static MultiGameController multicontrollerhandler;
+
     // Created ArrayLists to track offline and online players in Real-Time
     public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
+    // Declaring buttons and controller
     public boolean running = true;
     private static ArrayList<javafx.scene.control.Button> buttons;
     public static MultiGameController guest ;
@@ -200,6 +204,12 @@ public class ClientServerListener extends Thread {
                                     offlinePlayerObject.get("username").getAsString(),
                                     offlinePlayerObject.get("score").getAsInt());
                             onlinePlayersList.add(newlyOnlinePlayer);
+                            synchronized (onlinePlayersList){
+                                onlinePlayersList.notifyAll();
+                            }
+//                            syncedOnlinePlayersList.clear(); // Clear list
+//                            syncedOnlinePlayersList.addAll(onlinePlayersList); // Then add currently new players batch
+//                            syncedOnlinePlayersList.notifyAll();
                         }
 
                         if (offlinePlayersList != null) {
@@ -215,10 +225,11 @@ public class ClientServerListener extends Thread {
                                     offlinePlayerObject.get("username").getAsString(),
                                     offlinePlayerObject.get("score").getAsInt());
                             offlinePlayersList.add(newlyOfflinePlayer);
+                            synchronized (offlinePlayersList){
+                                offlinePlayersList.notifyAll();
+                            }
                         }
                         System.out.println("received update-list");
-                        // Could create a thread to keep lists updated here of both offline and online
-                        // players
                         break;
 
                     // @samboooo
