@@ -31,6 +31,7 @@ import java.util.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 import static java.lang.Thread.sleep;
 
 public class MainGameController implements Initializable {
@@ -99,13 +100,14 @@ public class MainGameController implements Initializable {
     private int movesLeft = 9;
     private boolean gameOver = false;
 
-    // Image cross = new Image((getClass().getResourceAsStream("CROSS.png")));
-    // Image circle = new Image((getClass().getResourceAsStream("CIRCLE.png")));
-    // ImageView x = new ImageView(cross);
-    // ImageView o = new ImageView(circle);
+//     Image cross = new Image((getClass().getResourceAsStream("CROSS.png")));
+//     Image circle = new Image((getClass().getResourceAsStream("CIRCLE.png")));
+//     ImageView x = new ImageView(cross);
+//     ImageView o = new ImageView(circle);
 
     private int playerTurn = 0;
-    PlayerAI aiPlayer = new PlayerAI("dump");
+    String type = Difficulty.getAiType();
+    PlayerAI aiPlayer = new PlayerAI(type);
     ArrayList<Button> buttons;
     Map<Button, Point> btnBoard = new HashMap<>();
 
@@ -124,13 +126,8 @@ public class MainGameController implements Initializable {
             }
         }
 
-        for (var entry : btnBoard.entrySet()) {
-            System.out.println(entry.getKey() + "/" + entry.getValue().row + "/" + entry.getValue().col);
-        }
-
         buttons.forEach(button -> {
             humanTurn(button);
-            System.out.println("Human turn");
             button.setFocusTraversable(false);
         });
     }
@@ -159,14 +156,15 @@ public class MainGameController implements Initializable {
 //          setPlayerSymbol(button);
             button.setDisable(true);
             button.setText("X");
+            button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
+            button.setTextFill(Color.rgb(255, 0, 0));
+            button.setStyle("-fx-background-color: MediumSeaGreen");
             Point p = btnBoard.get(button);
             System.out.println("Human Selected "+p.row + "  " + p.col);
             System.out.println("Human Selected " + button);
 
             board[p.row][p.col] = 1;
-//            button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
-//            button.setTextFill(Color.rgb(255, 0, 0));
-//            button.setStyle("-fx-background-color: MediumSeaGreen");
+
             //updateBoard(button);
             checkIfGameIsOver();
             if (movesLeft > 1 && !gameOver) {
@@ -180,7 +178,8 @@ public class MainGameController implements Initializable {
                 int playedX = aiPlayer.getX();
                 int playedY = aiPlayer.getY();
                 board[playedX][playedY] = 2;
-                System.out.println("Ai Selected" + playedX + " " + playedY);
+
+                System.out.println(aiPlayer.getType() + " Selected " + playedX + " " + playedY);
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         System.out.print(board[i][j]);
@@ -197,6 +196,9 @@ public class MainGameController implements Initializable {
                         }
                         entry.getKey().setText("O");
                         entry.getKey().setDisable(true);
+                        entry.getKey().setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 42));
+                        entry.getKey().setTextFill(Color.rgb(0, 255, 0));
+                        entry.getKey().setStyle("-fx-background-color: green");
                         break;
                     }
                 }
