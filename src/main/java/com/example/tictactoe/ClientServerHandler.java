@@ -270,13 +270,29 @@ public class ClientServerHandler {
     }
     // @Sambo
     // sending message in global chat logic
-    public static void sendMessageToOne(String msg, String username) {
+   /* public static void sendMessageToOne(String msg, String username) {
         JsonObject responseObject = new JsonObject();
         responseObject.addProperty("type", "sendmessageforone");
         responseObject.addProperty("senderusername", username);
         // responseObject.addProperty("recieverid",
         // Integer.parseInt(CurentPlayerModel.opponentId));
         responseObject.addProperty("message", msg);
+        try {
+            dataOutputStream.writeUTF(responseObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+    public static void sendMessageToOne(String msg ,String username){
+        JsonObject responseObject = new JsonObject();
+        responseObject.addProperty("type","sendmessageforone");
+        responseObject.addProperty("senderusername",username);
+        responseObject.addProperty("recieverid", CurrentPlayerModel.opponentId);
+        responseObject.addProperty("message",msg);
+        System.out.println("********  recieverid  "+ CurrentPlayerModel.opponentId);
+        System.out.println("********  sender name "+ username);
+        System.out.println("********  message "+ msg);
+
         try {
             dataOutputStream.writeUTF(responseObject.toString());
         } catch (IOException e) {

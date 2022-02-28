@@ -31,6 +31,7 @@ import java.util.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 import static java.lang.Thread.sleep;
 
 public class MainGameController implements Initializable {
@@ -105,7 +106,8 @@ public class MainGameController implements Initializable {
 //     ImageView o = new ImageView(circle);
 
     private int playerTurn = 0;
-    PlayerAI aiPlayer = new PlayerAI("dump");
+    String type = Difficulty.getAiType();
+    PlayerAI aiPlayer = new PlayerAI(type);
     ArrayList<Button> buttons;
     Map<Button, Point> btnBoard = new HashMap<>();
 
@@ -124,13 +126,8 @@ public class MainGameController implements Initializable {
             }
         }
 
-        for (var entry : btnBoard.entrySet()) {
-            System.out.println(entry.getKey() + "/" + entry.getValue().row + "/" + entry.getValue().col);
-        }
-
         buttons.forEach(button -> {
             humanTurn(button);
-            System.out.println("Human turn");
             button.setFocusTraversable(false);
         });
     }
@@ -181,7 +178,8 @@ public class MainGameController implements Initializable {
                 int playedX = aiPlayer.getX();
                 int playedY = aiPlayer.getY();
                 board[playedX][playedY] = 2;
-                System.out.println("Ai Selected" + playedX + " " + playedY);
+
+                System.out.println(aiPlayer.getType() + " Selected " + playedX + " " + playedY);
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         System.out.print(board[i][j]);
@@ -207,8 +205,6 @@ public class MainGameController implements Initializable {
                 movesLeft--;
                 checkIfGameIsOver();
             }
-
-
         });
     }
 

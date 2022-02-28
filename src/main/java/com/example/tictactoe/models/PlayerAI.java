@@ -5,7 +5,7 @@ import java.util.Random;
 public class PlayerAI {
     String type;
     private int x, y;
-    int[][] board;
+    int smart = 3; //used to switch between bestMove and Random Move In the medium function
 
     static class Move
     {
@@ -17,18 +17,42 @@ public class PlayerAI {
     }
 
     public void computerMove(int[][] board) {
-        this.board = board;
-
-        if(this.type == "dump"){
-
+        System.out.println("Board in Cmove");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(board[i][j]);
+            }
+            System.out.println("");
         }
-//        Move selectedMove = findBestMove(board);
-//        this.x = selectedMove.row;
-//        this.y = selectedMove.col;
-        getRandomMove();
+
+        if(this.type == "Dump"){
+            getRandomMove(board);
+        }
+        else if(this.type == "Smart")
+        {
+            getSmartMove(board);
+        }
+        else if(this.type == "Unbeatable"){
+            Move selectedMove = getBestMove(board);
+        this.x = selectedMove.row;
+        this.y = selectedMove.col;
+        }
     }
 
-    void getRandomMove() {
+    void getSmartMove(int[][] board){
+        if(smart > 1){
+            Move selectedMove = getBestMove(board);
+            this.x = selectedMove.row;
+            this.y = selectedMove.col;
+            smart--;
+        }
+        else{
+            getRandomMove(board);
+            smart = 3;
+        }
+    }
+
+    void getRandomMove(int[][] board) {
         Random rand = new Random();
         do {
             this.x = rand.nextInt(3);
@@ -36,7 +60,7 @@ public class PlayerAI {
         } while (board[x][y] != 0);
     }
 
-    static Move findBestMove(int[][] board)
+    static Move getBestMove(int[][] board)
     {
         int bestVal = -100000;
         Move bestMove = new Move();
@@ -65,7 +89,6 @@ public class PlayerAI {
                     {
                         bestMove.row = i;
                         bestMove.col = j;
-                        System.out.println("Best Move : " + i + " " + i );
                         bestVal = moveVal;
                     }
                 }
@@ -194,5 +217,8 @@ public class PlayerAI {
     }
     public int getY() {
         return y;
+    }
+    public String getType(){
+        return type;
     }
 }
