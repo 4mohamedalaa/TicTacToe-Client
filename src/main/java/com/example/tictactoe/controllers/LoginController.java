@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
         moveY(x3, 200);
     }
 
-    public void moveY(Node node, int valueY) {
+ static public void moveY(Node node, int valueY) {
         TranslateTransition translate = new TranslateTransition();
         translate.setNode(node);
         translate.setDuration(Duration.millis(1000)); // do the translate in 1 sec
@@ -71,7 +71,7 @@ public class LoginController implements Initializable {
         translate.play();
     }
 
-    public void moveX(Node node, int valueX) {
+   static public void moveX(Node node, int valueX) {
         TranslateTransition translate = new TranslateTransition();
         translate.setNode(node);
         translate.setDuration(Duration.millis(1000)); // do the translate in 1 sec

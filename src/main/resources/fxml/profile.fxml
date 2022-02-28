@@ -2,6 +2,7 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -13,37 +14,36 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.ProfileController">
+<AnchorPane prefHeight="515.0" prefWidth="850.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.ProfileController">
    <children>
-      <ImageView fitHeight="121.0" fitWidth="131.0" layoutX="18.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="112.0" fitWidth="112.0" layoutX="19.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../com/example/tictactoe/player1.png" />
          </image>
       </ImageView>
-      <Text fx:id="CurrentUser" fill="#f5f5f5" layoutX="16.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name">
+      <Text fx:id="CurrentUser" fill="#f5f5f5" layoutX="13.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name">
          <font>
-            <Font name="Lucida Calligraphy Italic" size="20.0" />
+            <Font name="Lucida Calligraphy Italic" size="18.0" />
          </font>
       </Text>
-      <Text fx:id="CurrentScore" fill="#fcf2f2" layoutX="52.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score">
+      <Text fx:id="CurrentScore" fill="#fcf2f2" layoutX="108.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score">
          <font>
-            <Font name="Lucida Calligraphy Italic" size="17.0" />
+            <Font name="Lucida Calligraphy Italic" size="16.0" />
          </font>
       </Text>
-      <Text fx:id="CurrentWin" fill="#ebe5e5" layoutX="59.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wins">
+      <Text fx:id="CurrentWin" fill="#ebe5e5" layoutX="109.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wins">
          <font>
-            <Font name="Lucida Calligraphy Italic" size="14.0" />
+            <Font name="Lucida Calligraphy Italic" size="16.0" />
          </font>
       </Text>
-      <Text fx:id="CurrentLoss" fill="#f8f1f1" layoutX="50.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Losses">
+      <Text fx:id="CurrentLoss" fill="#f8f1f1" layoutX="106.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Losses">
          <font>
-            <Font name="Lucida Calligraphy Italic" size="15.0" />
+            <Font name="Lucida Calligraphy Italic" size="16.0" />
          </font>
       </Text>
-      <TextArea fx:id="txtA" editable="false" layoutX="437.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="158.0" prefWidth="170.0" />
-      <TextField fx:id="txtF" layoutX="437.0" layoutY="258.0" maxWidth="500.0" prefHeight="26.0" prefWidth="125.0" style="-fx-background-color: LIGHTGREY;" />
-      <Button fx:id="sendBtn" layoutX="562.0" layoutY="259.0" maxWidth="51.0" minWidth="30.0" mnemonicParsing="false" onAction="#sendToAll" prefHeight="25.0" prefWidth="51.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
+      <TextArea fx:id="txtA" editable="false" layoutX="619.0" layoutY="143.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="250.0" prefWidth="200.0" style="-fx-border-color: linear-gradient(to top right, #424dad,#650c13); -fx-border-width: 5; -fx-border-style: solid; -fx-border-radius: 2; -fx-background-radius: 3;" />
+      <TextField fx:id="txtF" layoutX="619.0" layoutY="406.0" maxWidth="500.0" prefHeight="26.0" prefWidth="146.0" style="-fx-background-color: LIGHTGREY; -fx-border-color: linear-gradient(to top right, #442dad,#650c13); -fx-border-width: 2; -fx-border-radius: 2;" />
+      <Button fx:id="sendBtn" layoutX="767.0" layoutY="404.0" maxWidth="57.0" minWidth="30.0" mnemonicParsing="false" onAction="#sendToAll" prefHeight="27.0" prefWidth="57.0" style="-fx-background-radius: 20; -fx-background-color: #470000;">
          <graphic>
             <FontAwesomeIconView fill="#f5eeee" glyphName="SEND" selectionFill="#f5eeee">
                <font>
@@ -52,7 +52,7 @@
             </FontAwesomeIconView>
          </graphic>
       </Button>
-      <Button fx:id="singlePlayer" layoutX="216.0" layoutY="140.0" mnemonicParsing="false" onAction="#SwitchToSinglePlayer" prefHeight="53.0" prefWidth="196.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Single Player">
+      <Button fx:id="singlePlayer" layoutX="292.0" layoutY="200.0" mnemonicParsing="false" onAction="#SwitchToSinglePlayer" prefHeight="55.0" prefWidth="195.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Single Player">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -70,7 +70,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button fx:id="multiplayer" layoutX="216.0" layoutY="233.0" mnemonicParsing="false" onAction="#SwitchToTablePlayer" prefHeight="53.0" prefWidth="196.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Multi-Players">
+      <Button fx:id="multiplayer" layoutX="292.0" layoutY="303.0" mnemonicParsing="false" onAction="#SwitchToTablePlayer" prefHeight="55.0" prefWidth="195.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Multi-Players">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -88,7 +88,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button fx:id="logout" layoutX="531.0" layoutY="341.0" mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="82.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Logout">
+      <Button fx:id="logout" layoutX="749.0" layoutY="461.0" mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="80.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Logout">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -106,16 +106,16 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button layoutX="541.0" layoutY="14.0" mnemonicParsing="false" opacity="0.66" prefHeight="40.0" prefWidth="40.0">
+      <Button fx:id="StopMusic" layoutX="765.0" layoutY="22.0" mnemonicParsing="false" onAction="#StopMusic" opacity="0.66" prefHeight="45.0" prefWidth="45.0">
          <graphic>
             <ImageView fitHeight="29.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../com/example/tictactoe/speaker_color.png" />
+                  <Image url="@../images/mute.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="473.0" layoutY="11.0" mnemonicParsing="false" opacity="0.66" prefHeight="46.0" prefWidth="42.0">
+      <Button fx:id="Playmusic" layoutX="702.0" layoutY="22.0" mnemonicParsing="false" onAction="#PlayMusic" opacity="0.66" prefHeight="45.0" prefWidth="45.0">
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -124,10 +124,25 @@
             </ImageView>
          </graphic>
       </Button>
-      <ImageView fx:id="logo" disable="true" fitHeight="141.0" fitWidth="200.0" layoutX="221.0" layoutY="-7.0">
+      <ImageView fx:id="logo" disable="true" fitHeight="141.0" fitWidth="200.0" layoutX="288.0" layoutY="-2.0">
          <image>
             <Image url="@../images/logo.png" />
          </image>
       </ImageView>
+      <Label layoutX="25.0" layoutY="277.0" text="Score :" textFill="#f5f5f5">
+         <font>
+            <Font name="Lucida Handwriting Italic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="330.0" text="Wins :" textFill="#f5f5f5">
+         <font>
+            <Font name="Lucida Handwriting Italic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="387.0" text="Lossoes :" textFill="#f5f5f5">
+         <font>
+            <Font name="Lucida Handwriting Italic" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

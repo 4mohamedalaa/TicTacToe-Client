@@ -32,6 +32,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
+import static com.example.tictactoe.HelloApplication.Playmusic;
+import static com.example.tictactoe.HelloApplication.Stopmusic;
+import static com.example.tictactoe.controllers.LoginController.moveX;
 import static java.lang.Thread.sleep;
 
 public class MainGameController implements Initializable {
@@ -83,6 +86,9 @@ public class MainGameController implements Initializable {
     @FXML
     private Button restart;
 
+    @FXML
+    ImageView logo;
+
     static class Point {
         int row, col;
 
@@ -100,20 +106,22 @@ public class MainGameController implements Initializable {
     private int movesLeft = 9;
     private boolean gameOver = false;
 
-//     Image cross = new Image((getClass().getResourceAsStream("CROSS.png")));
-//     Image circle = new Image((getClass().getResourceAsStream("CIRCLE.png")));
-//     ImageView x = new ImageView(cross);
-//     ImageView o = new ImageView(circle);
-
     private int playerTurn = 0;
     String type = Difficulty.getAiType();
     PlayerAI aiPlayer = new PlayerAI(type);
     ArrayList<Button> buttons;
     Map<Button, Point> btnBoard = new HashMap<>();
 
+    public void StopMusic(ActionEvent stop){
+        Stopmusic();
+    }
+    public void PlayMusic(ActionEvent Play){
+        Playmusic();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        moveX(logo, -90);
 
         buttons = new ArrayList<>(
                 Arrays.asList(button1, button2, button3, button4, button5, button6, button7, button8, button9));

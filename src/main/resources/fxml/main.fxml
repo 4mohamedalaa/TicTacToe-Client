@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="867.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.MainGameController">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="850.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.MainGameController">
 
    <children>
       <VBox layoutX="284.0" layoutY="136.0" prefHeight="220.0" prefWidth="245.0" spacing="10.0">
@@ -88,9 +88,9 @@
                   <Font name="Ani" size="37.0" />
                </font>
             </Text>
-            <Text fx:id="player1Name" fill="WHITE" layoutX="10.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="player1" textAlignment="CENTER" wrappingWidth="134.9999976158142">
+            <Text fx:id="player1Name" fill="WHITE" layoutX="10.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="player1" textAlignment="CENTER" wrappingWidth="122.99999761581421">
                <font>
-                  <Font name="Ani" size="37.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>
             </Text>
             <ImageView fitHeight="87.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
@@ -98,7 +98,7 @@
                   <Image url="@../com/example/tictactoe/CROSS.png" />
                </image>
                <VBox.margin>
-                  <Insets />
+                  <Insets top="20.0" />
                </VBox.margin>
             </ImageView>
          </children>
@@ -117,7 +117,7 @@
             </Text>
             <Text fx:id="player2Name" fill="WHITE" layoutX="10.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bot" textAlignment="CENTER" wrappingWidth="134.9999976158142">
                <font>
-                  <Font name="Ani" size="37.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="24.0" />
                </font>
             </Text>
             <ImageView fitHeight="94.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
@@ -125,35 +125,45 @@
                   <Image url="@../com/example/tictactoe/CIRCLE.png" />
                </image>
                <VBox.margin>
-                  <Insets />
+                  <Insets top="20.0" />
                </VBox.margin>
             </ImageView>
          </children>
       </VBox>
-      <JFXButton fx:id="restart" buttonType="RAISED" layoutX="565.0" layoutY="501.0" onAction="#restartGame" prefHeight="46.0" prefWidth="110.0" style="-fx-background-color: #470000;" stylesheets="@Style.css" text="Play Again" textFill="#f5f4f4">
+      <JFXButton fx:id="restart" buttonType="RAISED" layoutX="563.0" layoutY="490.0" onAction="#restartGame" prefHeight="46.0" prefWidth="110.0" style="-fx-background-color: #470000;" stylesheets="@Style.css" text="Play Again" textFill="#f5f4f4">
          <font>
             <Font name="Abyssinica SIL" size="17.0" />
          </font>
       </JFXButton>
-      <Text fx:id="winnerText" fill="WHITE" layoutX="272.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tic-Tac-Toe" textAlignment="CENTER" wrappingWidth="299.9999976158142">
-         <font>
-            <Font name="Ani" size="37.0" />
-         </font>
-      </Text>
-      <Button fx:id="mute" layoutX="740.0" layoutY="21.0" mnemonicParsing="false" onAction="#displayImage" opacity="0.28" prefHeight="46.0" prefWidth="42.0" stylesheets="@Style.css" wrapText="true">
+      <ImageView fx:id="logo" fitHeight="150.0" fitWidth="200.0" layoutX="325.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logo.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="mute" layoutX="740.0" layoutY="21.0" mnemonicParsing="false" onAction="#StopMusic" opacity="0.6" prefHeight="46.0" prefWidth="42.0" stylesheets="@Style.css" wrapText="true">
          <graphic>
             <ImageView fx:id="myImage" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../com/example/tictactoe/mute_color.png" />
+                  <Image url="@../images/mute.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <JFXButton fx:id="exit" buttonType="RAISED" layoutX="699.0" layoutY="501.0" onAction="#backToProfile" prefHeight="46.0" prefWidth="110.0" style="-fx-background-color: #470000;" stylesheets="@Style.css" text="Back" textFill="#f5f4f4">
+      <JFXButton fx:id="exit" buttonType="RAISED" layoutX="698.0" layoutY="490.0" onAction="#backToProfile" prefHeight="46.0" prefWidth="110.0" style="-fx-background-color: #470000;" stylesheets="@Style.css" text="Back" textFill="#f5f4f4">
          <font>
             <Font name="Abyssinica SIL" size="17.0" />
          </font>
       </JFXButton>
+      <Button fx:id="unmute" layoutX="673.0" layoutY="21.0" mnemonicParsing="false" onAction="#PlayMusic" opacity="0.7" prefHeight="46.0" prefWidth="42.0" stylesheets="@Style.css" wrapText="true">
+         <graphic>
+            <ImageView fx:id="myImage1" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/speaker.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Text fx:id="winnerText" layoutX="514.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
    <opaqueInsets>
       <Insets />

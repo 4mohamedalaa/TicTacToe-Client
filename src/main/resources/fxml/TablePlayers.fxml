@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="373.0" prefWidth="630.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" styleClass="column-header" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.TablePlayers">
+<AnchorPane prefHeight="498.0" prefWidth="829.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" styleClass="column-header" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.TablePlayers">
    <children>
-      <TableView fx:id="OfflinePlayers" layoutY="52.0" prefHeight="239.0" prefWidth="308.0" styleClass="table-cell">
+      <TableView fx:id="OfflinePlayers" layoutX="64.0" layoutY="130.0" prefHeight="247.0" prefWidth="308.0" styleClass="table-cell">
         <columns>
           <TableColumn fx:id="OfflinePlayerName" prefWidth="161.0" text="Name" />
           <TableColumn fx:id="OfflinePlayerScore" prefWidth="57.0" text="Score" />
             <TableColumn fx:id="OfflinePlayerLoss" prefWidth="89.0" text="Losses" />
         </columns>
       </TableView>
-      <Button fx:id="BackBtn" layoutX="542.0" layoutY="334.0" mnemonicParsing="false" onAction="#BackBtn" prefHeight="29.0" prefWidth="69.0" text="Back" />
-      <TableView fx:id="OnlinePlayers" layoutX="315.0" layoutY="52.0" prefHeight="239.0" prefWidth="288.0">
+      <Button fx:id="BackBtn" layoutX="702.0" layoutY="439.0" mnemonicParsing="false" onAction="#BackBtn" prefHeight="29.0" prefWidth="69.0" text="Back" />
+      <TableView fx:id="OnlinePlayers" layoutX="431.0" layoutY="130.0" prefHeight="247.0" prefWidth="287.0">
         <columns>
           <TableColumn fx:id="OnlinePlayerName" prefWidth="145.0" text="Name" />
           <TableColumn fx:id="OnlinePlayerScore" prefWidth="61.0" text="Score" />
             <TableColumn fx:id="OnlinePlayerInvite" prefWidth="81.0" resizable="false" text="Invite" />
         </columns>
       </TableView>
+      <Label layoutX="431.0" layoutY="87.0" text="Online players" textFill="#38cd1d">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="72.0" layoutY="87.0" text="Offline players" textFill="#cc1f1f">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

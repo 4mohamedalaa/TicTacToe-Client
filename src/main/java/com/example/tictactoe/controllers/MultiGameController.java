@@ -9,9 +9,11 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -27,7 +29,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static com.example.tictactoe.HelloApplication.Playmusic;
+import static com.example.tictactoe.HelloApplication.Stopmusic;
+import static com.example.tictactoe.controllers.LoginController.moveX;
+
 public class MultiGameController implements Initializable {
+
     public Button button6;
     public Button button2;
     public Button button3;
@@ -49,6 +56,10 @@ public class MultiGameController implements Initializable {
     public Button send;
     public TextField txtF;
     public  TextArea txtA;
+    @FXML
+    ImageView logomulti;
+
+
     private final Stage stage = new Stage();
     public static ArrayList<Button> btns=  new ArrayList<>();
         private int[] marks = {0, 0, 0, 0, 0, 0, 0, 0, 0};          //   0   8   0
@@ -62,6 +73,8 @@ public class MultiGameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        moveX(logomulti, -90);
         //txtA = new TextArea() ;
         gameID= CurrentPlayerModel.gameId;
         System.out.println("assign buttons for this btn array");
@@ -116,6 +129,12 @@ public class MultiGameController implements Initializable {
             closingObj.addProperty("opponentId", CurrentPlayerModel.opponentId);
             ClientServerHandler.close(closingObj);
         });
+    }
+    public void StopMusic(ActionEvent stop){
+        Stopmusic();
+    }
+    public void PlayMusic(ActionEvent Play){
+        Playmusic();
     }
 
     public String getPlayer() {

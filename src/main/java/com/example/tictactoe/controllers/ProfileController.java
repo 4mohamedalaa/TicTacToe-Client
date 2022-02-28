@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,11 +33,11 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.scene.layout.VBox;
 
+import static com.example.tictactoe.HelloApplication.Playmusic;
+import static com.example.tictactoe.HelloApplication.Stopmusic;
+
 public class ProfileController implements Initializable  {
-//    @FXML
-//    Button sendMsg;
-//    @FXML
-//    TextField txtF;
+
     @FXML
     public TextArea txtA;
     @FXML
@@ -59,8 +60,11 @@ public class ProfileController implements Initializable  {
 
     @FXML
     Text CurrentLoss;
+@FXML
+Button StopMusic;
 
-
+    @FXML
+    Button Playmusic;
 
 @FXML
 Button sendBtn;
@@ -68,17 +72,6 @@ Button sendBtn;
 @FXML
 TextField txtF;
 
-@FXML
-JFXDrawer Drawer;
-
-@FXML
-JFXHamburger Ham;
-
-@FXML
-TableView   OnlinePlayers;
-
-@FXML
-TableView OfflinePlayers;
 
 //
 //    public static  MultiGameController myControllerHandle2;
@@ -92,7 +85,12 @@ TableView OfflinePlayers;
 //            ClientServerHandler.sendMessageToAll(msg) ;
 //        }
 //    }
-
+public void StopMusic(ActionEvent stop){
+    Stopmusic();
+}
+public void PlayMusic(ActionEvent Play){
+    Playmusic();
+}
     public void SwitchToSinglePlayer(ActionEvent event) throws IOException {
         Stage stage;
         Scene scene;
@@ -103,7 +101,6 @@ TableView OfflinePlayers;
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
     }
     public void SwitchToTablePlayer(ActionEvent event) throws IOException {
         Stage stage;
@@ -115,7 +112,6 @@ TableView OfflinePlayers;
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
     }
     public void SwitchToMultiplayer(ActionEvent event) throws IOException {
         Stage stage ;
@@ -128,16 +124,6 @@ TableView OfflinePlayers;
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        /*
-        Stage stage;
-        Scene scene;
-        Parent root;
-        root = FXMLLoader.load(getClass().getResource("/fxml/TablePlayers.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
-
     }
     public void logout(ActionEvent event) throws IOException {
         Stage stage;

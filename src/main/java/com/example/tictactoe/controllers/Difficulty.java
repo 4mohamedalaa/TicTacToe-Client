@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import static com.example.tictactoe.HelloApplication.Playmusic;
+import static com.example.tictactoe.HelloApplication.Stopmusic;
+
 public class Difficulty {
     static String aiType;
     @FXML
@@ -55,9 +58,29 @@ public class Difficulty {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
     }
+    public void StopMusic(ActionEvent stop){
+        Stopmusic();
+    }
+    public void PlayMusic(ActionEvent Play){
+        Playmusic();
+    }
+public void BackBtn(ActionEvent event) throws IOException {
+    Stage stage;
+    Scene scene;
+    Parent root;
+    final Node source = (Node) event.getSource();
+    String id = source.getId();
+    System.out.println(id);
+    setType(id);
+    System.out.println(getClass().getResource("/fxml/profile.fxml"));
+    root = FXMLLoader.load(getClass().getResource("/fxml/profile.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
 
+}
     static String getAiType(){
         return aiType;
     }
