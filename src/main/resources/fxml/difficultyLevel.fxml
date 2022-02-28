@@ -54,7 +54,7 @@
                               <Image url="@../images/CROSS.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="dump"  layoutX="195.0" layoutY="228.0" mnemonicParsing="false" onAction="#SwitchToSinglePlayer" prefHeight="30.0" prefWidth="232.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Smart">
+                        <Button fx:id="smart"  layoutX="195.0" layoutY="228.0" mnemonicParsing="false" onAction="#SwitchToSinglePlayer" prefHeight="30.0" prefWidth="232.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Smart">
                            <textFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
@@ -72,7 +72,7 @@
                               </LinearGradient>
                            </textFill>
                         </Button>
-                        <Button fx:id="smart" defaultButton="true" layoutX="195.0" layoutY="170.0" mnemonicParsing="false" onAction="#SwitchToSinglePlayer" prefHeight="30.0" prefWidth="232.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Dump">
+                        <Button fx:id="dump" defaultButton="true" layoutX="195.0" layoutY="170.0" mnemonicParsing="false" onAction="#SwitchToSinglePlayer" prefHeight="30.0" prefWidth="232.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Dump">
                            <textFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
