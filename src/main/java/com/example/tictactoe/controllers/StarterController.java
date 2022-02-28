@@ -26,6 +26,7 @@ public class StarterController implements Initializable {
   @FXML
   public Button Signup;
 
+
   public void SwitchToSignUp(ActionEvent event) throws IOException {
     Stage stage;
     Scene scene;

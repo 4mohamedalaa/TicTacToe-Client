@@ -45,7 +45,7 @@
                         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="250.0" style="-fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" styleClass="textfield">
                            <children>
                               <FontAwesomeIconView fill="WHITE" glyphName="KEY" size="1.5em" />
-                              <PasswordField fx:id="passwordField" promptText="password" style="-fx-background-color: transparent; -fx-prompt-text-fill: white;" HBox.hgrow="ALWAYS">
+                              <PasswordField fx:id="passwordField" promptText="password" style="-fx-background-color: transparent; -fx-prompt-text-fill: white;" styleClass="textfield" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>

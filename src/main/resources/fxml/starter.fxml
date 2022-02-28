@@ -3,7 +3,6 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,51 +12,50 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
 
 <Pane prefHeight="400.0" prefWidth="599.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.StarterController">
     <children>
-        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
-            <center>
-                <AnchorPane prefHeight="347.0" prefWidth="407.0" BorderPane.alignment="CENTER">
-                    <children>
-                    <VBox layoutX="485.0" layoutY="-36.0" prefHeight="156.0" prefWidth="61.0">
-                        <children>
-                            <ImageView fitHeight="60.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../com/example/tictactoe/CROSS.png" />
-                                </image>
-                                <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                </VBox.margin>
-                            </ImageView>
-                            <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../com/example/tictactoe/CROSS.png" />
-                                </image>
-                                <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                </VBox.margin>
-                            </ImageView>
-                            <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../com/example/tictactoe/CROSS.png" />
-                                </image>
-                                <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                </VBox.margin>
-                            </ImageView>
-                            <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../com/example/tictactoe/CROSS.png" />
-                                </image>
-                            </ImageView>
-                        </children>
-                        <padding>
-                            <Insets left="10.0" top="10.0" />
-                        </padding>
-                    </VBox>
-                  <Button fx:id="loginBtn" layoutX="179.0" layoutY="65.0" mnemonicParsing="false" onAction="#SwitchToLogin" prefHeight="53.0" prefWidth="196.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="    Login">
+      <VBox />
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);">
+         <center>
+            <AnchorPane prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="logo" disable="true" fitHeight="141.0" fitWidth="200.0" layoutX="211.0" layoutY="-17.0">
+                     <image>
+                        <Image url="@../images/logo.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="o1" fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="350.0">
+                     <image>
+                        <Image url="@../com/example/tictactoe/CIRCLE.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="o2" fitHeight="49.0" fitWidth="49.0" layoutX="14.0" layoutY="298.0">
+                     <image>
+                        <Image url="@../com/example/tictactoe/CIRCLE.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="o3" fitHeight="49.0" fitWidth="49.0" layoutX="14.0" layoutY="243.0">
+                     <image>
+                        <Image url="@../com/example/tictactoe/CIRCLE.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="4.0" fx:id="x1">
+                     <image>
+                        <Image url="@../images/CROSS.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="64.0" fx:id="x2">
+                     <image>
+                        <Image url="@../images/CROSS.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="525.0" layoutY="124.0" fx:id="x3">
+                     <image>
+                        <Image url="@../images/CROSS.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="loginBtn" layoutX="213.0" layoutY="148.0" mnemonicParsing="false" onAction="#SwitchToLogin" prefHeight="53.0" prefWidth="196.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Login">
                      <graphic>
                         <FontAwesomeIconView glyphName="CHECK" size="1.5em">
                            <fill>
@@ -95,7 +93,7 @@
                         </LinearGradient>
                      </textFill>
                   </Button>
-                  <Button fx:id="Signup" layoutX="179.0" layoutY="176.0" mnemonicParsing="false" onAction="#SwitchToSignUp" prefHeight="53.0" prefWidth="196.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Sign-up">
+                  <Button fx:id="Signup" layoutX="213.0" layoutY="256.0" mnemonicParsing="false" onAction="#SwitchToSignUp" prefHeight="53.0" prefWidth="196.0" style="-fx-background-radius: 100; -fx-background-color: rgba(255,255,255,0.64); -fx-font-weight: bold;" text="Sign-up">
                      <graphic>
                         <FontAwesomeIconView glyphName="CHECK" size="1.5em">
                            <fill>
@@ -133,60 +131,12 @@
                         </LinearGradient>
                      </textFill>
                   </Button>
-                    </children>
-                    <BorderPane.margin>
-                        <Insets />
-                    </BorderPane.margin>
-                </AnchorPane>
-            </center>
-            <top>
-                <Label prefHeight="37.0" prefWidth="291.0" text="Welcome to TIC-TAC-TOE" textFill="#c9c2c2" BorderPane.alignment="CENTER">
-                    <font>
-                        <Font name="Comic Sans MS Bold" size="23.0" />
-                    </font>
-                    <BorderPane.margin>
-                        <Insets top="20.0" />
-                    </BorderPane.margin>
-                </Label>
-            </top>
-            <left>
-                <VBox prefHeight="347.0" prefWidth="46.0" BorderPane.alignment="CENTER">
-                    <children>
-                        <ImageView fitHeight="45.0" fitWidth="40.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
-                            </image>
-                            <VBox.margin>
-                                <Insets bottom="5.0" left="5.0" top="165.0" />
-                            </VBox.margin>
-                        </ImageView>
-                        <ImageView fitHeight="45.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
-                            </image>
-                            <VBox.margin>
-                                <Insets bottom="5.0" left="5.0" />
-                            </VBox.margin>
-                        </ImageView>
-                        <ImageView fitHeight="45.0" fitWidth="40.0" layoutX="10.0" layoutY="64.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
-                            </image>
-                            <VBox.margin>
-                                <Insets bottom="5.0" left="5.0" />
-                            </VBox.margin>
-                        </ImageView>
-                        <ImageView fitHeight="45.0" fitWidth="40.0" layoutX="10.0" layoutY="118.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../com/example/tictactoe/CIRCLE.png" />
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" />
-                            </VBox.margin>
-                        </ImageView>
-                    </children>
-                </VBox>
-            </left>
-        </BorderPane>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </AnchorPane>
+         </center>
+      </BorderPane>
     </children>
 </Pane>
