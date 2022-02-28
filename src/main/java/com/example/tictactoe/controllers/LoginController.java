@@ -85,20 +85,23 @@ public class LoginController implements Initializable {
     public void loginBtnAction(ActionEvent event) throws IOException {
         System.out.println("Pressed sign-in button");
         // If the fields are NOT empty
-        if (!getUserName().isEmpty() && !getPassword().isEmpty()) {
+       if(getUserName().isEmpty() && getPassword().isEmpty()) {
+           Alert alert = new Alert(Alert.AlertType.ERROR, "username or password can't be empty");
+           alert.show();
+           return;
+       }
             // Call client-server handler static signIn function with user-provided username
             // & password
             boolean response = ClientServerHandler.signIn(getUserName(), getPassword());
             // If the response is FALSE, show alert. Means username or password error
             if (!response) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong password or username");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong username or password");
                 alert.show();
+                return;
             }
-        } else {
             // Show error if no input is given and button is pressed
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please input text before trying to sign in");
-            alert.show();
-        }
+
+
 
         // Continue by switching scenes upon successful login
         if (CurrentPlayerModel.login) {
