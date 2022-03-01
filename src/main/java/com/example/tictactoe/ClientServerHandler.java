@@ -34,8 +34,8 @@ import static com.example.tictactoe.controllers.LoginController.clientServerList
 
 
 public class ClientServerHandler {
-    //private static final String SERVER_ADDRESS = "18.197.17.158";
-    private static final String SERVER_ADDRESS = "127.0.0.1";
+    private static final String SERVER_ADDRESS = "18.197.17.158";
+//    private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;

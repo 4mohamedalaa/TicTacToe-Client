@@ -201,7 +201,6 @@ public class ClientServerListener extends Thread {
                             }
                         });
                         break;
-
                     case "update-list":
                         if (onlinePlayersList != null) {
                             onlinePlayersList.clear();
