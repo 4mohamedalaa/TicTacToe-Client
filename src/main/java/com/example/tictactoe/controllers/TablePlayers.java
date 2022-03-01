@@ -81,7 +81,7 @@ public class TablePlayers implements Initializable  {
                 while (true){
                     synchronized (ClientServerListener.onlinePlayersList){
                         try {
-                            ClientServerListener.onlinePlayersList.wait(100);
+                            ClientServerListener.onlinePlayersList.wait(1000); // Raised wait to not affect GUI buttons
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
