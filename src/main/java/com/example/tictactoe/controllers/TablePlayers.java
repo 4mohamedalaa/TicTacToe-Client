@@ -1,6 +1,7 @@
 package com.example.tictactoe.controllers;
 
 import com.example.tictactoe.*;
+import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -96,6 +97,7 @@ public class TablePlayers implements Initializable  {
                         }
                     }
                     ArrayList<PlayerModel> OnPlayers = (ArrayList<PlayerModel>) ClientServerListener.onlinePlayersList;
+                    OnPlayers.removeIf(playerModel -> (playerModel.getId() == Integer.parseInt(CurrentPlayerModel.id)));
                     ObservableList<Object> OnPlayerList = FXCollections.observableArrayList();
                     ArrayList<PlayerModel> OffPlayers = ClientServerListener.offlinePlayersList;
                     ObservableList<PlayerModel> OffPlayerList = FXCollections.observableArrayList();
