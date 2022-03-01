@@ -25,7 +25,7 @@ public class CurrentPlayerModel {
 
     //@samboo
 
-    static int opponentScore;
+    static Integer opponentScore;
 
     static public String getOpponentUsername()
     {
@@ -54,4 +54,22 @@ public class CurrentPlayerModel {
         return wins;
     }
     public static Stage eventWindow;
+
+    public static void resetCurrentPlayer(){
+        login = false;
+        id = "";
+        currentlyInvitedPlayerId = null;
+        opponentId = null;
+        gameId = null;
+        username = "";
+        score = "";
+        wins = "";
+        losses = "";
+        opponentUsername = "";
+        playerTurn = false;
+        allowFire = false;
+        mySign = "";
+        opponentScore = null;
+        eventWindow = null;
+    }
 }

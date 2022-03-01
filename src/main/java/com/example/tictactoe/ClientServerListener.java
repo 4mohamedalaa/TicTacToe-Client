@@ -36,8 +36,8 @@ public class ClientServerListener extends Thread {
     private static Stage primaryStage;
 
     // Created ArrayLists to track offline and online players in Real-Time
-    public static ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
-    public static ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
+    public static final ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
+    public static final ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
     // Declaring buttons and controller
     public boolean running = true;
     private static ArrayList<javafx.scene.control.Button> buttons;
