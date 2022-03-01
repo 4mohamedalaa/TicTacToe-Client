@@ -59,10 +59,11 @@ public class TablePlayers implements Initializable  {
     ArrayList<PlayerModel> OnPlayers = ClientServerHandler.getOfflinePlayers();
     ObservableList<Object> OnPlayerList = FXCollections.observableArrayList();
 
+    // Provide status for running thread
+    boolean isPressed = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        boolean isPressed = false;
-
         // Online table list
         OnlinePlayerName.setCellValueFactory(new PropertyValueFactory<>("username"));
         OnlinePlayerScore.setCellValueFactory(new PropertyValueFactory<>("score"));
@@ -78,10 +79,11 @@ public class TablePlayers implements Initializable  {
             @Override
             public void run() {
                 super.run();
-                while (true){
+                while (!isPressed){
                     synchronized (ClientServerListener.onlinePlayersList){
                         try {
-                            ClientServerListener.onlinePlayersList.wait(1000); // Raised wait to not affect GUI buttons
+                            // Raised wait higher for online players to not affect invite button GUI
+                            ClientServerListener.onlinePlayersList.wait(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -107,6 +109,7 @@ public class TablePlayers implements Initializable  {
     }
 
     public void BackBtn(ActionEvent event) throws IOException {
+        isPressed = true;
         Stage stage;
         Scene scene;
         Parent root;
