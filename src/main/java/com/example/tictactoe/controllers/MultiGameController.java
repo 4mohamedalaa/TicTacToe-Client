@@ -76,7 +76,7 @@ public class MultiGameController implements Initializable {
 
         moveX(logomulti, -90);
         //txtA = new TextArea() ;
-        gameID= CurrentPlayerModel.gameId;
+        gameID = CurrentPlayerModel.gameId;
         System.out.println("assign buttons for this btn array");
         btns.add(button1);btns.add(button2);btns.add(button3);
         btns.add(button4);btns.add(button5);btns.add(button6);
