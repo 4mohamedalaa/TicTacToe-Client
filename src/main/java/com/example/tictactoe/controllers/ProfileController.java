@@ -171,6 +171,7 @@ public void PlayMusic(ActionEvent Play){
     public void sendToAll(){
         //System.out.println("clicked");
                String msg = txtF.getText();
+               txtF.appendText("");
                 if(msg != null ){
                    // System.out.println("inside clicked ");
                     System.out.println(CurrentPlayerModel.username);

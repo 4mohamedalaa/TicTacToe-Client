@@ -340,11 +340,15 @@ public class ClientServerListener extends Thread {
                                if (button == ButtonType.YES) {
                                    //will finish game here
                                    //goes to profile
+                                   JsonObject gamePause = new JsonObject() ;
+                                   gamePause.addProperty("type", "pause-game");
+                                   gamePause.addProperty("game_id", CurrentPlayerModel.gameId);
+                                   ClientServerHandler.sendPausingObj(gamePause);
                                     System.out.println("okay Accepted Puase");
                                    //////////////////////////////////////////
                                    JsonObject requestObject = new JsonObject();
                                    requestObject.addProperty("type", "acceptpause");
-                                   requestObject.addProperty("status" , true);
+                                   //requestObject.addProperty("status" , true);
                                    requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
                                    requestObject.addProperty("accepter", Integer.parseInt(CurrentPlayerModel.id) );
                                    requestObject.addProperty("accepted", CurrentPlayerModel.opponentId);
@@ -376,11 +380,19 @@ public class ClientServerListener extends Thread {
                                     });
                                 }
                                else {
+                                   JsonObject gameFinish = new JsonObject();
+                                   gameFinish.addProperty("type", "finish_game");
+                                   gameFinish.addProperty("winner", CurrentPlayerModel.id);
+                                   gameFinish.addProperty("looser", CurrentPlayerModel.opponentId);
+                                   gameFinish.addProperty("game_id", CurrentPlayerModel.gameId);
+                                   System.out.println("game is finished "+true);
+                                   ClientServerHandler.sendFinishingObj(gameFinish);
+
                                    System.out.println("No Rejected Puase ");
                                    //////////////////////////////////////////
                                    JsonObject requestObject = new JsonObject();
-                                   requestObject.addProperty("type", "acceptpause");
-                                   requestObject.addProperty("status" , false);
+                                   requestObject.addProperty("type", "rejectpause");
+                                  // requestObject.addProperty("status" , false);
                                    requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
                                    requestObject.addProperty("accepter", Integer.parseInt(CurrentPlayerModel.id) );
                                    requestObject.addProperty("accepted", CurrentPlayerModel.opponentId);
@@ -442,9 +454,8 @@ public class ClientServerListener extends Thread {
 
                     case"pauseAcceptanceState":
                         System.out.println("inside pauseAcceptanceState ");
-                        String state = jsonObject.get("state").toString();
-                        System.out.println("**** "+state);
-                        if (state == "true"){
+                        //String state = jsonObject.get("state").toString();
+                        //System.out.println("**** "+state);
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
@@ -464,53 +475,54 @@ public class ClientServerListener extends Thread {
                                     }
                                 }
                             });
-                        }
-                        else{
-                            //show dialog ya loser
-                            System.out.println("inside no pause");
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    StackPane secondaryLayout2 = new StackPane();
-                                    MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/loser.mp4").toExternalForm()));
-                                    MediaView mediaView2 = new MediaView(videoForWinner);
-                                    secondaryLayout2.getChildren().addAll(mediaView2);
-                                    Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
-                                    Stage secondStage2 = new Stage();
-                                    secondStage2.setResizable(false);
-                                    secondStage2.setScene(secondScene2);
-                                    secondStage2.show();
-                                    videoForWinner.play();
-                                    PauseTransition delay = new PauseTransition(Duration.seconds(3));
-                                    delay.setOnFinished(event -> secondStage2.close());
-                                    delay.play();
-                                }});
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Switching scenes
-                                    Stage stage;
-                                    stage = CurrentPlayerModel.eventWindow;
-                                    Scene scene;
-                                    Parent root;
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
-                                    try {
-                                        root = loader.load();
-                                        scene = new Scene(root);
-                                        stage.setScene(scene);
-                                        stage.show();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
+                            //finish game with no winner
+                            //finish game with state false
                         break;
+                    case"pauseRejectState":
+                        System.out.println("inside no pause");
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                StackPane secondaryLayout2 = new StackPane();
+                                MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/loser.mp4").toExternalForm()));
+                                MediaView mediaView2 = new MediaView(videoForWinner);
+                                secondaryLayout2.getChildren().addAll(mediaView2);
+                                Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
+                                Stage secondStage2 = new Stage();
+                                secondStage2.setResizable(false);
+                                secondStage2.setScene(secondScene2);
+                                secondStage2.show();
+                                videoForWinner.play();
+                                PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                                delay.setOnFinished(event -> secondStage2.close());
+                                delay.play();
+                            }});
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Switching scenes
+                                Stage stage;
+                                stage = CurrentPlayerModel.eventWindow;
+                                Scene scene;
+                                Parent root;
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+                                try {
+                                    root = loader.load();
+                                    scene = new Scene(root);
+                                    stage.setScene(scene);
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        break;
+
                     default:
                         System.out.println("Invalid server request");
                 }

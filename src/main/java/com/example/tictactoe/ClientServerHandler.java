@@ -377,15 +377,10 @@ public class ClientServerHandler {
         for (int i = 0; i < string.length; i++) {
             String[] st = string[i].trim().split("-");
             System.out.println(Arrays.toString(st));
-
-
             int pos = Integer.parseInt(st[0]);
             int sign = Integer.parseInt(st[1]);
             int player_id = Integer.parseInt(st[2]);
-
-
             double tim = i + 0.5;
-
             PauseTransition pause = new PauseTransition(Duration.seconds(i));
             pause.setOnFinished(event -> {
                 Button btn = buttons.get(pos);
@@ -413,8 +408,7 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
-
-    public static void sendpauseAccept() {
+    /*public static void sendpauseAccept() {
         JsonObject requestObject = new JsonObject();
         requestObject.addProperty("type", "acceptpause");
         requestObject.addProperty("status" , "true");
@@ -427,22 +421,30 @@ public class ClientServerHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
+    }*/
     public static void sendFinishingObj(JsonObject gameFinish) {
         try {
+
             dataOutputStream.writeUTF(gameFinish.toString());
         }catch (IOException e){
             e.printStackTrace();
         }
     }
-    public static void passMoveToOponnent(JsonObject boardUpdate) {
+    public static void sendPausingObj(JsonObject gameFinish) {
+        try {
+
+            dataOutputStream.writeUTF(gameFinish.toString());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+   /* public static void passMoveToOponnent(JsonObject boardUpdate) {
         try {
             dataOutputStream.writeUTF(String.valueOf(boardUpdate));
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
 }

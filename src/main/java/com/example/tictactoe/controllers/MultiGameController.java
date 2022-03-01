@@ -287,6 +287,7 @@ public class MultiGameController  implements Initializable {
         gameFinish.addProperty("winner", id);
         gameFinish.addProperty("looser", CurrentPlayerModel.opponentId);
         gameFinish.addProperty("game_id", CurrentPlayerModel.gameId);
+        //gameFinish.addProperty("game_ended", gameEnded);
         System.out.println("game is finished "+true);
         ClientServerHandler.sendFinishingObj(gameFinish);
     }
@@ -326,6 +327,7 @@ public class MultiGameController  implements Initializable {
     }
     public void sendToOne() {
                     String msg =txtF.getText();
+                    txtF.appendText("");
                     if(msg != null ){
                         txtA.appendText(msg);
                         txtA.appendText("\n");
