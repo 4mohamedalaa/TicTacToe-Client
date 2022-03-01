@@ -221,8 +221,8 @@ public class ClientServerListener extends Thread {
                         break;
 
                     case"receivemessagefromone":
-                        String senderUserName =  jsonObject.get("senderusername").toString();
-                        String msg = jsonObject.get("message").toString();
+                        String senderUserName =  jsonObject.get("senderusername").getAsString();
+                        String msg = jsonObject.get("message").getAsString();
                         String message1 = senderUserName.concat(" : ").concat(msg).concat("\n");
                         System.out.println("********  inside receive message from one  ");
                         if(host==null)   {
@@ -240,8 +240,8 @@ public class ClientServerListener extends Thread {
                         MultiGameController.opponentsMove(position);
                         break;
                     case "allreceivemessagefromone":
-                        String name = jsonObject.get("senderusername").toString();
-                        String message2 = jsonObject.get("message").toString();
+                        String name = jsonObject.get("senderusername").getAsString();
+                        String message2 = jsonObject.get("message").getAsString();
                         String msgtoProfile = name.concat(" : ").concat(message2).concat("\n");
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
