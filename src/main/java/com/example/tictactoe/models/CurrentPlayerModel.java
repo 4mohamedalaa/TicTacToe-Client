@@ -15,6 +15,7 @@ public class CurrentPlayerModel {
     public static Integer gameId;
     public static String username;
     public static String score;
+    public static String opponentscore;
     public static String wins;
     public static String losses;
     public static String opponentUsername;

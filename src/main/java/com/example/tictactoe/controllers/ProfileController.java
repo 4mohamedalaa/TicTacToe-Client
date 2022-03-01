@@ -136,7 +136,6 @@ public void PlayMusic(ActionEvent Play){
         stage.show();
          ClientServerHandler.signOut();
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        HamburgerSlideCloseTransition transition1= new HamburgerSlideCloseTransition(Ham);
@@ -169,7 +168,6 @@ public void PlayMusic(ActionEvent Play){
 
 
     }
-
     public void sendToAll(){
         //System.out.println("clicked");
                String msg = txtF.getText();

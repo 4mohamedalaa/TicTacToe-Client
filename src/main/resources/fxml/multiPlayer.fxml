@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1030.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.MultiGameController">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1030.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.MultiGameController">
 
     <children>
         <VBox layoutX="229.0" layoutY="138.0" prefHeight="220.0" prefWidth="245.0" spacing="10.0">
@@ -119,7 +111,7 @@
                   <Image url="@../com/example/tictactoe/CIRCLE.png" />
               </image>
           </ImageView>
-        <JFXButton fx:id="restart" buttonType="RAISED" layoutX="816.0" layoutY="490.0" onAction="#restartGame" prefHeight="40.0" prefWidth="97.0" style="-fx-background-color: #470000; -fx-background-radius: 100; -fx-font-weight: bold;" text="Play Again" textFill="#f5f4f4">
+        <JFXButton fx:id="pause" buttonType="RAISED" layoutX="816.0" layoutY="490.0" onAction="#puaseGame" prefHeight="40.0" prefWidth="97.0" style="-fx-background-color: #470000; -fx-background-radius: 100; -fx-font-weight: bold;" text="Pause" textFill="#f5f4f4">
             <font>
                 <Font size="14.0" />
             </font>

@@ -30,8 +30,6 @@ import java.net.URL;
 import java.util.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-
 import static com.example.tictactoe.HelloApplication.Playmusic;
 import static com.example.tictactoe.HelloApplication.Stopmusic;
 import static com.example.tictactoe.controllers.LoginController.moveX;

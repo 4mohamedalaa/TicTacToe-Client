@@ -6,25 +6,36 @@ import com.example.tictactoe.models.PlayerModel;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
+//import static com.example.tictactoe.controllers.TablePlayers.Update;
 
 public class ClientServerListener extends Thread {
     // Inherit dataStreams and socket from ClientServerHandler
@@ -43,6 +54,7 @@ public class ClientServerListener extends Thread {
     private static ArrayList<javafx.scene.control.Button> buttons;
     public static MultiGameController guest ;
     public static MultiGameController host ;
+    private Object multicontrollerhandler;
 
 
     public ClientServerListener() {
@@ -81,6 +93,7 @@ public class ClientServerListener extends Thread {
                     case "invitationreceived":
                         CurrentPlayerModel.opponentId = jsonObject.get("sender").getAsInt();
                         CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
+                        CurrentPlayerModel.opponentscore = jsonObject.get("opponentsscore").getAsString();
                         CurrentPlayerModel.opponentUsername = jsonObject.get("opponentusername").getAsString();
                         Platform.runLater(new Runnable() {
                             @Override
@@ -101,7 +114,7 @@ public class ClientServerListener extends Thread {
                                     CurrentPlayerModel.playerTurn = true;
                                     CurrentPlayerModel.allowFire = true;
                                     CurrentPlayerModel.mySign = "X";
-                                    ClientServerHandler.acceptInvitation();
+                                    ClientServerHandler.acceptInvitation();//////////////////////////////////////////
                                     Platform.runLater(new Runnable() {
                                         @Override
                                         public void run() {
@@ -110,13 +123,11 @@ public class ClientServerListener extends Thread {
                                             stage = CurrentPlayerModel.eventWindow;
                                             Scene scene;
                                             Parent root;
-                                            FXMLLoader loader = new FXMLLoader(
-                                                    getClass().getResource("/fxml/multiPlayer.fxml"));
+                                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
                                             try {
                                                 root = loader.load();
                                                 guest = loader.getController();
                                                 System.out.println(guest);
-                                                //myControllerHandle2.player2Name.setText(CurrentPlayerModel.username);
                                                 System.out.println("inside invitation received");//sambo sending to said
                                                 System.out.println("host : " +CurrentPlayerModel.username);
                                                 System.out.println("guest : "+CurrentPlayerModel.opponentUsername);
@@ -130,6 +141,10 @@ public class ClientServerListener extends Thread {
                                                 guest.player1Name.setText(CurrentPlayerModel.username);
                                                 guest.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
                                                 guest.player1Name.setStyle("-fx-background-color: green");
+                                                //guest.scoreX.setText(CurrentPlayerModel.score);
+                                                //guest.scoreO.setText(CurrentPlayerModel.opponentscore);
+                                                System.out.println("opoooooooonnnnent score "+ CurrentPlayerModel.opponentscore);
+                                                System.out.println(" score "+ CurrentPlayerModel.score);
                                             } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
@@ -150,6 +165,7 @@ public class ClientServerListener extends Thread {
                         CurrentPlayerModel.mySign = "O";
                         CurrentPlayerModel.username = jsonObject.get("accptedname").getAsString();
                         CurrentPlayerModel.opponentUsername = jsonObject.get("acceptername").getAsString() ;
+                       // CurrentPlayerModel.opponentscore = jsonObject.get("opponentscore").getAsString() ;
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
@@ -163,7 +179,6 @@ public class ClientServerListener extends Thread {
                                     root = loader.load();
                                     host = loader.getController();
                                     System.out.println(host);
-                                   // myControllerHandle2.player1Name.setText(CurrentPlayerModel.username);
                                     System.out.println("inside invitation accept");
                                     System.out.println("host : " +CurrentPlayerModel.username);
                                     System.out.println("guest : "+CurrentPlayerModel.opponentUsername);
@@ -176,6 +191,10 @@ public class ClientServerListener extends Thread {
                                     host.player1Name.setText(CurrentPlayerModel.opponentUsername);
                                     host.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
                                     host.player1Name.setStyle("-fx-background-color: green");
+                                    //host.scoreO.setText(CurrentPlayerModel.score);
+                                    System.out.println("opoooooooonnnnent score "+ CurrentPlayerModel.opponentscore);
+                                    System.out.println(" score "+ CurrentPlayerModel.score);
+                                   // host.scoreX.setText(CurrentPlayerModel.opponentscore);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -199,6 +218,7 @@ public class ClientServerListener extends Thread {
                                 onlinePlayersList.notifyAll();
                             }
                         }
+                       // Update(onlinePlayersList) ;
 
                         if (offlinePlayersList != null) {
                             offlinePlayersList.clear();
@@ -217,6 +237,7 @@ public class ClientServerListener extends Thread {
                                 offlinePlayersList.notifyAll();
                             }
                         }
+                       // Update(offlinePlayersList);
                         System.out.println("received update-list");
                         break;
 
@@ -234,6 +255,13 @@ public class ClientServerListener extends Thread {
                             host.txtA.appendText(message1);
                         }
                         break;
+                    // @samboooo
+                    // recieved Json from server to print message from one client to all online
+                    // players
+
+                  /*  case "oponnetmove" :
+                        multicontrollerhandler.opponent_action(jsonObject);
+                        break;*/
 
                     case "oponnetmove" :
                         int position=jsonObject.get("position").getAsInt();
@@ -250,84 +278,239 @@ public class ClientServerListener extends Thread {
 
                         break;
                     case "game_record":
-                        // System.out.println(jsonObject);
-                        // String moves = jsonObject.get("moves").getAsString();
-                        // Platform.runLater(new Runnable() {
-                        // @Override
-                        // public void run() {
-                        // Stage stage;
-                        // stage = CurrentPlayerModel.eventWindow;
-                        // Scene scene;
-                        // Parent root;
-                        // FXMLLoader loader = new
-                        // FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
-                        // try {
-                        // root = loader.load();
-                        // myControllerHandle2 = loader.getController();
-                        // scene = new Scene(root);
-                        // stage.setScene(scene);
-                        // stage.show();
-                        // } catch (IOException e) {
-                        // e.printStackTrace();
-                        // }
-                        // }
-                        // });
-                        // String[] string = recordsArray.replaceAll("\[", "").replaceAll("]",
-                        // "").split(",");
-                        // for (int i = 0; i < string.length; i++) {
-                        // String[] st = string[i].trim().split("-");
-                        // System.out.println(Arrays.toString(st));
-                        //
-                        //
-                        // int pos = Integer.parseInt(st[0]);
-                        // int sign = Integer.parseInt(st[1]);
-                        // int player_id = Integer.parseInt(st[2]);
-                        //
-                        //
-                        // double tim = i + 0.5;
-                        //
-                        // PauseTransition pause = new PauseTransition(Duration.seconds(i));
-                        // pause.setOnFinished(event -> {
-                        // Button btn = buttons.get(pos);
-                        // btn.setFont(new Font("System Bold Italic", 200));
-                        // btn.setStyle("-fx-font-size:40");
-                        // String si = (sign == 8) ? "X" : "O";
-                        // btn.setText(si);
-                        // });
-                        // pause.playFromStart();
-                        // }
+                        System.out.println(jsonObject);
+                        String moves= jsonObject.get("moves").getAsString();
+                        ClientServerHandler.renderRecordedGame(moves);
                         break;
                     case "opponent_disconnect":
-                        // ServerConnector.dataOutputStream.close();
-                        // ServerConnector.dataInputStream.close();
-                        // System.out.println("opponent_disconnect");
-                        // ServerConnector.socket.close();
-                        // running=false;
-                        // Platform.runLater(new Runnable() {
-                        // @Override
-                        // public void run() {
-                        // //render pop up
-                        // Alert alert = new Alert(Alert.AlertType.WARNING);
-                        // alert.setContentText("Connection failed");
-                        // alert.setTitle("connection");
-                        // alert.initOwner(primaryStage);
-                        //
-                        //
-                        // alert.getButtonTypes();
-                        //
-                        // Optional<ButtonType> result = alert.showAndWait();
-                        // if (result.get() == ButtonType.OK){
-                        // // ... user chose OK button
-                        // Home root = new Home(primaryStage);
-                        // Scene scene = new Scene(root);
-                        // primaryStage.setTitle("home screen ");
-                        // primaryStage.setScene(scene);
-                        // primaryStage.show();
-                        //
-                        // }
-                        //
-                        // }
-                        // });
+                        dataOutputStream.close();
+                        dataInputStream.close();
+                        System.out.println("opponent_disconnect");
+                        socket.close();
+                        running=false;
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //render pop up
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setContentText("Connection failed");
+                                alert.setTitle("connection");
+                                alert.initOwner(primaryStage);
+                                alert.getButtonTypes();
+                                Optional<ButtonType> result = alert.showAndWait();
+                                if (result.get() == ButtonType.OK){
+                                    Stage  stage = CurrentPlayerModel.eventWindow;
+                                    Scene scene;
+                                    Parent root;
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+                                    try {
+                                        root = loader.load();
+                                        scene = new Scene(root);
+                                        stage.setScene(scene);
+                                        System.out.println();
+                                        stage.show();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+                        });
+                        break;
+                    case"askingforPausing":
+                        CurrentPlayerModel.opponentId = jsonObject.get("senderid").getAsInt();
+                        CurrentPlayerModel.gameId = jsonObject.get("gameid").getAsInt();
+                        CurrentPlayerModel.opponentUsername = jsonObject.get("sendername").getAsString();
+                        System.out.println("*********************************************************");
+                        System.out.println("i am admin2 : ");
+                        System.out.println("*********************************************************");
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                Alert invitationAlert = new Alert(Alert.AlertType.CONFIRMATION,
+                                        "pausing request from : " +
+                                                CurrentPlayerModel.opponentUsername,
+                                        ButtonType.NO, ButtonType.YES);
+                                invitationAlert.setTitle(CurrentPlayerModel.opponentUsername + " Puase !");
+                                invitationAlert.setHeaderText("Do you want to accept?");
+                                invitationAlert.setResizable(false);
+                                invitationAlert.initOwner(primaryStage);
+                                Optional<ButtonType> userAnswer = invitationAlert.showAndWait();
+                                ButtonType button = userAnswer.orElse(ButtonType.NO);
+                               if (button == ButtonType.YES) {
+                                   //will finish game here
+                                   //goes to profile
+                                    System.out.println("okay Accepted Puase");
+                                   //////////////////////////////////////////
+                                   JsonObject requestObject = new JsonObject();
+                                   requestObject.addProperty("type", "acceptpause");
+                                   requestObject.addProperty("status" , true);
+                                   requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
+                                   requestObject.addProperty("accepter", Integer.parseInt(CurrentPlayerModel.id) );
+                                   requestObject.addProperty("accepted", CurrentPlayerModel.opponentId);
+                                   System.out.println("Accepted this pause : " + requestObject);
+                                   try {
+                                       dataOutputStream.writeUTF(requestObject.toString());
+                                   } catch (IOException e) {
+                                       e.printStackTrace();
+                                   }
+                                    //////////////////////////////////////////
+                                    Platform.runLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // Switching scenes
+                                            Stage stage;
+                                            stage = CurrentPlayerModel.eventWindow;
+                                            Scene scene;
+                                            Parent root;
+                                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+                                            try {
+                                                root = loader.load();
+                                                scene = new Scene(root);
+                                                stage.setScene(scene);
+                                                stage.show();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+                               else {
+                                   System.out.println("No Rejected Puase ");
+                                   //////////////////////////////////////////
+                                   JsonObject requestObject = new JsonObject();
+                                   requestObject.addProperty("type", "acceptpause");
+                                   requestObject.addProperty("status" , false);
+                                   requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
+                                   requestObject.addProperty("accepter", Integer.parseInt(CurrentPlayerModel.id) );
+                                   requestObject.addProperty("accepted", CurrentPlayerModel.opponentId);
+                                   System.out.println("Rejected this pause : " + requestObject);
+                                   try {
+                                       dataOutputStream.writeUTF(requestObject.toString());
+                                   } catch (IOException e) {
+                                       e.printStackTrace();
+                                   }
+                                   //show winner dialoge
+                                   Platform.runLater(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           StackPane secondaryLayout2 = new StackPane();
+                                           MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/Winner.mp4").toExternalForm()));
+                                           MediaView mediaView2 = new MediaView(videoForWinner);
+                                           secondaryLayout2.getChildren().addAll(mediaView2);
+                                           Scene secondScene2 = new Scene(secondaryLayout2, 420, 300);
+                                           Stage secondStage2 = new Stage();
+                                           secondStage2.setResizable(false);
+                                           secondStage2.setScene(secondScene2);
+                                           secondStage2.show();
+                                           videoForWinner.play();
+                                           PauseTransition delay = new PauseTransition(Duration.seconds(5));
+                                           delay.setOnFinished(event -> secondStage2.close());
+                                           delay.play();
+                                       }});
+                                   try {
+                                       Thread.sleep(2000);
+                                   } catch (InterruptedException e) {
+                                       e.printStackTrace();
+                                   }
+                                   Platform.runLater(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           // Switching scenes
+                                           Stage stage;
+                                           stage = CurrentPlayerModel.eventWindow;
+                                           Scene scene;
+                                           Parent root;
+                                           FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+                                           try {
+                                               root = loader.load();
+                                               scene = new Scene(root);
+                                               stage.setScene(scene);
+                                               stage.show();
+                                           } catch (IOException e) {
+                                               e.printStackTrace();
+                                           }
+                                       }
+                                   });
+                                   //////////////////////
+                                   //////////////////////////////////////////
+                                    System.out.println("reject ya loser ");
+                                }
+                            }
+                        });
+                        break;
+
+                    case"pauseAcceptanceState":
+                        System.out.println("inside pauseAcceptanceState ");
+                        String state = jsonObject.get("state").toString();
+                        System.out.println("**** "+state);
+                        if (state == "true"){
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Switching scenes
+                                    Stage stage;
+                                    stage = CurrentPlayerModel.eventWindow;
+                                    Scene scene;
+                                    Parent root;
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+                                    try {
+                                        root = loader.load();
+                                        scene = new Scene(root);
+                                        stage.setScene(scene);
+                                        stage.show();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                        else{
+                            //show dialog ya loser
+                            System.out.println("inside no pause");
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    StackPane secondaryLayout2 = new StackPane();
+                                    MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/loser.mp4").toExternalForm()));
+                                    MediaView mediaView2 = new MediaView(videoForWinner);
+                                    secondaryLayout2.getChildren().addAll(mediaView2);
+                                    Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
+                                    Stage secondStage2 = new Stage();
+                                    secondStage2.setResizable(false);
+                                    secondStage2.setScene(secondScene2);
+                                    secondStage2.show();
+                                    videoForWinner.play();
+                                    PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                                    delay.setOnFinished(event -> secondStage2.close());
+                                    delay.play();
+                                }});
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Switching scenes
+                                    Stage stage;
+                                    stage = CurrentPlayerModel.eventWindow;
+                                    Scene scene;
+                                    Parent root;
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+                                    try {
+                                        root = loader.load();
+                                        scene = new Scene(root);
+                                        stage.setScene(scene);
+                                        stage.show();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                        break;
                     default:
                         System.out.println("Invalid server request");
                 }
@@ -338,7 +521,8 @@ public class ClientServerListener extends Thread {
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+               //e.printStackTrace();
+                System.out.println("client closed");
             }
         }
     }

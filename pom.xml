@@ -79,7 +79,13 @@
             <artifactId>javafx-media</artifactId>
             <version>17.0.2</version>
         </dependency>
-<!--        <dependency>-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.0.1-jre</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--        <dependency>-->
 <!--            <groupId>org.openjfx</groupId>-->
 <!--            <artifactId>javafx-media</artifactId>-->
 <!--            <version>17.0.1</version>-->

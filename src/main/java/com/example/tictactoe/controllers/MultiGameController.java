@@ -10,7 +10,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -25,15 +27,20 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
-
 import static com.example.tictactoe.HelloApplication.Playmusic;
 import static com.example.tictactoe.HelloApplication.Stopmusic;
 import static com.example.tictactoe.controllers.LoginController.moveX;
 
-public class MultiGameController implements Initializable {
+
+
+
+public class MultiGameController  implements Initializable {
 
     public Button button6;
     public Button button2;
@@ -58,7 +65,7 @@ public class MultiGameController implements Initializable {
     public  TextArea txtA;
     @FXML
     ImageView logomulti;
-
+    private static Stage primaryStage;
 
     private final Stage stage = new Stage();
     public static ArrayList<Button> btns=  new ArrayList<>();
@@ -112,7 +119,7 @@ public class MultiGameController implements Initializable {
                         System.out.println("moveees : "+moves);
                         System.out.println(CurrentPlayerModel.playerTurn);
                         if(CurrentPlayerModel.playerTurn) {
-                            ClientServerHandler.play(index, sign);
+                            ClientServerHandler.play(index, sign);/////////////////////////////////////////////////////////////////////////////////////////////////
                             CurrentPlayerModel.playerTurn = false;
                             CurrentPlayerModel.allowFire = false;
                         }
@@ -123,12 +130,14 @@ public class MultiGameController implements Initializable {
             });
         }
         System.out.println("-----------------------------------");
-        this.stage.setOnCloseRequest((e)->{
+
+     /*   stage.setOnCloseRequest((e)->{
             JsonObject closingObj = new JsonObject();
             closingObj.addProperty("type", "client_close_while_playing");
             closingObj.addProperty("opponentId", CurrentPlayerModel.opponentId);
             ClientServerHandler.close(closingObj);
-        });
+        });*/
+
     }
     public void StopMusic(ActionEvent stop){
         Stopmusic();
@@ -136,7 +145,6 @@ public class MultiGameController implements Initializable {
     public void PlayMusic(ActionEvent Play){
         Playmusic();
     }
-
     public String getPlayer() {
         return playerMark;
     }
@@ -239,18 +247,21 @@ public class MultiGameController implements Initializable {
         btns.forEach(bt -> {
             bt.setDisable(true);
         });
-        resetAllTiles();
-        getRestart().setVisible(true);
+       /* resetAllTiles();*/
+       // getRestart().setVisible(true);
             if (wins.equals("X") && CurrentPlayerModel.mySign.equals("X")) {
+                System.out.println("you id : "+CurrentPlayerModel.id);
                 System.out.println("you won");
-                makeFinishGameObj();
+                makeFinishGameObj(Integer.parseInt(CurrentPlayerModel.id));
                 ShowWinDialog();
             }
             else if (wins.equals("O") && CurrentPlayerModel.mySign.equals("O")) {
+                System.out.println("you id : "+CurrentPlayerModel.id);
                 System.out.println("you won");
-                makeFinishGameObj();
+                makeFinishGameObj(Integer.parseInt(CurrentPlayerModel.id));
                 ShowWinDialog();
             } else {
+                System.out.println("you id : "+CurrentPlayerModel.id);
                 System.out.println("you lost");
                 ShowLoseDialog();
             }
@@ -262,20 +273,21 @@ public class MultiGameController implements Initializable {
             tile.setId("winninglabel");
         }
     }
-    public void resetAllTiles() {
+    /*public void resetAllTiles() {
         for (Button tile : btns) {
             tile.setId("label1");
         }
-    }
-    public Button getRestart() {
+    }*/
+   /* public Button getRestart() {
         return restart;
-    }
-    public void makeFinishGameObj() {
+    } */
+    public void makeFinishGameObj( int id) {
         JsonObject gameFinish = new JsonObject();
         gameFinish.addProperty("type", "finish_game");
-        gameFinish.addProperty("winner", CurrentPlayerModel.id);
+        gameFinish.addProperty("winner", id);
         gameFinish.addProperty("looser", CurrentPlayerModel.opponentId);
         gameFinish.addProperty("game_id", CurrentPlayerModel.gameId);
+        System.out.println("game is finished "+true);
         ClientServerHandler.sendFinishingObj(gameFinish);
     }
     public void ShowWinDialog() {
@@ -292,21 +304,7 @@ public class MultiGameController implements Initializable {
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
         delay.setOnFinished( event -> secondStage2.close() );
         delay.play();
-        // MediaPlayer mediaPlayer = new MediaPlayer(new
-        // Media(this.getClass().getResource("/Controllers/../ui_modules/Resources/winner.mp4").toExternalForm()));
-        // mediaPlayer.setAutoPlay(true);
-        // MediaView mediaView = new MediaView(mediaPlayer);
-       /* Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
-        alert.getDialogPane().setMinHeight(600);
-        alert.getDialogPane().setMinWidth(600);
-        alert.setTitle("You win!!");
-        System.out.println("you win **********");*/
-        //VBox content = new VBox(mediaView);
-        //content.setAlignment(Pos.CENTER);
-        //alert.getDialogPane().setContent(content);
-        //alert.setOnShowing(e -> mediaPlayer.play());
-        //alert.initOwner(stage);
-        //alert.show();
+
     }
     public void ShowLoseDialog() {
         StackPane secondaryLayout2 = new StackPane();
@@ -322,34 +320,7 @@ public class MultiGameController implements Initializable {
         PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished( event -> secondStage2.close() );
         delay.play();
-        // MediaPlayer player = new MediaPlayer(new
-        // Media(getClass().getResource("/Controllers/../ui_modules/Resources/losser.mp4").toExternalForm()));
-        // MediaView mediaView = new MediaView(player);
-        /*Alert alert = new Alert(Alert.AlertType.INFORMATION, "Content here", ButtonType.OK);
-        alert.getDialogPane().setMinHeight(210);
-        alert.getDialogPane().setMinWidth(210);
-        alert.setTitle("You lose!!");
-        System.out.println("you lose **********");*/
-        //VBox content = new VBox(mediaView);
-        //content.setAlignment(Pos.CENTER);
-        //alert.getDialogPane().setContent(content);
-        //alert.setOnShowing(e -> player.play());
-        //alert.initOwner(stage);
-        //alert.show();
-    }
-    private EventHandler<ActionEvent> sendToOne(Stage primaryStage) {
-        return new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String msg = txtF.getText();
-                if (msg != null) {
-                    ClientServerHandler.sendMessageToOne(msg, CurrentPlayerModel.opponentUsername);
-                }
 
-            }
-        };
-    }
-    public void restartGame(ActionEvent event) {
     }
     public void displayImage(ActionEvent event) {
     }
@@ -358,7 +329,7 @@ public class MultiGameController implements Initializable {
                     if(msg != null ){
                         txtA.appendText(msg);
                         txtA.appendText("\n");
-                       ClientServerHandler.sendMessageToOne(msg,CurrentPlayerModel.opponentUsername);
+                       ClientServerHandler.sendMessageToOne(msg,CurrentPlayerModel.username);
 
                     }
     }
@@ -369,14 +340,57 @@ public class MultiGameController implements Initializable {
             public void run() {
                 CurrentPlayerModel.allowFire = true;
                 btns.get(position).fire();
-               CurrentPlayerModel.playerTurn=true;
+                CurrentPlayerModel.playerTurn=true;
 
             }
         });
     }
+    public void puaseGame() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert invitationAlert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Are you sure you want to Pause ?\nWarning : if the request rejected you will lose the game !!!" +
+                                CurrentPlayerModel.opponentUsername,
+                        ButtonType.NO, ButtonType.YES);
+                invitationAlert.setTitle(CurrentPlayerModel.opponentUsername + " Puase !");
+                invitationAlert.setHeaderText("Watch Out?");
+                invitationAlert.setResizable(false);
+                invitationAlert.initOwner(primaryStage);
+                Optional<ButtonType> userAnswer = invitationAlert.showAndWait();
+                ButtonType button = userAnswer.orElse(ButtonType.NO);
+                if (button == ButtonType.YES) {
+                    JsonObject pause = new JsonObject();
+                    pause.addProperty("type", "pausegame");
+                    pause.addProperty("senderplayerid", Integer.parseInt(CurrentPlayerModel.id));
+                    pause.addProperty("sendtoid", CurrentPlayerModel.opponentId);
+                    pause.addProperty("gameid", CurrentPlayerModel.gameId);
+                    pause.addProperty("sender", CurrentPlayerModel.username);
+                    System.out.println("pause invite: ");
+                    ClientServerHandler.sendPause(pause);
+                    System.out.println("*********************************************************");
+                    System.out.println("i am admin1 want to pause ");
+                    System.out.println("*********************************************************");
+
+                }
+
+            }
+        });
 
 
 
+
+
+
+
+
+        /*
+        System.out.println("req records");
+        JsonObject showRecObj = new JsonObject();
+        showRecObj.addProperty("type","request_record");
+        showRecObj.addProperty("game_id",gameID);
+        ClientServerHandler.sendReplayreq(showRecObj);*/
+    }
 
 
 }

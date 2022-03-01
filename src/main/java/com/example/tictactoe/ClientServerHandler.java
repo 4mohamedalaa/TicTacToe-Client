@@ -1,14 +1,22 @@
 package com.example.tictactoe;
 
 //import com.example.tictactoe.controllers.MultiGameController;
+import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PlayerModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,6 +26,7 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,8 +34,8 @@ import static com.example.tictactoe.controllers.LoginController.clientServerList
 
 
 public class ClientServerHandler {
-    private static final String SERVER_ADDRESS = "18.197.17.158";
-    //private static final String SERVER_ADDRESS = "127.0.0.1";
+    //private static final String SERVER_ADDRESS = "18.197.17.158";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
@@ -54,6 +63,7 @@ public class ClientServerHandler {
         requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
         requestObject.addProperty("accepter", CurrentPlayerModel.id);
         requestObject.addProperty("accepted", CurrentPlayerModel.opponentId);
+        requestObject.addProperty("opponentscore", CurrentPlayerModel.opponentscore);
         System.out.println("Accepted this invitation: " + requestObject);
         try {
             dataOutputStream.writeUTF(requestObject.toString());
@@ -172,7 +182,8 @@ public class ClientServerHandler {
         try {
             dataOutputStream.writeUTF(jsonSignInPayload.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("server is down ");
+            //e.printStackTrace();
         }
         try {
             String resMsg = dataInputStream.readUTF();
@@ -202,18 +213,10 @@ public class ClientServerHandler {
         signOutPayload.addProperty("username", CurrentPlayerModel.username);
         try {
             dataOutputStream.writeUTF(signOutPayload.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            //@sambo------------------------------------
-            clientServerListener.running = false ;
-            clientServerListener.socket.close();
             clientServerListener.dataInputStream.close();
             clientServerListener.dataOutputStream.close();
-            clientServerListener.stop();
-            //---------------------------------------------
+            clientServerListener.socket.close();
+            clientServerListener.running = false ;
             //@sayed---------------------------------------
             dataOutputStream.close();
             dataInputStream.close();
@@ -225,7 +228,6 @@ public class ClientServerHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static String validateUserName(String input) {
@@ -278,7 +280,7 @@ public class ClientServerHandler {
     }
     // @Sambo
     // sending message in global chat logic
-   /* public static void sendMessageToOne(String msg, String username) {
+    /* public static void sendMessageToOne(String msg, String username) {
         JsonObject responseObject = new JsonObject();
         responseObject.addProperty("type", "sendmessageforone");
         responseObject.addProperty("senderusername", username);
@@ -324,25 +326,107 @@ public class ClientServerHandler {
 
     public static void play(int position, int sign) {
 
-            JsonObject requestObject=new JsonObject();
-            requestObject.addProperty("type","play");
-            requestObject.addProperty("opponet",CurrentPlayerModel.opponentId);
-            requestObject.addProperty("game_id",CurrentPlayerModel.gameId);
-            requestObject.addProperty("position",position);
-            requestObject.addProperty("sign",sign);
-            System.out.println("position : "+position);
-            System.out.println("sign : "+sign);
-            System.out.println("from inside play function :");
-            System.out.println("game id : "+CurrentPlayerModel.gameId);
-            System.out.println("opponent id : "+CurrentPlayerModel.opponentId);
-            try {
-                dataOutputStream.writeUTF(requestObject.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
+        JsonObject requestObject = new JsonObject();
+        requestObject.addProperty("type", "play");
+        requestObject.addProperty("opponet", CurrentPlayerModel.opponentId);
+        requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
+        requestObject.addProperty("position", position);
+        requestObject.addProperty("sign", sign);
+        System.out.println("position : " + position);
+        System.out.println("sign : " + sign);
+        System.out.println("from inside play function :");
+        System.out.println("game id : " + CurrentPlayerModel.gameId);
+        System.out.println("opponent id : " + CurrentPlayerModel.opponentId);
+        try {
+            dataOutputStream.writeUTF(requestObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //opponentsMove();
+
+    }
+    public static void renderRecordedGame(String recordsArray) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Stage stage;
+                stage = CurrentPlayerModel.eventWindow;
+                Scene scene;
+                Parent root;
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+                try {
+                    root = loader.load();
+                    MultiGameController host = loader.getController();
+                    System.out.println(host);
+                    // myControllerHandle2.player1Name.setText(CurrentPlayerModel.username);
+                    System.out.println("inside invitation accept");
+                    System.out.println("host : " + CurrentPlayerModel.username);
+                    System.out.println("guest : " + CurrentPlayerModel.opponentUsername);
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            //opponentsMove();
+            });
+        String[] string = recordsArray.replaceAll("\\[", "")
+                .replaceAll("]", "")
+                .split(",");
+        for (int i = 0; i < string.length; i++) {
+            String[] st = string[i].trim().split("-");
+            System.out.println(Arrays.toString(st));
 
 
+            int pos = Integer.parseInt(st[0]);
+            int sign = Integer.parseInt(st[1]);
+            int player_id = Integer.parseInt(st[2]);
+
+
+            double tim = i + 0.5;
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(i));
+            pause.setOnFinished(event -> {
+                Button btn = buttons.get(pos);
+                btn.setFont(new Font("System Bold Italic", 200));
+                btn.setStyle("-fx-font-size:40");
+                String si = (sign == 8) ? "X" : "O";
+                btn.setText(si);
+            });
+            pause.playFromStart();
+        }
+    }
+
+    public static void sendReplayreq(JsonObject showRecObj) {
+        try {
+            dataOutputStream.writeUTF(showRecObj.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendPause(JsonObject pause) {
+        try {
+            dataOutputStream.writeUTF(pause.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendpauseAccept() {
+        JsonObject requestObject = new JsonObject();
+        requestObject.addProperty("type", "acceptpause");
+        requestObject.addProperty("status" , "true");
+        requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
+        requestObject.addProperty("accepter", CurrentPlayerModel.id);
+        requestObject.addProperty("accepted", CurrentPlayerModel.opponentId);
+        System.out.println("Accepted this invitation: " + requestObject);
+        try {
+            dataOutputStream.writeUTF(requestObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void sendFinishingObj(JsonObject gameFinish) {
@@ -359,4 +443,6 @@ public class ClientServerHandler {
             e.printStackTrace();
         }
     }
+
+
 }
