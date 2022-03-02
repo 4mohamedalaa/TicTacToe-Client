@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.models.CurrentPlayerModel;
+import com.example.tictactoe.models.PausedGame;
 import com.example.tictactoe.models.PlayerModel;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,7 +36,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
-import static com.example.tictactoe.controllers.MultiGameController.btns;
 //import static com.example.tictactoe.controllers.TablePlayers.Update;
 
 public class ClientServerListener extends Thread {
@@ -50,6 +50,7 @@ public class ClientServerListener extends Thread {
     // Created ArrayLists to track offline and online players in Real-Time
     public static final ArrayList<PlayerModel> onlinePlayersList = new ArrayList<PlayerModel>();
     public static final ArrayList<PlayerModel> offlinePlayersList = new ArrayList<PlayerModel>();
+    public static final ArrayList<PausedGame> pausedMatchesList = new ArrayList<PausedGame>();
     // Declaring buttons and controller
     public boolean running = true;
     private static ArrayList<javafx.scene.control.Button> buttons;
@@ -258,11 +259,9 @@ public class ClientServerListener extends Thread {
                     // @samboooo
                     // recieved Json from server to print message from one client to all online
                     // players
-
                   /*  case "oponnetmove" :
                         multicontrollerhandler.opponent_action(jsonObject);
                         break;*/
-
                     case "oponnetmove" :
                         int position=jsonObject.get("position").getAsInt();
                         MultiGameController.opponentsMove(position);
@@ -274,10 +273,9 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
-                        myControllerHandle1.txtA.setStyle("-fx-highlight-fill: #ADFF2F; -fx-highlight-text-fill: #B22222;");
                         myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
-                    case "resumegame":
                         break;
+
                     case "game_record":
                         System.out.println(jsonObject);
                         String moves= jsonObject.get("moves").getAsString();
@@ -523,7 +521,54 @@ public class ClientServerListener extends Thread {
                             }
                         });
                         break;
-
+                    case"opponentwithdraw":
+                        String player = jsonObject.get("sendername").toString();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                Alert invitationAlert = new Alert(Alert.AlertType.CONFIRMATION,
+                                        player + " has been out , You Won the game  : " +
+                                        ButtonType.OK);
+                                invitationAlert.setTitle(CurrentPlayerModel.opponentUsername + " Winner !");
+                                invitationAlert.setHeaderText("Do you want to accept?");
+                                invitationAlert.setResizable(false);
+                                invitationAlert.initOwner(primaryStage);
+                                Optional<ButtonType> userAnswer = invitationAlert.showAndWait();
+                            }});
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                StackPane secondaryLayout2 = new StackPane();
+                                MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/Winner.mp4").toExternalForm()));
+                                MediaView mediaView2 = new MediaView(videoForWinner);
+                                secondaryLayout2.getChildren().addAll(mediaView2);
+                                Scene secondScene2 = new Scene(secondaryLayout2, 420, 300);
+                                Stage secondStage2 = new Stage();
+                                secondStage2.setResizable(false);
+                                secondStage2.setScene(secondScene2);
+                                secondStage2.show();
+                                videoForWinner.play();
+                                PauseTransition delay = new PauseTransition(Duration.seconds(5));
+                                delay.setOnFinished(event -> secondStage2.close());
+                                delay.play();
+                            }});
+                        break;
+                    case"replyforpausedgames":
+                        if (pausedMatchesList != null) {
+                            pausedMatchesList.clear();
+                        }
+                        for (JsonElement game : jsonObject.get("PausedMatches").getAsJsonArray()) {
+                            JsonObject pgame = game.getAsJsonObject();
+                            // System.out.println(jsonObject);
+                            // Create a player model, add details from JsonObject into newly created Player
+                            // object
+                            PausedGame newlyOfflinePlayer = new PausedGame(
+                                    pgame.get("gameid").getAsInt(),
+                                    pgame.get("opponentname").getAsString(),
+                                    pgame.get("opponentId").getAsInt());
+                            pausedMatchesList.add(newlyOfflinePlayer);
+                        }
+                        break ;
                     default:
                         System.out.println("Invalid server request");
                 }
