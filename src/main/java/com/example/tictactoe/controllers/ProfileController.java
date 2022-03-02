@@ -177,6 +177,7 @@ public void PlayMusic(ActionEvent Play){
                     System.out.println(CurrentPlayerModel.username);
                     System.out.println(msg);
                     ClientServerHandler.sendMessageForAll(msg, CurrentPlayerModel.username);
+                    txtF.clear();
                 }
     }
 

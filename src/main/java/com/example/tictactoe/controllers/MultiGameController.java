@@ -74,13 +74,18 @@ public class MultiGameController  implements Initializable {
         private boolean gameEnded;                                  //   0   0   1
     private int moves;
     private int gameID;
+    int index;
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        gameEnded = false;
+        moves = 0;
+        playerMark = "X";
+        marks = new int[marks.length];
+        btns = new ArrayList<>();
         moveX(logomulti, -90);
         //txtA = new TextArea() ;
         gameID = CurrentPlayerModel.gameId;
@@ -94,7 +99,8 @@ public class MultiGameController  implements Initializable {
                 if (CurrentPlayerModel.allowFire){
                     System.out.println("CurrentPlayerModel.allowFire : "+CurrentPlayerModel.allowFire);
                     System.out.println(" BUTTON index: "+btns.indexOf(bt));
-                    int index = btns.indexOf(bt);
+                    index = btns.indexOf(bt);
+                    if(index > 8) index = index%9;
                     System.out.println("indeeeeex : "+index);
                     if (!bt.isDisable() && !gameEnded) {
                         //assigning button X or O and style it
@@ -247,6 +253,7 @@ public class MultiGameController  implements Initializable {
         btns.forEach(bt -> {
             bt.setDisable(true);
         });
+
        /* resetAllTiles();*/
        // getRestart().setVisible(true);
             if (wins.equals("X") && CurrentPlayerModel.mySign.equals("X")) {
@@ -327,12 +334,11 @@ public class MultiGameController  implements Initializable {
     }
     public void sendToOne() {
                     String msg =txtF.getText();
-                    txtF.appendText("");
                     if(msg != null ){
                         txtA.appendText(msg);
                         txtA.appendText("\n");
                        ClientServerHandler.sendMessageToOne(msg,CurrentPlayerModel.username);
-
+                        txtF.clear();
                     }
     }
     public static void opponentsMove(int position) {
@@ -343,7 +349,6 @@ public class MultiGameController  implements Initializable {
                 CurrentPlayerModel.allowFire = true;
                 btns.get(position).fire();
                 CurrentPlayerModel.playerTurn=true;
-
             }
         });
     }

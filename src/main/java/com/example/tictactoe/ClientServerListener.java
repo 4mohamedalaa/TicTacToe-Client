@@ -35,6 +35,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
+import static com.example.tictactoe.controllers.MultiGameController.btns;
 //import static com.example.tictactoe.controllers.TablePlayers.Update;
 
 public class ClientServerListener extends Thread {
@@ -273,8 +274,9 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
+                        myControllerHandle1.txtA.setStyle("-fx-highlight-fill: #ADFF2F; -fx-highlight-text-fill: #B22222;");
                         myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
-
+                    case "resumegame":
                         break;
                     case "game_record":
                         System.out.println(jsonObject);
