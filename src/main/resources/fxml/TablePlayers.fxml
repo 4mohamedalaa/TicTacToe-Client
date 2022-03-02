@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="498.0" prefWidth="829.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" styleClass="column-header" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.TablePlayers">
+<AnchorPane prefHeight="498.0" prefWidth="1094.0" style="-fx-background-color: linear-gradient(to top right, #650c13, #442dad);" styleClass="column-header" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.controllers.TablePlayers">
    <children>
       <TableView fx:id="OfflinePlayers" layoutX="64.0" layoutY="130.0" prefHeight="247.0" prefWidth="308.0" styleClass="table-cell">
         <columns>
@@ -16,7 +16,7 @@
             <TableColumn fx:id="OfflinePlayerLoss" prefWidth="89.0" text="Losses" />
         </columns>
       </TableView>
-      <Button fx:id="BackBtn" layoutX="702.0" layoutY="439.0" mnemonicParsing="false" onAction="#BackBtn" prefHeight="29.0" prefWidth="69.0" text="Back" />
+      <Button fx:id="BackBtn" layoutX="999.0" layoutY="441.0" mnemonicParsing="false" onAction="#BackBtn" prefHeight="29.0" prefWidth="69.0" text="Back" />
       <TableView fx:id="OnlinePlayers" layoutX="431.0" layoutY="130.0" prefHeight="247.0" prefWidth="287.0">
         <columns>
           <TableColumn fx:id="OnlinePlayerName" prefWidth="145.0" text="Name" />
@@ -24,12 +24,23 @@
             <TableColumn fx:id="OnlinePlayerInvite" prefWidth="81.0" resizable="false" text="Invite" />
         </columns>
       </TableView>
-      <Label layoutX="431.0" layoutY="87.0" text="Online players" textFill="#38cd1d">
+      <Label layoutX="431.0" layoutY="97.0" text="Online players" textFill="#38cd1d">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="72.0" layoutY="87.0" text="Offline players" textFill="#cc1f1f">
+      <Label layoutX="771.0" layoutY="97.0" text="Paused Matches" textFill="#cc1f1f">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="PausedMatches" layoutX="764.0" layoutY="130.0" prefHeight="247.0" prefWidth="287.0">
+         <columns>
+            <TableColumn fx:id="opponent" prefWidth="131.0" text="Opponent " />
+            <TableColumn fx:id="resume" prefWidth="155.0" resizable="false" text="Resume" />
+         </columns>
+      </TableView>
+      <Label layoutX="64.0" layoutY="97.0" text="Offline players" textFill="#cc1f1f">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="18.0" />
          </font>

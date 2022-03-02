@@ -1,8 +1,8 @@
 package com.example.tictactoe;
-
 //import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.models.CurrentPlayerModel;
+import com.example.tictactoe.models.PausedGame;
 import com.example.tictactoe.models.PlayerModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import static com.example.tictactoe.controllers.LoginController.clientServerListener;
 
 
@@ -340,8 +338,7 @@ public class ClientServerHandler {
         requestObject.addProperty("game_id", CurrentPlayerModel.gameId);
         requestObject.addProperty("position", position);
         requestObject.addProperty("sign", sign);
-        System.out.println("position : " + position);
-        System.out.println("sign : " + sign);
+        System.out.println("position : " + position+" sign : " + sign);
         System.out.println("from inside play function :");
         System.out.println("game id : " + CurrentPlayerModel.gameId);
         System.out.println("opponent id : " + CurrentPlayerModel.opponentId);
@@ -445,6 +442,28 @@ public class ClientServerHandler {
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public static void sendExit(JsonObject exit) {
+        try {
+            dataOutputStream.writeUTF(exit.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void askForPausedGames(int x) {
+       // ArrayList<PlayerModel> pGames = new ArrayList<PlayerModel>();
+        connectSocket();
+        JsonObject req = new JsonObject();
+        req.addProperty("type", "askforpausedgames");
+        req.addProperty("playerId", "int");
+        try {
+            dataOutputStream.writeUTF(req.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //return ClientServerListener.pausedMatchesList;
     }
    /* public static void passMoveToOponnent(JsonObject boardUpdate) {
         try {

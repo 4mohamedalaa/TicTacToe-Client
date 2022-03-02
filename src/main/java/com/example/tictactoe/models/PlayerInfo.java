@@ -7,4 +7,5 @@ public class PlayerInfo {
     public static String score;
     public static String wins;
     public static String losses;
+    public static boolean playerTurn;
 }

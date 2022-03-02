@@ -2,6 +2,7 @@ package com.example.tictactoe.controllers;
 
 import com.example.tictactoe.*;
 import com.example.tictactoe.models.CurrentPlayerModel;
+import com.example.tictactoe.models.PlayerInfo;
 import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.PauseTransition;
@@ -56,13 +57,13 @@ public class MultiGameController  implements Initializable {
     public Text player1Name ;
     public Text scoreO;
     public Text player2Name ;
-    public JFXButton restart;
     public Text winnerText;
     public Button mute;
     public JFXButton exit;
     public Button send;
     public TextField txtF;
     public  TextArea txtA;
+    public JFXButton pause;
     @FXML
     ImageView logomulti;
     private static Stage primaryStage;
@@ -74,12 +75,23 @@ public class MultiGameController  implements Initializable {
         private boolean gameEnded;                                  //   0   0   1
     private int moves;
     private int gameID;
+    private boolean currentplayerturn;
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        gameEnded = false;
+        pause.setDisable(false);
+        moves = 0;
+        playerMark = "X";
+        marks = new int[marks.length];
+        btns = new ArrayList<>() ;
+        btns.forEach(bt -> {
+            bt.setDisable(false);
+            bt.setText("");
+        });
 
         moveX(logomulti, -90);
         //txtA = new TextArea() ;
@@ -89,6 +101,7 @@ public class MultiGameController  implements Initializable {
         btns.add(button4);btns.add(button5);btns.add(button6);
         btns.add(button7);btns.add(button8);btns.add(button9);
         System.out.println("CurrentPlayerModel.playerTurn :  "+ CurrentPlayerModel.playerTurn);
+        currentplayerturn= CurrentPlayerModel.playerTurn;
         for (Button bt : btns) {
             bt.setOnAction(event -> {
                 if (CurrentPlayerModel.allowFire){
@@ -123,6 +136,8 @@ public class MultiGameController  implements Initializable {
                             CurrentPlayerModel.playerTurn = false;
                             CurrentPlayerModel.allowFire = false;
                         }
+                        String n = "O" ;
+                        if (bt.getText().equals("X")) n = "X" ;
                         System.out.println("play");
                         CheckWinning();
                     }
@@ -244,6 +259,7 @@ public class MultiGameController  implements Initializable {
     }
     private void gameEnding(String wins) {
         gameEnded = true;
+        pause.setDisable(true);
         btns.forEach(bt -> {
             bt.setDisable(true);
         });
@@ -393,6 +409,77 @@ public class MultiGameController  implements Initializable {
         showRecObj.addProperty("game_id",gameID);
         ClientServerHandler.sendReplayreq(showRecObj);*/
     }
+    public void exitGame() {
+        if(gameEnded == false) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Alert invitationAlert = new Alert(Alert.AlertType.CONFIRMATION,
+                            "Are you sure you want to Exit ?\nWarning : if you exit you will lose the game !!!" +
+                                    CurrentPlayerModel.opponentUsername,
+                            ButtonType.NO, ButtonType.YES);
+                    invitationAlert.setTitle(CurrentPlayerModel.opponentUsername + " EXIT !");
+                    invitationAlert.setHeaderText("Watch Out?");
+                    invitationAlert.setResizable(false);
+                    invitationAlert.initOwner(primaryStage);
+                    Optional<ButtonType> userAnswer = invitationAlert.showAndWait();
+                    ButtonType button = userAnswer.orElse(ButtonType.NO);
+                    if (button == ButtonType.YES) {
+                        JsonObject Exit = new JsonObject();
+                        Exit.addProperty("type", "exitgame");
+                        Exit.addProperty("senderplayerid", Integer.parseInt(CurrentPlayerModel.id));
+                        Exit.addProperty("sendtoid", CurrentPlayerModel.opponentId);
+                        Exit.addProperty("gameid", CurrentPlayerModel.gameId);
+                        Exit.addProperty("sender", CurrentPlayerModel.username);
+                        ClientServerHandler.sendExit(Exit);
+                    }
+
+                }
+            });
+
+        }
+        else {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    // Switching scenes
+                    Stage stage;
+                    stage = CurrentPlayerModel.eventWindow;
+                    Scene scene;
+                    Parent root;
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TablePlayers.fxml"));
+                    try {
+                        root = loader.load();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+
+
+
+
+
+        /*
+        System.out.println("req records");
+        JsonObject showRecObj = new JsonObject();
+        showRecObj.addProperty("type","request_record");
+        showRecObj.addProperty("game_id",gameID);
+        ClientServerHandler.sendReplayreq(showRecObj);*/
+    }
+
+    private void getMoves(int idgame) {
+                System.out.println("req moves");
+                JsonObject showRecObj = new JsonObject();
+                showRecObj.addProperty("type","request_record");
+                showRecObj.addProperty("game_id",idgame);
+                ClientServerHandler.sendReplayreq(showRecObj);
+            }
 
 
 }
