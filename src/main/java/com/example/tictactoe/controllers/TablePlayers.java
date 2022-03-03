@@ -19,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,13 +28,13 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-public class TablePlayers implements Initializable  {
+public class TablePlayers implements Initializable {
     @FXML
     TableView<PausedGame> PausedMatches;
     @FXML
-    TableColumn <PausedGame , String>opponent;
+    TableColumn<PausedGame, String> opponent;
     @FXML
-    TableColumn<PausedGame , Button> resume;
+    TableColumn<PausedGame, Button> resume;
 
     @FXML
     TableView<PlayerModel> OnlinePlayers;
@@ -42,7 +43,7 @@ public class TablePlayers implements Initializable  {
     TableColumn<PlayerModel, String> OnlinePlayerName;
 
     @FXML
-    TableColumn <PlayerModel, Integer> OnlinePlayerScore;
+    TableColumn<PlayerModel, Integer> OnlinePlayerScore;
 
     @FXML
 
@@ -52,13 +53,13 @@ public class TablePlayers implements Initializable  {
     TableColumn<PlayerModel, String> OfflinePlayerName;
 
     @FXML
-    TableColumn <PlayerModel, Integer> OfflinePlayerScore;
+    TableColumn<PlayerModel, Integer> OfflinePlayerScore;
 
     @FXML
-    TableColumn <PlayerModel, Integer> OfflinePlayerLoss;
+    TableColumn<PlayerModel, Integer> OfflinePlayerLoss;
 
     @FXML
-    TableColumn <PlayerModel, Button>  OnlinePlayerInvite;
+    TableColumn<PlayerModel, Button> OnlinePlayerInvite;
 
     @FXML
     Button BackBtn;
@@ -68,19 +69,18 @@ public class TablePlayers implements Initializable  {
 
     ArrayList<PlayerModel> OnPlayers = ClientServerHandler.getOfflinePlayers();
     ObservableList<Object> OnPlayerList = FXCollections.observableArrayList();
-
-    //ArrayList<PausedGame> pgames = ClientServerHandler.getPausedGames();
-    //ObservableList<Object> pgamesList = FXCollections.observableArrayList();
 */
+//    ArrayList<PausedGame> pgames = ClientServerListener.pausedMatchesList;
+//    ObservableList<PausedGame> pgamesList = FXCollections.observableArrayList();
+
     // Provide status for running thread
     boolean isPressed = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-
-        // Online table list
+//        pgamesList.addAll(ClientServerListener.pausedMatchesList);
+//        pgamesList.addAll(pgames);
+        //Online table list
         OnlinePlayerName.setCellValueFactory(new PropertyValueFactory<>("username"));
         OnlinePlayerScore.setCellValueFactory(new PropertyValueFactory<>("score"));
         OnlinePlayerInvite.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
@@ -91,17 +91,17 @@ public class TablePlayers implements Initializable  {
         OfflinePlayerLoss.setCellValueFactory(new PropertyValueFactory<>("losses"));
 
         //paused matches
-        opponent.setCellValueFactory(new PropertyValueFactory<>("opponent"));
+        opponent.setCellValueFactory(new PropertyValueFactory<>("opponentName"));
         resume.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
+
         Platform.runLater(new Runnable() {
                               @Override
                               public void run() {
-                                  int current = Integer.parseInt(CurrentPlayerModel.id) ;
+                                  int current = Integer.parseInt(CurrentPlayerModel.id);
                                   ClientServerHandler.askForPausedGames(current);
-                                  //
-                                  ArrayList<PausedGame> pgames = ClientServerListener.pausedMatchesList ;
-                                  ObservableList<PausedGame> ObservableGames = FXCollections.observableArrayList();
-
+//
+//                                  ArrayList<PausedGame> pgames = ClientServerListener.pausedMatchesList;
+//                                  ObservableList<PausedGame> ObservableGames = FXCollections.observableArrayList();
                                  /* List<Button> buttonInvite =new ArrayList<>();
                                   for(int i=0; i<pgames.size(); i++) {
                                       String opponent = pgames.get(i).getOpponent();
@@ -126,15 +126,13 @@ public class TablePlayers implements Initializable  {
         );
 
 
-
-
         // Initialize the view
-        Thread th = new Thread(){
+        Thread th = new Thread() {
             @Override
             public void run() {
                 super.run();
-                while (!isPressed){
-                    synchronized (ClientServerListener.onlinePlayersList){
+                while (!isPressed) {
+                    synchronized (ClientServerListener.onlinePlayersList) {
                         try {
                             // Raised wait higher for online players to not affect invite button GUI
                             ClientServerListener.onlinePlayersList.wait(1000);
@@ -142,14 +140,14 @@ public class TablePlayers implements Initializable  {
                             e.printStackTrace();
                         }
                     }
-                    synchronized (ClientServerListener.offlinePlayersList){
+                    synchronized (ClientServerListener.offlinePlayersList) {
                         try {
                             ClientServerListener.offlinePlayersList.wait(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    synchronized (ClientServerListener.pausedMatchesList){
+                    synchronized (ClientServerListener.pausedMatchesList) {
                         try {
                             ClientServerListener.pausedMatchesList.wait(1000);
                         } catch (InterruptedException e) {
@@ -183,10 +181,7 @@ public class TablePlayers implements Initializable  {
         stage.show();
     }
 
-    public void initializeView(){
-        System.out.println("************************");
-        System.out.println(CurrentPlayerModel.id);
-        System.out.println("************************");
+    public void initializeView() {
         // Online players list updated from Server
         ArrayList<PlayerModel> OnPlayers = ClientServerHandler.getOnlinePlayers();
         ObservableList<PlayerModel> OnPlayerList = FXCollections.observableArrayList();
@@ -196,18 +191,17 @@ public class TablePlayers implements Initializable  {
         ObservableList<PlayerModel> OffPlayerList = FXCollections.observableArrayList();
 
         // paused matches list updated from server
-       // ArrayList<PausedGame> pgames = ClientServerHandler.getPausedGames();
-        //ObservableList<PausedGame> pgamesList = FXCollections.observableArrayList();
 
-        List<Button> buttonInvite =new ArrayList<>();
-        for(int i=0; i<OnPlayers.size(); i++) {
+        ArrayList<PausedGame> pausedGames = ClientServerListener.pausedMatchesList;
+        ObservableList<PausedGame> pausedGamesList = FXCollections.observableArrayList();
+
+        List<Button> buttonInvite = new ArrayList<>();
+        for (int i = 0; i < OnPlayers.size(); i++) {
             String OnName = OnPlayers.get(i).getUsername();
             Integer OnWins = OnPlayers.get(i).getWins();
 
-            PlayerModel OnPlayer = new PlayerModel(
-
-            );
-//            OnPlayer.setInviteBtn(buttonInvite.get(i));
+            PlayerModel OnPlayer = new PlayerModel();
+            //OnPlayer.setInviteBtn(buttonInvite.get(i));
             buttonInvite.add(OnPlayer.getInviteBtn());
             // Initialize player
             OnPlayer.setUsername(OnName);
@@ -217,17 +211,16 @@ public class TablePlayers implements Initializable  {
             OnPlayerList.add(OnPlayer);
         }
         OnlinePlayers.getItems().setAll(OnPlayerList);
-        for (int b = 0; b <buttonInvite.size() ; b++) {
+        for (int b = 0; b < buttonInvite.size(); b++) {
 //            buttonInvite.get(b).setOnAction(this::handleInviteButton);
             OnPlayerList.get(b).setInviteButtonHandler();
         }
 
 
-
-        for(int O=0; O<OffPlayers.size(); O++){
-            String OffName= OffPlayers.get(O).getUsername();
-            Integer OffScore=OffPlayers.get(O).getScore();
-            Integer OffLosses=OffPlayers.get(O).getLosses();
+        for (int O = 0; O < OffPlayers.size(); O++) {
+            String OffName = OffPlayers.get(O).getUsername();
+            Integer OffScore = OffPlayers.get(O).getScore();
+            Integer OffLosses = OffPlayers.get(O).getLosses();
 
             PlayerModel Offplayer = new PlayerModel();
             Offplayer.setUsername(OffName);
@@ -237,39 +230,23 @@ public class TablePlayers implements Initializable  {
         }
         OfflinePlayers.getItems().setAll(OffPlayerList);
 
-/*
-        List<Button> buttonInvite1 =new ArrayList<>();
-        List<Button> buttonInvite2 =new ArrayList<>();
-        for(int z=0; z<pgames.size();z++){
-            String player1name = pgames.get(z).getPlaye1name();
-            Integer player1 = pgames.get(z).getPlaye1();
-
-            PausedGame pgamee = new PausedGame();
-            buttonInvite1.add(pgamee.getInviteBtn1());
-            pgamee.setPlaye1name(player1name);
-            pgamee.setPlaye1(player1);
-            //
-            String player2name = pgames.get(z).getPlaye1name();
-            Integer player2 = pgames.get(z).getPlaye1();
-            buttonInvite2.add(pgamee.getInviteBtn1());
-            pgamee.setPlaye2name(player2name);
-            pgamee.setPlaye2(player2);
-            //
-            pgamee.setGame_id(pgames.get(z).getGame_id());
+        //Add Resume elements to paused
+        List<Button> ResumeBtns = new ArrayList<>();
+        for (int i = 0; i < pausedGames.size(); i++) {
+            PausedGame OnPausePlayer = new PausedGame();
+            System.out.println(pausedGames.get(i).getOpponentName());
+            OnPausePlayer.setOpponentName(pausedGames.get(i).getOpponentName());
+            ResumeBtns.add(pausedGames.get(i).getInviteBtn());
             // Add initialized object to list
-            pgamesList.add(pgamee);
+            pausedGamesList.add(OnPausePlayer);
         }
-        PausedMatches.getItems().setAll(pgamesList);
-        for (int b = 0; b <buttonInvite1.size() ; b++) {
+        PausedMatches.getItems().setAll(pausedGamesList);
+        for (int b = 0; b < ResumeBtns.size(); b++) {
 //            buttonInvite.get(b).setOnAction(this::handleInviteButton);
-            pgamesList.get(b).setInviteButtonHandler1();
-        }
-        for (int b = 0; b <buttonInvite2.size() ; b++) {
-//            buttonInvite.get(b).setOnAction(this::handleInviteButton);
-            pgamesList.get(b).setInviteButtonHandler2();
+            // pgamesList.get(b).setInviteButtonHandler();
         }
 
-*/
+
 
     }
 }

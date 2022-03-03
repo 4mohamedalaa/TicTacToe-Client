@@ -453,11 +453,11 @@ public class ClientServerHandler {
     }
 
     public static void askForPausedGames(int x) {
-       // ArrayList<PlayerModel> pGames = new ArrayList<PlayerModel>();
+       //ArrayList<PlayerModel> pGames = new ArrayList<PlayerModel>();
         connectSocket();
         JsonObject req = new JsonObject();
         req.addProperty("type", "askforpausedgames");
-        req.addProperty("playerId", "int");
+        req.addProperty("playerId", x);
         try {
             dataOutputStream.writeUTF(req.toString());
         } catch (IOException e) {

@@ -8,19 +8,45 @@ import javafx.scene.control.Button;
 public class PausedGame {
     private Integer game_id;
     private Integer opponentId;
-    private String opponent;
-    private Button InviteBtn;
-    public String getOpponent() {
-        return opponent;
+    private String opponentName;
+    private Button resumeBtn;
+
+
+    public PausedGame(){
+        this.game_id = 0;
+        this.opponentName = "";
+        this.opponentId = 0;
+        this.resumeBtn = new Button("resume");;
     }
-    public void setOpponent(String opponent) {
-        this.opponent = opponent;
+
+    public PausedGame(Integer game_id, String opponentName, Integer opponentId ){
+        this.game_id = game_id;
+        this.opponentName = opponentName;
+        this.opponentId = opponentId;
+        this.resumeBtn = new Button("invite");
+
+    }
+
+//    public void setInviteButtonHandler(){
+//        this.InviteBtn.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+////                ClientServerHandler.sendInvitation(getOpponentId(),getGame_id());
+//            }
+//        });
+//    }
+
+    public String getOpponentName() {
+        return opponentName;
+    }
+    public void setOpponentName(String opponentName) {
+        this.opponentName = opponentName;
     }
     public Button getInviteBtn() {
-        return InviteBtn;
+        return resumeBtn;
     }
     public void setInviteBtn(Button inviteBtn) {
-        InviteBtn = inviteBtn;
+        resumeBtn = inviteBtn;
     }
     public Integer getGame_id() {
         return game_id;
@@ -35,28 +61,4 @@ public class PausedGame {
         this.opponentId = opponentId;
     }
 
-
-    public PausedGame(){
-        this.game_id = 0;
-        this.opponent = "";
-        this.opponentId = 0;
-        this.InviteBtn = null;
-    }
-
-    public PausedGame(Integer game_id, String opponent, Integer opponentId ){
-        this.game_id = game_id;
-        this.opponent = opponent;
-        this.opponentId = opponentId;
-        this.InviteBtn = new Button("invite");
-
-    }
-
-    public void setInviteButtonHandler(){
-        this.InviteBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ClientServerHandler.sendInvitation(getOpponentId());
-            }
-        });
-    }
 }

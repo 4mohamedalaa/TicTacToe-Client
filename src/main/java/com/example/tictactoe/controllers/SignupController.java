@@ -1,6 +1,7 @@
 package com.example.tictactoe.controllers;
 
 //
+
 import animatefx.animation.*;
 //import animatefx.animation.BounceInUp;
 import com.example.tictactoe.ClientServerHandler;
@@ -18,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -97,26 +99,31 @@ public class SignupController implements Initializable {
         System.out.println(cpassword.getText());
         System.out.println(password.getText());
         // If the fields are NOT empty && the passwords are similar
-        if (!getUserName().isEmpty() && !getPassword().isEmpty() && !getcPassword().isEmpty()) {
-            if ((password.getText().equals(cpassword.getText()))) {
-                // Call client-server handler static signup function with user-provided username
-                // & password
-                boolean result = ClientServerHandler.signUp(getUserName(), getPassword());
-                if (result) {
-                    Stage stage;
-                    Scene scene;
-                    Parent root;
-                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
-                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                    new BounceInRight(root).play();
-                }
-            }
-        } else {
+        if (getUserName().isEmpty() || getPassword().isEmpty() || getcPassword().isEmpty()) {
             ShowSignUpFailed();
+            return;
         }
+        if (!(password.getText().equals(cpassword.getText()))) {
+            ShowSignUpFailed();
+            return;
+        }
+        // Call client-server handler static signup function with user-provided username
+        // & password
+        boolean result = ClientServerHandler.signUp(getUserName(), getPassword());
+        if (!result) {
+            ShowSignUpFailed();
+            return;
+        }
+
+        Stage stage;
+        Scene scene;
+        Parent root;
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        new BounceInRight(root).play();
     }
 
     public void SwitchToLogin(ActionEvent event) throws IOException {
