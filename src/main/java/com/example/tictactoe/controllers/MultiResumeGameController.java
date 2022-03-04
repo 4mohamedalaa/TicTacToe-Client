@@ -1,15 +1,12 @@
 package com.example.tictactoe.controllers;
 
-import com.example.tictactoe.*;
+import com.example.tictactoe.ClientServerHandler;
 import com.example.tictactoe.models.CurrentPlayerModel;
-import com.example.tictactoe.models.PlayerInfo;
 import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.PauseTransition;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,19 +29,15 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.example.tictactoe.ClientServerHandler.recArray;
 import static com.example.tictactoe.HelloApplication.Playmusic;
 import static com.example.tictactoe.HelloApplication.Stopmusic;
 import static com.example.tictactoe.controllers.LoginController.moveX;
 
 
-
-
-public class MultiGameController  implements Initializable {
+public class MultiResumeGameController implements Initializable {
 
     public Button button6;
     public Button button2;
@@ -76,7 +69,7 @@ public class MultiGameController  implements Initializable {
         public int[] marks = {0, 0, 0, 0, 0, 0, 0, 0, 0};          //   0   8   0
         private String playerMark = "X";                            //   0   0   0
         private boolean gameEnded;                                  //   0   0   1
-    public int moves;
+    public  int moves;
     private int gameID;
     private boolean currentplayerturn;
 
@@ -90,11 +83,12 @@ public class MultiGameController  implements Initializable {
         moves = 0;
         playerMark = "X";
         marks = new int[marks.length];
-        btns = new ArrayList<>() ;
+        btns = new ArrayList<>(9) ;
         btns.forEach(bt -> {
             bt.setDisable(false);
             bt.setText("");
         });
+
         moveX(logomulti, -90);
         //txtA = new TextArea() ;
         gameID = CurrentPlayerModel.gameId;
@@ -104,35 +98,6 @@ public class MultiGameController  implements Initializable {
         btns.add(button7);btns.add(button8);btns.add(button9);
         System.out.println("CurrentPlayerModel.playerTurn :  "+ CurrentPlayerModel.playerTurn);
         currentplayerturn= CurrentPlayerModel.playerTurn;
-
-        ////////////////////////////////////
-        if(ClientServerHandler.isReplay == true) {
-            pause.setDisable(true);
-            String[] string = recArray.replaceAll("\\[", "") //string -> pos sign
-                    .replaceAll("]", "")
-                    .split(",");
-            for (int i = 0; i < string.length; i++) {
-                String[] st = string[i].trim().split("-");
-                System.out.println(Arrays.toString(st));
-                int pos = Integer.parseInt(st[0]); // btns[pos] - > mark[index] = 1 or  8
-                int sign = Integer.parseInt(st[1]);// 1 or 8
-                double tim = i + 0.5;
-                PauseTransition pause = new PauseTransition(Duration.seconds(i));
-                pause.setOnFinished(event -> {
-                    String si = (sign == 8) ? "X" : "O";
-                    btns.get(pos).setFont(new Font("System Bold Italic", 200));
-                    btns.get(pos).setStyle("-fx-font-size:40");
-                    btns.get(pos).setText(si);
-                    btns.get(pos).setDisable(true);
-                    marks[pos] = sign;
-                    moves++;
-                });
-                pause.playFromStart();
-            }
-        }
-        ////////////////////////////////
-
-
         for (Button bt : btns) {
             bt.setOnAction(event -> {
                 if (CurrentPlayerModel.allowFire){
@@ -154,8 +119,6 @@ public class MultiGameController  implements Initializable {
                             bt.setStyle("-fx-background-color: MediumSeaGreen");
                         }
                         System.out.println("siggggggn : "+getPlayer());
-                        ///////
-                        ///////
                         bt.setDisable(true);
                         int sign = (bt.getText().equals("X")) ? 8 : 1;
                         System.out.println("mark : "+sign);
@@ -395,7 +358,7 @@ public class MultiGameController  implements Initializable {
             }
         });
     }
-    public void puaseGame() {
+   /* public void puaseGame() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -427,20 +390,13 @@ public class MultiGameController  implements Initializable {
             }
         });
 
-
-
-
-
-
-
-
         /*
         System.out.println("req records");
         JsonObject showRecObj = new JsonObject();
         showRecObj.addProperty("type","request_record");
         showRecObj.addProperty("game_id",gameID);
         ClientServerHandler.sendReplayreq(showRecObj);*/
-    }
+   /* }*/
     public void exitGame() {
         if(gameEnded == false) {
             Platform.runLater(new Runnable() {
@@ -505,13 +461,13 @@ public class MultiGameController  implements Initializable {
         ClientServerHandler.sendReplayreq(showRecObj);*/
     }
 
-    private void getMoves(int idgame) {
+   /* private void getMoves(int idgame) {
                 System.out.println("req moves");
                 JsonObject showRecObj = new JsonObject();
                 showRecObj.addProperty("type","request_record");
                 showRecObj.addProperty("game_id",idgame);
                 ClientServerHandler.sendReplayreq(showRecObj);
-            }
+            }*/
 
 
 }

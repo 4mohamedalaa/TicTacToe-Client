@@ -236,13 +236,20 @@ public class TablePlayers implements Initializable {
             PausedGame OnPausePlayer = new PausedGame();
 //            System.out.println(pausedGames.get(i).getOpponentName());
             OnPausePlayer.setOpponentName(pausedGames.get(i).getOpponentName());
+            OnPausePlayer.setGame_id(pausedGames.get(i).getGame_id());
+            OnPausePlayer.setOpponentId(pausedGames.get(i).getOpponentId());
+            OnPausePlayer.setOpponentName(pausedGames.get(i).getOpponentName());
             ResumeBtns.add(pausedGames.get(i).getInviteBtn());
             // Add initialized object to list
             pausedGamesList.add(OnPausePlayer);
+            //System.out.println("************************");
+            //System.out.println(pausedGames.get(i).getGame_id());
+            //System.out.println(pausedGames.get(i).getOpponentId());
+
         }
         PausedMatches.getItems().setAll(pausedGamesList);
         for (int b = 0; b < ResumeBtns.size(); b++) {
-//            buttonInvite.get(b).setOnAction(this::handleInviteButton);
+            //buttonInvite.get(b).setOnAction(this::handleInviteButton);
             // pgamesList.get(b).setInviteButtonHandler();
             pausedGamesList.get(b).initializeResumeBtn();
         }

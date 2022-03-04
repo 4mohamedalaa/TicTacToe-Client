@@ -1,6 +1,7 @@
 package com.example.tictactoe;
 //import com.example.tictactoe.controllers.MultiGameController;
 import com.example.tictactoe.controllers.MultiGameController;
+import com.example.tictactoe.controllers.MultiResumeGameController;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PausedGame;
 import com.example.tictactoe.models.PlayerModel;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.DataInputStream;
@@ -32,13 +34,20 @@ import static com.example.tictactoe.controllers.LoginController.clientServerList
 
 
 public class ClientServerHandler {
-    private static final String SERVER_ADDRESS = "18.197.17.158";
-//    private static final String SERVER_ADDRESS = "127.0.0.1";
+
+
+
+    public static String recArray;
+    public static boolean isReplay;
+
+    //private static final String SERVER_ADDRESS = "18.197.17.158";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
     public static Socket socket = connectSocket();
     private static ArrayList<javafx.scene.control.Button> buttons;
+    private static MultiGameController player;
 
     // Insure we're connected to the server's socket
     public static Socket connectSocket() {
@@ -350,6 +359,7 @@ public class ClientServerHandler {
         //opponentsMove();
 
     }
+
     public static void renderRecordedGame(String recordsArray) {
         Platform.runLater(new Runnable() {
             @Override
@@ -361,9 +371,14 @@ public class ClientServerHandler {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
                 try {
                     root = loader.load();
-                    MultiGameController host = loader.getController();
-                    System.out.println(host);
-                    // myControllerHandle2.player1Name.setText(CurrentPlayerModel.username);
+                    player = loader.getController();
+                    player.player2Name.setText(CurrentPlayerModel.opponentUsername);
+                    player.player2Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                    player.player2Name.setStyle("-fx-background-color: green");
+                    player.player1Name.setText(CurrentPlayerModel.username);
+                    player.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                    player.player1Name.setStyle("-fx-background-color: green");
+                    ///
                     System.out.println("inside invitation accept");
                     System.out.println("host : " + CurrentPlayerModel.username);
                     System.out.println("guest : " + CurrentPlayerModel.opponentUsername);
@@ -375,28 +390,40 @@ public class ClientServerHandler {
                     e.printStackTrace();
                 }
             }
-            });
-        String[] string = recordsArray.replaceAll("\\[", "")
+        });
+
+         recArray = recordsArray;
+         isReplay = true ;
+
+
+       /* String[] string = recordsArray.replaceAll("\\[", "")
                 .replaceAll("]", "")
                 .split(",");
         for (int i = 0; i < string.length; i++) {
             String[] st = string[i].trim().split("-");
             System.out.println(Arrays.toString(st));
-            int pos = Integer.parseInt(st[0]);
-            int sign = Integer.parseInt(st[1]);
+            int pos = Integer.parseInt(st[0]); // btns[pos] - > mark[index] = 1 or  8
+            int sign = Integer.parseInt(st[1]);// 1 or 8
             int player_id = Integer.parseInt(st[2]);
             double tim = i + 0.5;
             PauseTransition pause = new PauseTransition(Duration.seconds(i));
             pause.setOnFinished(event -> {
-                Button btn = buttons.get(pos);
+                //Button btn = buttons.get(pos);
+                ArrayList<Integer> po = new ArrayList<>();
+                ArrayList<String> sg = new ArrayList<>();
+                po.add(pos);
+                String si = (sign == 8) ? "X" : "O";
+                sg.add(si);
+                Button btn = player.btns.get(pos);
                 btn.setFont(new Font("System Bold Italic", 200));
                 btn.setStyle("-fx-font-size:40");
                 String si = (sign == 8) ? "X" : "O";
                 btn.setText(si);
+                btn.setDisable(true);
             });
-            pause.playFromStart();
+            pause.playFromStart();*/
         }
-    }
+
 
     public static void sendReplayreq(JsonObject showRecObj) {
         try {
@@ -472,10 +499,45 @@ public class ClientServerHandler {
         resumePayload.addProperty("type", "sendresumeinvitation");
         resumePayload.addProperty("senderplayerid", CurrentPlayerModel.id);
         resumePayload.addProperty("senderusername", CurrentPlayerModel.username);
-        resumePayload.addProperty("senderscore", CurrentPlayerModel.score);
-//        resumePayload.addProperty("sendtoid", opponentPlayerId);
-//        CurrentPlayerModel.currentlyInvitedPlayerId = opponentPlayerId;
-        System.out.println("Sent invite: " + resumePayload);
+        resumePayload.addProperty("opponentid", opponentId);
+        resumePayload.addProperty("game_id", game_id);
+        System.out.println("Sent resume invite: " + resumePayload);
+        System.out.println("sender ID: " + CurrentPlayerModel.id);
+        System.out.println("opponent id : " + opponentId);
+        System.out.println("Sent resume invite: " + resumePayload);
+        try {
+            dataOutputStream.writeUTF(resumePayload.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static void acceptResumeInvitation() {
+
+        //CurrentPlayerModel.opponentId = jsonObject.get("opponentid").getAsInt();
+        //CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
+        //CurrentPlayerModel.opponentscore = jsonObject.get("opponentsscore").getAsString();
+       // CurrentPlayerModel.opponentUsername = jsonObject.get("opponentusername").getAsString();
+
+
+        connectSocket();
+        JsonObject resumePayload = new JsonObject();
+        resumePayload.addProperty("type", "acceptresumeinvitation");
+        resumePayload.addProperty("senderplayerid", CurrentPlayerModel.id);
+        resumePayload.addProperty("senderusername", CurrentPlayerModel.username);
+        resumePayload.addProperty("opponentid",  CurrentPlayerModel.opponentId);
+        resumePayload.addProperty("game_id", CurrentPlayerModel.gameId);
+        resumePayload.addProperty("opponentUsername", CurrentPlayerModel.opponentUsername);
+        System.out.println("****************send acceptance **************************************");
+        System.out.println("abdallah : "+CurrentPlayerModel.id);
+        System.out.println("game : "+CurrentPlayerModel.gameId);
+        System.out.println("opponent : "+CurrentPlayerModel.opponentId);
+        //System.out.println("Sent resume invite: " + resumePayload);
+        //System.out.println("sender ID: " + CurrentPlayerModel.id);
+        //System.out.println("opponent id : " + opponentId);
+        //System.out.println("Sent resume invite: " + resumePayload);
         try {
             dataOutputStream.writeUTF(resumePayload.toString());
         } catch (IOException e) {

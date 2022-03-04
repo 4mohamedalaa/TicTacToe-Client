@@ -44,6 +44,7 @@ public class ClientServerListener extends Thread {
     public DataOutputStream dataOutputStream;
     public Socket socket;
 
+
     // Create a stage for dialog box
     private static Stage primaryStage;
 
@@ -127,6 +128,7 @@ public class ClientServerListener extends Thread {
                                             stage = CurrentPlayerModel.eventWindow;
                                             Scene scene;
                                             Parent root;
+                                            ClientServerHandler.isReplay = false ;
                                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
                                             try {
                                                 root = loader.load();
@@ -178,6 +180,7 @@ public class ClientServerListener extends Thread {
                                 stage = CurrentPlayerModel.eventWindow;
                                 Scene scene;
                                 Parent root;
+                                ClientServerHandler.isReplay = false;
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
                                 try {
                                     root = loader.load();
@@ -261,7 +264,7 @@ public class ClientServerListener extends Thread {
                     // @samboooo
                     // recieved Json from server to print message from one client to all online
                     // players
-                  /*  case "oponnetmove" :
+                   /*  case "oponnetmove" :
                         multicontrollerhandler.opponent_action(jsonObject);
                         break;*/
                     case "oponnetmove":
@@ -276,6 +279,7 @@ public class ClientServerListener extends Thread {
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
                         myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
+
                         break;
 
                     case "game_record":
@@ -574,6 +578,140 @@ public class ClientServerListener extends Thread {
                                 delay.play();
                             }
                         });
+                        break;
+                   case"invitationresumereceived":
+                        CurrentPlayerModel.opponentId = jsonObject.get("sender").getAsInt();
+                        CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
+                        //CurrentPlayerModel.opponentscore = jsonObject.get("opponentsscore").getAsString();
+                        CurrentPlayerModel.opponentUsername = jsonObject.get("opponentusername").getAsString();
+                       System.out.println("gmae : "+CurrentPlayerModel.gameId);
+                       System.out.println("iam abdallah : "+CurrentPlayerModel.id);
+                       System.out.println("opponent : "+CurrentPlayerModel.opponentId);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                Alert invitationAlert = new Alert(Alert.AlertType.CONFIRMATION,
+                                        "You received an Resume Match invitation from User ID: " +
+                                                CurrentPlayerModel.opponentId + " from user: " +
+                                                CurrentPlayerModel.opponentUsername,
+                                        ButtonType.NO, ButtonType.YES);
+                                invitationAlert.setTitle(CurrentPlayerModel.opponentUsername + " invited you");
+                                invitationAlert.setHeaderText("Do you want to accept?");
+                                invitationAlert.setResizable(false);
+                                invitationAlert.initOwner(primaryStage);
+                                Optional<ButtonType> userAnswer = invitationAlert.showAndWait();
+                                ButtonType button = userAnswer.orElse(ButtonType.NO);
+                                if (button == ButtonType.YES) {
+
+                                    System.out.println("Accepted invitation");
+                                    CurrentPlayerModel.playerTurn = true;
+                                    CurrentPlayerModel.allowFire = true;
+                                    CurrentPlayerModel.mySign = "X";
+                                    ClientServerHandler.acceptResumeInvitation();
+                                    //////////////////////////////////////////
+                                    ///
+                                    JsonObject showRecObj = new JsonObject();
+                                    showRecObj.addProperty("type","request_record");
+                                    showRecObj.addProperty("game_id",CurrentPlayerModel.gameId);
+                                    ClientServerHandler.sendReplayreq(showRecObj);
+                                    ///
+                                    /*    Platform.runLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // Switching scenes
+                                            Stage stage;
+                                            stage = CurrentPlayerModel.eventWindow;
+                                            Scene scene;
+                                            Parent root;
+                                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+                                            try {
+                                                root = loader.load();
+                                                guest = loader.getController();
+                                                /*System.out.println(guest);
+                                                System.out.println("inside invitation received");//sambo sending to said
+                                                System.out.println("host : " + CurrentPlayerModel.username);
+                                                System.out.println("guest : " + CurrentPlayerModel.opponentUsername);*/
+                                    /*
+                                                scene = new Scene(root);
+                                                stage.setScene(scene);
+                                                System.out.println();
+                                                stage.show();
+                                                guest.player2Name.setText(CurrentPlayerModel.opponentUsername);
+                                                guest.player2Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                                guest.player2Name.setStyle("-fx-background-color: green");
+                                                guest.player1Name.setText(CurrentPlayerModel.username);
+                                                guest.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                                guest.player1Name.setStyle("-fx-background-color: green");
+                                                //guest.scoreX.setText(CurrentPlayerModel.score);
+                                                //guest.scoreO.setText(CurrentPlayerModel.opponentscore);
+                                                System.out.println("opoooooooonnnnent score " + CurrentPlayerModel.opponentscore);
+                                                System.out.println(" score " + CurrentPlayerModel.score);
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });*/
+                                } else {
+                                    System.out.println("Invitation rejected");
+                                }
+                           }
+                        });
+                        break ;
+                    case"yourresumeinvetationaccepted":
+
+                        int accepterId1 = jsonObject.get("whoaccepted").getAsInt();
+                        CurrentPlayerModel.opponentId = Integer.valueOf(String.valueOf(accepterId1));
+                        CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
+                        CurrentPlayerModel.playerTurn = false;
+                        CurrentPlayerModel.mySign = "O";
+                        CurrentPlayerModel.username = jsonObject.get("accptedname").getAsString();
+                        CurrentPlayerModel.opponentUsername = jsonObject.get("acceptername").getAsString();
+                        System.out.println("*****************admin1*******************");
+                        System.out.println("game : "+ CurrentPlayerModel.gameId);
+                        System.out.println("opponent : "+ CurrentPlayerModel.id);
+                        System.out.println("abdallah : "+ CurrentPlayerModel.opponentId);
+                        System.out.println("*************************************");
+                        // CurrentPlayerModel.opponentscore = jsonObject.get("opponentscore").getAsString() ;
+                       /* Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Switching scenes
+                                Stage stage;
+                                stage = CurrentPlayerModel.eventWindow;
+                                Scene scene;
+                                Parent root;
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/multiPlayer.fxml"));
+                                try {
+                                    root = loader.load();
+                                    host = loader.getController();
+                                    System.out.println(host);
+                                    System.out.println("inside invitation accept");
+                                    System.out.println("host : " + CurrentPlayerModel.username);
+                                    System.out.println("guest : " + CurrentPlayerModel.opponentUsername);
+                                    scene = new Scene(root);
+                                    stage.setScene(scene);
+                                    stage.show();
+                                    host.player2Name.setText(CurrentPlayerModel.username);
+                                    host.player2Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                    host.player2Name.setStyle("-fx-background-color: green");
+                                    host.player1Name.setText(CurrentPlayerModel.opponentUsername);
+                                    host.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                    host.player1Name.setStyle("-fx-background-color: green");
+                                    //host.scoreO.setText(CurrentPlayerModel.score);
+                                    System.out.println("opoooooooonnnnent score " + CurrentPlayerModel.opponentscore);
+                                    System.out.println(" score " + CurrentPlayerModel.score);
+                                    // host.scoreX.setText(CurrentPlayerModel.opponentscore);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });*/
+                        //
+                        JsonObject showRecObj = new JsonObject();
+                        showRecObj.addProperty("type","request_record");
+                        showRecObj.addProperty("game_id",CurrentPlayerModel.gameId);
+                        ClientServerHandler.sendReplayreq(showRecObj);
+                        //
                         break;
 
                     default:

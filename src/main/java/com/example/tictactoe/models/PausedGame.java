@@ -18,7 +18,6 @@ public class PausedGame {
         this.opponentId = 0;
         this.resumeBtn = new Button("resume");;
     }
-
     public PausedGame(Integer game_id, String opponentName, Integer opponentId ){
         this.game_id = game_id;
         this.opponentName = opponentName;
@@ -26,7 +25,6 @@ public class PausedGame {
         this.resumeBtn = new Button("invite");
 
     }
-
 //    public void setInviteButtonHandler(){
 //        this.InviteBtn.setOnAction(new EventHandler<ActionEvent>() {
 //            @Override
@@ -39,7 +37,9 @@ public class PausedGame {
         this.resumeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Button resume was pressed for opponent: " + opponentName);
+                ClientServerHandler.sendResumeInvitation(getOpponentId(),getGame_id());
+                //System.out.println("Button resume was pressed for opponent: " + opponentName);
+                //System.out.println("Button resume was pressed for opponent: " + opponentId);
             }
         });
     }

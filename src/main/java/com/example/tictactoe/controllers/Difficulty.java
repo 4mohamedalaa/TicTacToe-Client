@@ -66,11 +66,14 @@ public class Difficulty {
     public void PlayMusic(ActionEvent Play){
         Playmusic();
     }
-public void BackBtn(ActionEvent event) throws IOException {
+    public void BackBtn(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
 }
+    static String getAiType(){
+        return aiType;
+    }
 }
