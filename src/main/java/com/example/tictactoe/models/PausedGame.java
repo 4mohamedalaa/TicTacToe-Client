@@ -35,7 +35,14 @@ public class PausedGame {
 //            }
 //        });
 //    }
-
+    public void initializeResumeBtn () {
+        this.resumeBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Button resume was pressed for opponent: " + opponentName);
+            }
+        });
+    }
     public String getOpponentName() {
         return opponentName;
     }
@@ -46,7 +53,7 @@ public class PausedGame {
         return resumeBtn;
     }
     public void setInviteBtn(Button inviteBtn) {
-        resumeBtn = inviteBtn;
+        this.resumeBtn = inviteBtn;
     }
     public Integer getGame_id() {
         return game_id;
