@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.example.tictactoe.HelloApplication.Playmusic;
@@ -66,22 +67,10 @@ public class Difficulty {
         Playmusic();
     }
 public void BackBtn(ActionEvent event) throws IOException {
-    Stage stage;
-    Scene scene;
-    Parent root;
-    final Node source = (Node) event.getSource();
-    String id = source.getId();
-    System.out.println(id);
-    setType(id);
-    System.out.println(getClass().getResource("/fxml/profile.fxml"));
-    root = FXMLLoader.load(getClass().getResource("/fxml/profile.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
+    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/profile.fxml")));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
-
 }
-    static String getAiType(){
-        return aiType;
-    }
 }

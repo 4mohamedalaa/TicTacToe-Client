@@ -119,6 +119,7 @@ public class PlayerModel {
             @Override
             public void handle(ActionEvent event) {
                 ClientServerHandler.sendInvitation(id);
+                System.out.println("ay 7aga");
             }
         });
     }

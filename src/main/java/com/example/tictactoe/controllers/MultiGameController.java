@@ -348,7 +348,6 @@ public class MultiGameController  implements Initializable {
                         txtA.appendText(msg);
                         txtA.appendText("\n");
                        ClientServerHandler.sendMessageToOne(msg,CurrentPlayerModel.username);
-
                     }
     }
     public static void opponentsMove(int position) {

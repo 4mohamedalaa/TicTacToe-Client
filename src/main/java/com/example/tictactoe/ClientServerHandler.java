@@ -465,6 +465,23 @@ public class ClientServerHandler {
         }
         //return ClientServerListener.pausedMatchesList;
     }
+
+    public static void sendResumeInvitation(Integer opponentId, Integer game_id) {
+        connectSocket();
+        JsonObject resumePayload = new JsonObject();
+        resumePayload.addProperty("type", "sendresumeinvitation");
+        resumePayload.addProperty("senderplayerid", CurrentPlayerModel.id);
+        resumePayload.addProperty("senderusername", CurrentPlayerModel.username);
+        resumePayload.addProperty("senderscore", CurrentPlayerModel.score);
+//        resumePayload.addProperty("sendtoid", opponentPlayerId);
+//        CurrentPlayerModel.currentlyInvitedPlayerId = opponentPlayerId;
+        System.out.println("Sent invite: " + resumePayload);
+        try {
+            dataOutputStream.writeUTF(resumePayload.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
    /* public static void passMoveToOponnent(JsonObject boardUpdate) {
         try {
             dataOutputStream.writeUTF(String.valueOf(boardUpdate));

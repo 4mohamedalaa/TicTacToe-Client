@@ -27,14 +27,15 @@ public class PausedGame {
 
     }
 
-//    public void setInviteButtonHandler(){
-//        this.InviteBtn.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-////                ClientServerHandler.sendInvitation(getOpponentId(),getGame_id());
-//            }
-//        });
-//    }
+    public void setResumeButtonHandler(){
+        this.resumeBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ClientServerHandler.sendResumeInvitation(getOpponentId(),getGame_id());
+                System.out.println("Send resume for game "+getGame_id()+" to "+ getOpponentId());
+            }
+        });
+    }
 
     public String getOpponentName() {
         return opponentName;
@@ -42,7 +43,7 @@ public class PausedGame {
     public void setOpponentName(String opponentName) {
         this.opponentName = opponentName;
     }
-    public Button getInviteBtn() {
+    public Button getResumeBtn() {
         return resumeBtn;
     }
     public void setInviteBtn(Button inviteBtn) {
