@@ -92,7 +92,7 @@ public class TablePlayers implements Initializable {
 
         //paused matches
         opponent.setCellValueFactory(new PropertyValueFactory<>("opponentName"));
-        resume.setCellValueFactory(new PropertyValueFactory<>("resumeBtn"));
+        resume.setCellValueFactory(new PropertyValueFactory<>("InviteBtn"));
 
         Platform.runLater(new Runnable() {
                               @Override
@@ -232,22 +232,20 @@ public class TablePlayers implements Initializable {
 
         //Add Resume elements to paused
         List<Button> ResumeBtns = new ArrayList<>();
-
         for (int i = 0; i < pausedGames.size(); i++) {
             PausedGame OnPausePlayer = new PausedGame();
+//            System.out.println(pausedGames.get(i).getOpponentName());
             OnPausePlayer.setOpponentName(pausedGames.get(i).getOpponentName());
-            ResumeBtns.add(pausedGames.get(i).getResumeBtn());
+            ResumeBtns.add(pausedGames.get(i).getInviteBtn());
             // Add initialized object to list
-//            pausedGames.get(i).setResumeButtonHandler();
-
             pausedGamesList.add(OnPausePlayer);
         }
-        for (int b = 0; b < ResumeBtns.size(); b++) {
-//              ResumeBtns.get(b).setOnAction(this::handleInviteButton);
-           pausedGames.get(b).setResumeButtonHandler();
-        }
         PausedMatches.getItems().setAll(pausedGamesList);
-
+        for (int b = 0; b < ResumeBtns.size(); b++) {
+//            buttonInvite.get(b).setOnAction(this::handleInviteButton);
+            // pgamesList.get(b).setInviteButtonHandler();
+            pausedGamesList.get(b).initializeResumeBtn();
+        }
 
 
 

@@ -27,27 +27,33 @@ public class PausedGame {
 
     }
 
-    public void setResumeButtonHandler(){
+//    public void setInviteButtonHandler(){
+//        this.InviteBtn.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+////                ClientServerHandler.sendInvitation(getOpponentId(),getGame_id());
+//            }
+//        });
+//    }
+    public void initializeResumeBtn () {
         this.resumeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ClientServerHandler.sendResumeInvitation(getOpponentId(),getGame_id());
-                System.out.println("Send resume for game "+getGame_id()+" to "+ getOpponentId());
+                System.out.println("Button resume was pressed for opponent: " + opponentName);
             }
         });
     }
-
     public String getOpponentName() {
         return opponentName;
     }
     public void setOpponentName(String opponentName) {
         this.opponentName = opponentName;
     }
-    public Button getResumeBtn() {
+    public Button getInviteBtn() {
         return resumeBtn;
     }
     public void setInviteBtn(Button inviteBtn) {
-        resumeBtn = inviteBtn;
+        this.resumeBtn = inviteBtn;
     }
     public Integer getGame_id() {
         return game_id;
