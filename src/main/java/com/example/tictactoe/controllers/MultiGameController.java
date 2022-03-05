@@ -23,6 +23,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -45,7 +46,6 @@ import static com.example.tictactoe.controllers.LoginController.moveX;
 
 
 public class MultiGameController  implements Initializable {
-
     public Button button6;
     public Button button2;
     public Button button3;
@@ -89,6 +89,12 @@ public class MultiGameController  implements Initializable {
         pause.setDisable(false);
         moves = 0;
         playerMark = "X";
+
+        txtA.setFont(new Font("Arial",14));
+        txtA.setWrapText(true);
+        txtA.setEditable(false);
+        txtA.setStyle("-fx-text-fill: blue;");
+
         marks = new int[marks.length];
         btns = new ArrayList<>() ;
         btns.forEach(bt -> {
@@ -144,9 +150,9 @@ public class MultiGameController  implements Initializable {
                         //assigning button X or O and style it
                         bt.setText(getPlayer());
                         if(getPlayer() == "X"){
-                            bt.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 42));
-                            bt.setTextFill(Color.rgb(0, 255, 0));
-                            bt.setStyle("-fx-background-color: green");
+                            bt.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
+                            bt.setTextFill(Paint.valueOf("MediumSeaGreen"));
+                            bt.setStyle("-fx-background-color: rgb(255, 0, 0)");
                         }
                         else{
                             bt.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
@@ -165,7 +171,7 @@ public class MultiGameController  implements Initializable {
                         System.out.println("moveees : "+moves);
                         System.out.println(CurrentPlayerModel.playerTurn);
                         if(CurrentPlayerModel.playerTurn) {
-                            ClientServerHandler.play(index, sign);/////////////////////////////////////////////////////////////////////////////////////////////////
+                            ClientServerHandler.play(index, sign);
                             CurrentPlayerModel.playerTurn = false;
                             CurrentPlayerModel.allowFire = false;
                         }
@@ -375,12 +381,12 @@ public class MultiGameController  implements Initializable {
     public void displayImage(ActionEvent event) {
     }
     public void sendToOne() {
-                    String msg =txtF.getText();
-                    txtF.appendText("");
-                    if(msg != null ){
-                        txtA.appendText(msg);
-                        txtA.appendText("\n");
+                    String msg = txtF.getText();
+                    if(msg.length() != 0){
+                       txtA.appendText(msg);
+                       txtA.appendText("\n");
                        ClientServerHandler.sendMessageToOne(msg,CurrentPlayerModel.username);
+                       txtF.clear();
                     }
     }
     public static void opponentsMove(int position) {

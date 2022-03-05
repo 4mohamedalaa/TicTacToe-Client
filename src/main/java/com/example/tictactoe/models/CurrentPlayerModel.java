@@ -27,7 +27,6 @@ public class CurrentPlayerModel {
     //@samboo
 
     static Integer opponentScore;
-
     static public String getOpponentUsername()
     {
         return opponentUsername;

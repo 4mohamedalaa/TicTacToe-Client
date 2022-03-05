@@ -1,5 +1,4 @@
 .refresh {
-
     -fx-background-color: #28175c;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -49,10 +48,8 @@
 }
 
 .easy {
-
     -fx-background-color: #ff2267;
 	-fx-text-fill: black;
-
     -fx-background-radius: 5px 0px 0px 5px;
     -fx-border-radius: 5px 0px 0px 5px;
     -fx-border-color: #0a0;

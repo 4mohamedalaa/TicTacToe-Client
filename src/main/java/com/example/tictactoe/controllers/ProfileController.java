@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,13 +36,13 @@ import javafx.scene.layout.VBox;
 
 import static com.example.tictactoe.HelloApplication.Playmusic;
 import static com.example.tictactoe.HelloApplication.Stopmusic;
+import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
 
 public class ProfileController implements Initializable  {
 
     @FXML
     public TextArea txtA;
-    @FXML
-    Label username;
+    public String username;
     @FXML
     Button singlePlayer;
     @FXML
@@ -160,19 +161,20 @@ public void PlayMusic(ActionEvent Play){
 //            } catch (IOException ex) {
 //                ex.printStackTrace(); }
 //             });
-
+        txtA.setFont(new Font("Arial",14));
+        txtA.setWrapText(true);
+        txtA.setEditable(false);
+        txtA.setStyle("-fx-text-fill: blue;");
+        this.username = CurrentPlayerModel.username;
         CurrentUser.setText(CurrentPlayerModel.username);
         CurrentScore.setText(CurrentPlayerModel.score);
         CurrentWin.setText(CurrentPlayerModel.wins);
         CurrentLoss.setText(CurrentPlayerModel.losses);
-
-
     }
+
     public void sendToAll(){
-        //System.out.println("clicked");
                String msg = txtF.getText();
-               txtF.appendText("");
-                if(msg != null ){
+                if(msg.length() != 0){
                    // System.out.println("inside clicked ");
                     System.out.println(CurrentPlayerModel.username);
                     System.out.println(msg);

@@ -5,7 +5,6 @@ module com.example.tictactoe {
     requires com.google.gson;
     requires com.jfoenix;
     requires javafx.media;
-
     opens com.example.tictactoe to javafx.fxml;
     exports com.example.tictactoe;
     exports com.example.tictactoe.controllers;

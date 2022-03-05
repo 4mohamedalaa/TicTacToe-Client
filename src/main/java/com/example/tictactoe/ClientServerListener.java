@@ -36,6 +36,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.example.tictactoe.controllers.LoginController.myControllerHandle1;
+import static javafx.scene.text.FontWeight.*;
 //import static com.example.tictactoe.controllers.TablePlayers.Update;
 
 public class ClientServerListener extends Thread {
@@ -142,10 +143,10 @@ public class ClientServerListener extends Thread {
                                                 System.out.println();
                                                 stage.show();
                                                 guest.player2Name.setText(CurrentPlayerModel.opponentUsername);
-                                                guest.player2Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                                guest.player2Name.setFont(Font.font("MediumSeaGreen", EXTRA_BOLD, 14));
                                                 guest.player2Name.setStyle("-fx-background-color: green");
                                                 guest.player1Name.setText(CurrentPlayerModel.username);
-                                                guest.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                                guest.player1Name.setFont(Font.font("MediumSeaGreen", EXTRA_BOLD, 14));
                                                 guest.player1Name.setStyle("-fx-background-color: green");
                                                 //guest.scoreX.setText(CurrentPlayerModel.score);
                                                 //guest.scoreO.setText(CurrentPlayerModel.opponentscore);
@@ -193,10 +194,10 @@ public class ClientServerListener extends Thread {
                                     stage.setScene(scene);
                                     stage.show();
                                     host.player2Name.setText(CurrentPlayerModel.username);
-                                    host.player2Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                    host.player2Name.setFont(Font.font("MediumSeaGreen", EXTRA_BOLD, 14));
                                     host.player2Name.setStyle("-fx-background-color: green");
                                     host.player1Name.setText(CurrentPlayerModel.opponentUsername);
-                                    host.player1Name.setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 14));
+                                    host.player1Name.setFont(Font.font("MediumSeaGreen", EXTRA_BOLD, 14));
                                     host.player1Name.setStyle("-fx-background-color: green");
                                     //host.scoreO.setText(CurrentPlayerModel.score);
                                     System.out.println("opoooooooonnnnent score " + CurrentPlayerModel.opponentscore);
@@ -255,10 +256,14 @@ public class ClientServerListener extends Thread {
                         if (host == null) {
                             System.out.println("host is null");
                             guest.txtA.appendText(message1);
+                            guest.txtA.setFont(new Font("Arial",14));
+                            guest.txtA.setWrapText(true);
                         }
                         if (guest == null) {
                             System.out.println("guest is null");
                             host.txtA.appendText(message1);
+                            host.txtA.setFont(new Font("Arial",14));
+                            host.txtA.setWrapText(true);
                         }
                         break;
                     // @samboooo
@@ -278,6 +283,7 @@ public class ClientServerListener extends Thread {
                         // System.out.println("********************");
                         // System.out.println(jsonObject);
                         // System.out.println("********************");
+
                         myControllerHandle1.txtA.appendText(msgtoProfile + "\n");
 
                         break;

@@ -21,6 +21,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -163,8 +164,8 @@ public class MainGameController implements Initializable {
             button.setDisable(true);
             button.setText("X");
             button.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 42));
-            button.setTextFill(Color.rgb(255, 0, 0));
-            button.setStyle("-fx-background-color: MediumSeaGreen");
+            button.setTextFill(Paint.valueOf("MediumSeaGreen"));
+            button.setStyle("-fx-background-color: rgb(255, 0, 0)");
             Point p = btnBoard.get(button);
             System.out.println("Human Selected "+p.row + "  " + p.col);
             System.out.println("Human Selected " + button);
@@ -203,8 +204,8 @@ public class MainGameController implements Initializable {
                         entry.getKey().setText("O");
                         entry.getKey().setDisable(true);
                         entry.getKey().setFont(Font.font("MediumSeaGreen", FontWeight.EXTRA_BOLD, 42));
-                        entry.getKey().setTextFill(Color.rgb(0, 255, 0));
-                        entry.getKey().setStyle("-fx-background-color: green");
+                        entry.getKey().setTextFill(Color.rgb(255, 0, 0));
+                        entry.getKey().setStyle("-fx-background-color: MediumSeaGreen");
                         break;
                     }
                 }
@@ -434,4 +435,7 @@ public class MainGameController implements Initializable {
         }
     }
 
+    public PlayerAI getAiType() {
+        return aiPlayer;
+    }
 }

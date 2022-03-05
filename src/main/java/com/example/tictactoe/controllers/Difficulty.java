@@ -28,6 +28,9 @@ public class Difficulty {
     @FXML
     private Button unbeatable;
 
+    public static String getAiType() {
+        return  aiType;
+    }
 
 
     private void setType(String S) {
@@ -73,7 +76,5 @@ public class Difficulty {
     stage.setScene(scene);
     stage.show();
 }
-    static String getAiType(){
-        return aiType;
-    }
+
 }
