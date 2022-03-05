@@ -3,6 +3,8 @@ package com.example.tictactoe.controllers;
 import animatefx.animation.BounceInDown;
 import animatefx.animation.BounceInUp;
 import animatefx.animation.FadeIn;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,6 +53,12 @@ public class StarterController implements Initializable {
     moveY(x1, 50);
     moveY(x2, 100);
     moveY(x3, 200);
+    RotateTransition rotate = new RotateTransition();
+    rotate.setNode(logo);
+    rotate.setDuration(Duration.millis(1000)); // do the rotate in 1 sec
+    rotate.setInterpolator(Interpolator.LINEAR); // smooth rotation
+    rotate.setByAngle(360);
+    rotate.play();
   }
   public void moveY(Node node, int valueY) {
     TranslateTransition translate = new TranslateTransition();

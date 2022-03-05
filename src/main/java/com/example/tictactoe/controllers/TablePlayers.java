@@ -4,6 +4,7 @@ import com.example.tictactoe.*;
 import com.example.tictactoe.models.CurrentPlayerModel;
 import com.example.tictactoe.models.PausedGame;
 import com.example.tictactoe.models.PlayerModel;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +19,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +32,18 @@ import java.util.ResourceBundle;
 
 
 public class TablePlayers implements Initializable {
+    @FXML
+    ImageView o1;
+    @FXML
+    ImageView o2;
+    @FXML
+    ImageView o3;
+    @FXML
+    ImageView x1;
+    @FXML
+    ImageView x2;
+    @FXML
+    ImageView x3;
     @FXML
     TableView<PausedGame> PausedMatches;
     @FXML
@@ -75,9 +90,31 @@ public class TablePlayers implements Initializable {
 
     // Provide status for running thread
     boolean isPressed = false;
+    public void moveY(Node node, int valueY) {
+        TranslateTransition translate = new TranslateTransition();
+        translate.setNode(node);
+        translate.setDuration(Duration.millis(1000)); // do the translate in 1 sec
+        // translate.setByX(valueX); // or 250
+        translate.setByY(valueY); // or 250
+        translate.setCycleCount(2); // repeat the translate 2 times
+        translate.setAutoReverse(true); // return to your original position after translation
+        translate.play();
+    }
 
+    public void moveX(Node node, int valueX) {
+        TranslateTransition translate = new TranslateTransition();
+        translate.setNode(node);
+        translate.setDuration(Duration.millis(1000)); // do the translate in 1 sec
+        translate.setByX(valueX); // or 250
+        // translate.setByX(valueY); // or 250
+        translate.setCycleCount(2); // repeat the translate 2 times
+        translate.setAutoReverse(true); // return to your original position after translation
+        translate.play();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
 //        pgamesList.addAll(ClientServerListener.pausedMatchesList);
 //        pgamesList.addAll(pgames);
         //Online table list
@@ -165,8 +202,15 @@ public class TablePlayers implements Initializable {
                 }
             }
         };
+
         th.setDaemon(true);
         th.start();
+        moveY(o1, 50);
+        moveY(o2, 100);
+        moveY(o3, 200);
+        moveY(x1, 50);
+        moveY(x2, 100);
+        moveY(x3, 200);
     }
 
     public void BackBtn(ActionEvent event) throws IOException {
@@ -261,4 +305,5 @@ public class TablePlayers implements Initializable {
 
 
     }
+
 }
