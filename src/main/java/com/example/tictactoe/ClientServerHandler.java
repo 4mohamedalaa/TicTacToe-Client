@@ -34,14 +34,10 @@ import static com.example.tictactoe.controllers.LoginController.clientServerList
 
 
 public class ClientServerHandler {
-
-
-
     public static String recArray;
     public static boolean isReplay;
-
     private static final String SERVER_ADDRESS = "18.197.17.158";
-//    private static final String SERVER_ADDRESS = "127.0.0.1";
+    //private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final String SERVER_PORT = "5001";
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
@@ -396,32 +392,24 @@ public class ClientServerHandler {
          isReplay = true ;
 
 
-       /* String[] string = recordsArray.replaceAll("\\[", "")
+        String[] string = recordsArray.replaceAll("\\[", "")
                 .replaceAll("]", "")
                 .split(",");
-        for (int i = 0; i < string.length; i++) {
+            Integer i = string.length-1;
             String[] st = string[i].trim().split("-");
-            System.out.println(Arrays.toString(st));
             int pos = Integer.parseInt(st[0]); // btns[pos] - > mark[index] = 1 or  8
             int sign = Integer.parseInt(st[1]);// 1 or 8
             int player_id = Integer.parseInt(st[2]);
-            double tim = i + 0.5;
-            PauseTransition pause = new PauseTransition(Duration.seconds(i));
-            pause.setOnFinished(event -> {
-                //Button btn = buttons.get(pos);
-                ArrayList<Integer> po = new ArrayList<>();
-                ArrayList<String> sg = new ArrayList<>();
-                po.add(pos);
-                String si = (sign == 8) ? "X" : "O";
-                sg.add(si);
-                Button btn = player.btns.get(pos);
-                btn.setFont(new Font("System Bold Italic", 200));
-                btn.setStyle("-fx-font-size:40");
-                String si = (sign == 8) ? "X" : "O";
-                btn.setText(si);
-                btn.setDisable(true);
-            });
-            pause.playFromStart();*/
+            if(player_id != Integer.parseInt(CurrentPlayerModel.id)){
+                CurrentPlayerModel.playerTurn = true;
+                CurrentPlayerModel.allowFire = true;
+                if(sign == 8){
+                    CurrentPlayerModel.mySign = "O";
+                }
+                else{
+                    CurrentPlayerModel.mySign = "X";
+                }
+            }
         }
 
 

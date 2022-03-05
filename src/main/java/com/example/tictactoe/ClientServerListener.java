@@ -664,7 +664,6 @@ public class ClientServerListener extends Thread {
                         });
                         break ;
                     case"yourresumeinvetationaccepted":
-
                         int accepterId1 = jsonObject.get("whoaccepted").getAsInt();
                         CurrentPlayerModel.opponentId = Integer.valueOf(String.valueOf(accepterId1));
                         CurrentPlayerModel.gameId = jsonObject.get("game_id").getAsInt();
