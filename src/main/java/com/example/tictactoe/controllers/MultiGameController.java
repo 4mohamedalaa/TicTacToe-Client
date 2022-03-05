@@ -88,7 +88,9 @@ public class MultiGameController  implements Initializable {
         gameEnded = false;
         pause.setDisable(false);
         moves = 0;
-        playerMark = "X";
+        if(ClientServerHandler.isReplay != true){
+            playerMark = "X";
+        }
 
         txtA.setFont(new Font("Arial",14));
         txtA.setWrapText(true);
@@ -294,6 +296,9 @@ public class MultiGameController  implements Initializable {
         if (!gameEnded && moves == 9) {
             gameEnded = true;
             System.out.println("tieee");
+            pause.setDisable(true);
+            ShowTieDialog();
+
         }
     }
     private void gameEnding(String wins) {
@@ -315,7 +320,8 @@ public class MultiGameController  implements Initializable {
                 System.out.println("you won");
                 makeFinishGameObj(Integer.parseInt(CurrentPlayerModel.id));
                 ShowWinDialog();
-            } else {
+            }
+            else {
                 System.out.println("you id : "+CurrentPlayerModel.id);
                 System.out.println("you lost");
                 ShowLoseDialog();
@@ -518,7 +524,22 @@ public class MultiGameController  implements Initializable {
                 showRecObj.addProperty("game_id",idgame);
                 ClientServerHandler.sendReplayreq(showRecObj);
             }
+    public void ShowTieDialog() {
+        StackPane secondaryLayout2 = new StackPane();
+        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("/fxml/tie.mp4").toExternalForm()));
+        MediaView mediaView2 = new MediaView(videoForWinner);
+        secondaryLayout2.getChildren().addAll(mediaView2);
+        Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
+        Stage secondStage2 = new Stage();
+        secondStage2.setResizable(false);
+        secondStage2.setScene(secondScene2);
+        secondStage2.show();
+        videoForWinner.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished( event -> secondStage2.close() );
+        delay.play();
 
+    }
 
 }
 

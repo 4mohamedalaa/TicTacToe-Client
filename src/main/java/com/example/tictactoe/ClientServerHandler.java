@@ -360,6 +360,37 @@ public class ClientServerHandler {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                recArray = recordsArray;
+                isReplay = true ;
+                String[] string = recordsArray.replaceAll("\\[", "")
+                        .replaceAll("]", "")
+                        .split(",");
+                int i = string.length-1;
+                String[] st = string[i].trim().split("-");
+                int pos = Integer.parseInt(st[0]); // btns[pos] - > mark[index] = 1 or  8
+                int sign = Integer.parseInt(st[1]);// 1 or 8
+                int player_id = Integer.parseInt(st[2]);
+                if(player_id != Integer.parseInt(CurrentPlayerModel.id)){
+                    CurrentPlayerModel.playerTurn = true;
+                    CurrentPlayerModel.allowFire = true;
+                    if(sign == 8){
+                        CurrentPlayerModel.mySign = "O";
+                    }
+                    else{
+                        CurrentPlayerModel.mySign = "X";
+                    }
+                }
+                else{
+                        CurrentPlayerModel.playerTurn = false;
+                        CurrentPlayerModel.allowFire = false;
+                        if(sign == 8){
+                            CurrentPlayerModel.mySign = "X";
+                        }
+                        else{
+                            CurrentPlayerModel.mySign = "O";
+                        }
+                    }
+
                 Stage stage;
                 stage = CurrentPlayerModel.eventWindow;
                 Scene scene;
@@ -388,28 +419,7 @@ public class ClientServerHandler {
             }
         });
 
-         recArray = recordsArray;
-         isReplay = true ;
 
-
-        String[] string = recordsArray.replaceAll("\\[", "")
-                .replaceAll("]", "")
-                .split(",");
-            Integer i = string.length-1;
-            String[] st = string[i].trim().split("-");
-            int pos = Integer.parseInt(st[0]); // btns[pos] - > mark[index] = 1 or  8
-            int sign = Integer.parseInt(st[1]);// 1 or 8
-            int player_id = Integer.parseInt(st[2]);
-            if(player_id != Integer.parseInt(CurrentPlayerModel.id)){
-                CurrentPlayerModel.playerTurn = true;
-                CurrentPlayerModel.allowFire = true;
-                if(sign == 8){
-                    CurrentPlayerModel.mySign = "O";
-                }
-                else{
-                    CurrentPlayerModel.mySign = "X";
-                }
-            }
         }
 
 
