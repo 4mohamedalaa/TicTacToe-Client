@@ -207,6 +207,8 @@ public class TablePlayers implements Initializable {
             OnPlayer.setUsername(OnName);
             OnPlayer.setWins(OnWins);
             OnPlayer.setId(OnPlayers.get(i).getId());
+            OnPlayer.setScore(OnPlayers.get(i).getScore());
+            OnPlayer.setLosses(OnPlayers.get(i).getLosses());
             // Add initialized object to list
             OnPlayerList.add(OnPlayer);
         }
@@ -219,13 +221,15 @@ public class TablePlayers implements Initializable {
 
         for (int O = 0; O < OffPlayers.size(); O++) {
             String OffName = OffPlayers.get(O).getUsername();
-            Integer OffScore = OffPlayers.get(O).getScore();
-            Integer OffLosses = OffPlayers.get(O).getLosses();
+            int OffScore = OffPlayers.get(O).getScore();
+            int OffLosses = OffPlayers.get(O).getLosses();
+            int OffWins = OffPlayers.get(O).getWins();
 
             PlayerModel Offplayer = new PlayerModel();
             Offplayer.setUsername(OffName);
-            Offplayer.setWins(OffScore);
+            Offplayer.setWins(OffWins);
             Offplayer.setLosses(OffLosses);
+            Offplayer.setScore(OffScore);
             OffPlayerList.add(Offplayer);
         }
         OfflinePlayers.getItems().setAll(OffPlayerList);

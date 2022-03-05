@@ -226,16 +226,6 @@ public class ClientServerHandler {
             socket.close();
             CurrentPlayerModel.resetCurrentPlayer(); // CurrentPlayerModel reset
 
-
-            //---------------------------------------------
-            //@sayed---------------------------------------
-            dataOutputStream.close();
-            dataInputStream.close();
-            socket.close();
-            CurrentPlayerModel.resetCurrentPlayer(); // CurrentPlayerModel reset
-
-
-            //---------------------------------------------
         } catch (IOException e) {
             e.printStackTrace();
         }
