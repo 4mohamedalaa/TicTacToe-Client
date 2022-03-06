@@ -28,7 +28,7 @@ public class HelloApplication extends Application {
     }
 
    static public void music() {
-        String s = "playplay.mp3";
+        String s = "src/main/resources/Fluffing-a-Duck.mp3";
         Media h = new Media(Paths.get(s).toUri().toString());
         mediaPlayer = new MediaPlayer(h);
         mediaPlayer.play();
