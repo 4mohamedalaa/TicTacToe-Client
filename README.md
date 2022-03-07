@@ -1,8 +1,9 @@
 # **Client side of tic tac toe game**
 
-![alt text](src\main\resources\com\example\tictactoe\logo.png)
+![alt text](src/main/resources/com/example/tictactoe/logo.png)
 
-**Server side repo :** https://github.com/Abdallah-Refay/TicTacToe-Server.git</br></br>
+**Server side repo :** https://github.com/Abdallah-Refay/TicTacToe-Server.git
+</br></br>
 
 # Key Featuers :- # 
 * Global chat for all player
