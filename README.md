@@ -1,6 +1,8 @@
 # **Client side of tic tac toe game**
 
-![alt text](src/main/resources/com/example/tictactoe/logo.png)
+
+<img src="src/main/resources/com/example/tictactoe/logo.png" alt="Icon"  width="250" />
+
 
 **Server side repo :** https://github.com/Abdallah-Refay/TicTacToe-Server.git
 </br></br>
