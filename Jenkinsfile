@@ -5,11 +5,11 @@ pipeline {
             steps {
                 script {
                     def pipelineConfig=[
-                        sonarQubeServer: 'SonarQube',
+                        sonarQubeServer: 'sq',
                     ]
                     def repositoryUrl = scm.userRemoteConfigs[0].getUrl()
                     def GIT_REPO_NAME = scm.userRemoteConfigs[0].getUrl().tokenize('/').last().split("\\.")[0]
-                    def scannerHome = tool 'sonar_scanner'
+                    def scannerHome = tool 'sq-scanner'
                     def SONAR_BRANCH_NAME = env.BRANCH_NAME
                     withSonarQubeEnv(pipelineConfig.sonarQubeServer) {
                         sh "sed -i s#{{repo_name}}#${GIT_REPO_NAME}# sonar-project.properties"
